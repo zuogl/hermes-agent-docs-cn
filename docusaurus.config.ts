@@ -7,7 +7,7 @@ const config: Config = {
   tagline: '自我进化的 AI 智能体',
   favicon: 'img/favicon.ico',
 
-  url: 'https://hermes-docs-zh.vercel.app',
+  url: 'https://www.hermes-agent-cndoc.zuoguolei.online',
   baseUrl: '/',
 
   organizationName: 'NousResearch',
