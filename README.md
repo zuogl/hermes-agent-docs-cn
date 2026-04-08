@@ -27,16 +27,16 @@ npm run build
 
 ## 翻译进度
 
-| 分类 | 状态 |
-|------|------|
-| Getting Started | ✅ 全部完成 |
-| Using Hermes | ✅ 全部完成 |
-| Features | ⚠️ 部分完成 |
-| Messaging Platforms | ❌ 待翻译 |
-| Integrations | ❌ 待翻译 |
-| Guides & Tutorials | ❌ 待翻译 |
-| Developer Guide | ❌ 待翻译 |
-| Reference | ❌ 待翻译 |
+| 分类 | 状态 |进度 |
+|------|------|---|
+| Getting Started | ✅ 全部完成 | 5/5 |
+| Using Hermes | ✅ 全部完成 | 8/8 |
+| Features | ✅ 全部完成 | 28/28 |
+| Messaging Platforms | ⚠️ 部分完成 | 10/16 |
+| Integrations | ❌ 待翻译 | 0/2 |
+| Guides & Tutorials | ❌ 待翻译 | 0/13 |
+| Developer Guide | ❌ 待翻译 | 0/18 |
+| Reference | ❌ 待翻译 | 0/10 |
 
 ## 许可
 
