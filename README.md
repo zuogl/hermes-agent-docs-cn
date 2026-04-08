@@ -2,7 +2,7 @@
 
 [Hermes Agent](https://github.com/NousResearch/hermes-agent) 官方文档的中文翻译站，基于 [Docusaurus v3](https://docusaurus.io/) 构建。
 
-🌐 **在线访问**：*部署后更新*  
+🌐 **在线访问**：https://hermes-agent-cndoc.zuoguolei.online/  
 📖 **英文原版**：https://hermes-agent.nousresearch.com/docs/
 
 ## 特性
@@ -24,18 +24,6 @@ npm start
 # 构建生产版本
 npm run build
 ```
-
-## 翻译数据同步
-
-本项目的翻译数据来自 [hermes-docs-feishu-automation](https://github.com/your-org/hermes-docs-feishu-automation) 自动翻译流水线。
-
-运行以下命令从上游同步翻译至 `docs/` 目录：
-
-```bash
-npm run sync
-```
-
-> 需要确保主项目的 `data/upstream/` 和 `data/batches/` 目录已存在（需先运行过 `hermes-docs run-daily`）。
 
 ## 翻译进度
 

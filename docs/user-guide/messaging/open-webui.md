@@ -1,18 +1,25 @@
 ---
-title: "Open WebUI"
-sidebar_label: "Open WebUI"
+title: "Step 6 — Polish (Final Translation)"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
+# Step 6 — Polish (Final Translation)
 
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
+## 润色说明
 
-# Open WebUI Integration
+基于 Revision 版本进行最终润色，改动极小：
 
-[Open WebUI](https://github.com/open-webui/open-webui) (126k★) is the most popular self-hosted chat interface for AI. With Hermes Agent's built-in API server, you can use Open WebUI as a polished web frontend for your agent — complete with conversation management, user accounts, and a modern chat interface.
+1. 简介段 "完整支持会话管理、用户账号和现代化聊天界面" — 保持，表达准确自然
+2. "智能体精致的 Web 前端" — 调整语序为"精致的 Web 前端"更通顺
+3. 步骤 4 "开始聊天！" — 保留，与原文感叹语气一致
+4. 提示块 "工具运行进度" — 保持，比 "工具进度" 更具描述性
+5. 全文最终校对：无遗漏、无格式错误、无多余空行
 
-## Architecture
+---
+
+# Open WebUI 集成
+
+[Open WebUI](https://github.com/open-webui/open-webui)（126k★）是目前最流行的自托管 AI 聊天界面。借助 Hermes Agent 内置的 API 服务器，你可以将 Open WebUI 作为智能体精致的 Web 前端——完整支持会话管理、用户账号和现代化聊天界面。
+
+## 架构
 
 ```mermaid
 flowchart LR
@@ -22,34 +29,34 @@ flowchart LR
     B -->|SSE streaming response| A
 ```
 
-Open WebUI connects to Hermes Agent's API server just like it would connect to OpenAI. Your agent handles the requests with its full toolset — terminal, file operations, web search, memory, skills — and returns the final response.
+Open WebUI 像连接 OpenAI 一样连接 Hermes Agent 的 API 服务器。你的智能体使用完整的工具集处理请求——终端、文件操作、网页搜索、记忆、技能——并返回最终响应。
 
-Open WebUI talks to Hermes server-to-server, so you do not need `API_SERVER_CORS_ORIGINS` for this integration.
+Open WebUI 以服务器对服务器的方式与 Hermes 通信，因此此集成无需配置 `API_SERVER_CORS_ORIGINS`。
 
-## Quick Setup
+## 快速开始
 
-### 1. Enable the API server
+### 1. 启用 API 服务器
 
-Add to `~/.hermes/.env`:
+在 `~/.hermes/.env` 中添加：
 
 ```bash
 API_SERVER_ENABLED=true
 API_SERVER_KEY=your-secret-key
 ```
 
-### 2. Start Hermes Agent gateway
+### 2. 启动 Hermes Agent 网关
 
 ```bash
 hermes gateway
 ```
 
-You should see:
+你应该会看到：
 
 ```
 [API Server] API server listening on http://127.0.0.1:8642
 ```
 
-### 3. Start Open WebUI
+### 3. 启动 Open WebUI
 
 ```bash
 docker run -d -p 3000:8080 \
@@ -62,13 +69,13 @@ docker run -d -p 3000:8080 \
   ghcr.io/open-webui/open-webui:main
 ```
 
-### 4. Open the UI
+### 4. 打开界面
 
-Go to **http://localhost:3000**. Create your admin account (the first user becomes admin). You should see **hermes-agent** in the model dropdown. Start chatting!
+访问 **http://localhost:3000**。创建管理员账号（第一个注册的用户成为管理员）。你应该能在模型下拉列表中看到 **hermes-agent**。开始聊天！
 
-## Docker Compose Setup
+## Docker Compose 配置
 
-For a more permanent setup, create a `docker-compose.yml`:
+如需更持久化的部署，创建 `docker-compose.yml`：
 
 ```yaml
 services:
@@ -89,128 +96,129 @@ volumes:
   open-webui:
 ```
 
-Then:
+然后运行：
 
 ```bash
 docker compose up -d
 ```
 
-## Configuring via the Admin UI
+## 通过管理界面配置
 
-If you prefer to configure the connection through the UI instead of environment variables:
+如果你倾向于通过界面而非环境变量配置连接：
 
-1. Log in to Open WebUI at **http://localhost:3000**
-2. Click your **profile avatar** → **Admin Settings**
-3. Go to **Connections**
-4. Under **OpenAI API**, click the **wrench icon** (Manage)
-5. Click **+ Add New Connection**
-6. Enter:
-   - **URL**: `http://host.docker.internal:8642/v1`
-   - **API Key**: your key or any non-empty value (e.g., `not-needed`)
-7. Click the **checkmark** to verify the connection
-8. **Save**
+1. 访问 **http://localhost:3000** 登录 Open WebUI
+2. 点击**头像** → **管理员设置**
+3. 进入**连接**
+4. 在 **OpenAI API** 下，点击**扳手图标**（管理）
+5. 点击 **+ 添加新连接**
+6. 填写：
+   - **URL**：`http://host.docker.internal:8642/v1`
+   - **API Key**：你的密钥，或任意非空值（如 `not-needed`）
+7. 点击**对勾**验证连接
+8. 点击**保存**
 
-The **hermes-agent** model should now appear in the model dropdown.
+**hermes-agent** 模型应该会出现在模型下拉列表中。
 
-:::warning
-Environment variables only take effect on Open WebUI's **first launch**. After that, connection settings are stored in its internal database. To change them later, use the Admin UI or delete the Docker volume and start fresh.
+:::caution
+环境变量仅在 Open WebUI **首次启动**时生效。之后，连接配置会存储在其内部数据库中。如需修改，请使用管理界面，或删除 Docker 卷后重新启动。
 :::
 
-## API Type: Chat Completions vs Responses
+## API 类型：Chat Completions 与 Responses
 
-Open WebUI supports two API modes when connecting to a backend:
+Open WebUI 在连接后端时支持两种 API 模式：
 
-| Mode | Format | When to use |
-|------|--------|-------------|
-| **Chat Completions** (default) | `/v1/chat/completions` | Recommended. Works out of the box. |
-| **Responses** (experimental) | `/v1/responses` | For server-side conversation state via `previous_response_id`. |
+| 模式 | 格式 | 使用场景 |
+|------|------|----------|
+| **Chat Completions**（默认） | `/v1/chat/completions` | 推荐。开箱即用。 |
+| **Responses**（实验性） | `/v1/responses` | 通过 `previous_response_id` 在服务端维护会话状态。 |
 
-### Using Chat Completions (recommended)
+### 使用 Chat Completions（推荐）
 
-This is the default and requires no extra configuration. Open WebUI sends standard OpenAI-format requests and Hermes Agent responds accordingly. Each request includes the full conversation history.
+这是默认模式，无需额外配置。Open WebUI 发送标准 OpenAI 格式的请求，Hermes Agent 按规范响应。每次请求包含完整的会话历史。
 
-### Using Responses API
+### 使用 Responses API
 
-To use the Responses API mode:
+启用 Responses API 模式：
 
-1. Go to **Admin Settings** → **Connections** → **OpenAI** → **Manage**
-2. Edit your hermes-agent connection
-3. Change **API Type** from "Chat Completions" to **"Responses (Experimental)"**
-4. Save
+1. 进入**管理员设置** → **连接** → **OpenAI** → **管理**
+2. 编辑你的 hermes-agent 连接
+3. 将 **API 类型**从"Chat Completions"改为 **"Responses（实验性）"**
+4. 保存
 
-With the Responses API, Open WebUI sends requests in the Responses format (`input` array + `instructions`), and Hermes Agent can preserve full tool call history across turns via `previous_response_id`.
+使用 Responses API 时，Open WebUI 以 Responses 格式（`input` 数组 + `instructions`）发送请求，Hermes Agent 可通过 `previous_response_id` 跨轮次保留完整的工具调用历史。
 
 :::note
-Open WebUI currently manages conversation history client-side even in Responses mode — it sends the full message history in each request rather than using `previous_response_id`. The Responses API mode is mainly useful for future compatibility as frontends evolve.
+即使在 Responses 模式下，Open WebUI 目前仍在客户端管理会话历史——每次请求都会发送完整的消息历史，而不是使用 `previous_response_id`。Responses API 模式主要是为了随着前端技术演进提供前向兼容性。
 :::
 
-## How It Works
+## 工作原理
 
-When you send a message in Open WebUI:
+当你在 Open WebUI 中发送消息时：
 
-1. Open WebUI sends a `POST /v1/chat/completions` request with your message and conversation history
-2. Hermes Agent creates an AIAgent instance with its full toolset
-3. The agent processes your request — it may call tools (terminal, file operations, web search, etc.)
-4. As tools execute, **inline progress messages stream to the UI** so you can see what the agent is doing (e.g. `` `💻 ls -la` ``, `` `🔍 Python 3.12 release` ``)
-5. The agent's final text response streams back to Open WebUI
-6. Open WebUI displays the response in its chat interface
+1. Open WebUI 发送 `POST /v1/chat/completions` 请求，包含你的消息和会话历史
+2. Hermes Agent 创建一个带有完整工具集的 AIAgent 实例
+3. 智能体处理你的请求——可能会调用工具（终端、文件操作、网页搜索等）
+4. 工具执行过程中，**内联进度消息会实时流式传输到界面**，让你看到智能体的行为（如 `` `💻 ls -la` ``、`` `🔍 Python 3.12 release` ``）
+5. 智能体的最终文本响应流式返回给 Open WebUI
+6. Open WebUI 在聊天界面中展示响应
 
-Your agent has access to all the same tools and capabilities as when using the CLI or Telegram — the only difference is the frontend.
+无论是使用 CLI、Telegram 还是 Open WebUI，你的智能体都能访问完全相同的工具和能力——区别仅在于前端界面。
 
-:::tip Tool Progress
-With streaming enabled (the default), you'll see brief inline indicators as tools run — the tool emoji and its key argument. These appear in the response stream before the agent's final answer, giving you visibility into what's happening behind the scenes.
+:::tip
+工具运行进度
+启用流式传输（默认启用）后，工具运行时你会看到简短的内联提示——工具 emoji 及其关键参数。这些提示会在智能体最终回答之前出现在响应流中，让你了解后台正在发生什么。
 :::
 
-## Configuration Reference
+## 配置参考
 
-### Hermes Agent (API server)
+### Hermes Agent（API 服务器）
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `API_SERVER_ENABLED` | `false` | Enable the API server |
-| `API_SERVER_PORT` | `8642` | HTTP server port |
-| `API_SERVER_HOST` | `127.0.0.1` | Bind address |
-| `API_SERVER_KEY` | _(required)_ | Bearer token for auth. Match `OPENAI_API_KEY`. |
+| 变量 | 默认值 | 说明 |
+|------|--------|------|
+| `API_SERVER_ENABLED` | `false` | 启用 API 服务器 |
+| `API_SERVER_PORT` | `8642` | HTTP 服务器端口 |
+| `API_SERVER_HOST` | `127.0.0.1` | 绑定地址 |
+| `API_SERVER_KEY` | _（必填）_ | 认证用 Bearer token，需与 `OPENAI_API_KEY` 匹配 |
 
 ### Open WebUI
 
-| Variable | Description |
-|----------|-------------|
-| `OPENAI_API_BASE_URL` | Hermes Agent's API URL (include `/v1`) |
-| `OPENAI_API_KEY` | Must be non-empty. Match your `API_SERVER_KEY`. |
+| 变量 | 说明 |
+|------|------|
+| `OPENAI_API_BASE_URL` | Hermes Agent 的 API URL（需包含 `/v1`） |
+| `OPENAI_API_KEY` | 不能为空，需与 `API_SERVER_KEY` 匹配 |
 
-## Troubleshooting
+## 故障排查
 
-### No models appear in the dropdown
+### 下拉列表中没有模型
 
-- **Check the URL has `/v1` suffix**: `http://host.docker.internal:8642/v1` (not just `:8642`)
-- **Verify the gateway is running**: `curl http://localhost:8642/health` should return `{"status": "ok"}`
-- **Check model listing**: `curl http://localhost:8642/v1/models` should return a list with `hermes-agent`
-- **Docker networking**: From inside Docker, `localhost` means the container, not your host. Use `host.docker.internal` or `--network=host`.
+- **检查 URL 是否包含 `/v1` 后缀**：应为 `http://host.docker.internal:8642/v1`（不能只有 `:8642`）
+- **确认网关正在运行**：`curl http://localhost:8642/health` 应返回 `{"status": "ok"}`
+- **检查模型列表**：`curl http://localhost:8642/v1/models` 应返回包含 `hermes-agent` 的列表
+- **Docker 网络**：在 Docker 内部，`localhost` 指向容器本身，而非宿主机。请使用 `host.docker.internal` 或 `--network=host`。
 
-### Connection test passes but no models load
+### 连接测试通过但模型不加载
 
-This is almost always the missing `/v1` suffix. Open WebUI's connection test is a basic connectivity check — it doesn't verify model listing works.
+几乎总是缺少 `/v1` 后缀。Open WebUI 的连接测试只是基本的连通性检查，不验证模型列表是否正常工作。
 
-### Response takes a long time
+### 响应时间过长
 
-Hermes Agent may be executing multiple tool calls (reading files, running commands, searching the web) before producing its final response. This is normal for complex queries. The response appears all at once when the agent finishes.
+Hermes Agent 可能正在执行多次工具调用（读取文件、运行命令、搜索网页等）才生成最终响应。这对于复杂查询是正常现象。响应会在智能体完成后一次性返回。
 
-### "Invalid API key" errors
+### "Invalid API key" 错误
 
-Make sure your `OPENAI_API_KEY` in Open WebUI matches the `API_SERVER_KEY` in Hermes Agent.
+请确保 Open WebUI 中的 `OPENAI_API_KEY` 与 Hermes Agent 中的 `API_SERVER_KEY` 一致。
 
-## Linux Docker (no Docker Desktop)
+## Linux Docker（无 Docker Desktop）
 
-On Linux without Docker Desktop, `host.docker.internal` doesn't resolve by default. Options:
+在没有 Docker Desktop 的 Linux 环境中，`host.docker.internal` 默认无法解析。可选方案：
 
 ```bash
-# Option 1: Add host mapping
+# 方案一：添加宿主机映射
 docker run --add-host=host.docker.internal:host-gateway ...
 
-# Option 2: Use host networking
+# 方案二：使用宿主机网络
 docker run --network=host -e OPENAI_API_BASE_URL=http://localhost:8642/v1 ...
 
-# Option 3: Use Docker bridge IP
+# 方案三：使用 Docker 网桥 IP
 docker run -e OPENAI_API_BASE_URL=http://172.17.0.1:8642/v1 ...
 ```

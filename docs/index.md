@@ -8,6 +8,7 @@ title: "Hermes Agent 中文文档"
 <div style={{display: 'flex', gap: '1rem', marginBottom: '2rem', flexWrap: 'wrap'}}>
   <a href="/getting-started/installation" style={{display: 'inline-block', padding: '0.6rem 1.2rem', backgroundColor: '#FFD700', color: '#07070d', borderRadius: '8px', fontWeight: 600, textDecoration: 'none'}}>开始使用 →</a>
   <a href="https://github.com/NousResearch/hermes-agent" style={{display: 'inline-block', padding: '0.6rem 1.2rem', border: '1px solid rgba(255,215,0,0.2)', borderRadius: '8px', textDecoration: 'none'}}>在 GitHub 上查看</a>
+  <a href="https://oihbmn5sukx.feishu.cn/wiki/space/7625931701958036677?ccm_open_type=lark_wiki_spaceLink&open_tab_from=wiki_home" target="_blank" style={{display: 'inline-block', padding: '0.6rem 1.2rem', border: '1px solid rgba(255,215,0,0.2)', borderRadius: '8px', textDecoration: 'none'}}>飞书知识库</a>
 </div>
 
 ## 什么是 Hermes Agent？
