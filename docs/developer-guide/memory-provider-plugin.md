@@ -1,20 +1,13 @@
 ---
-title: "Memory Provider Plugins"
-sidebar_label: "Memory Provider Plugins"
+title: "Building a Memory Provider Plugin"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Building a Memory Provider Plugin
 
 Memory provider plugins give Hermes Agent persistent, cross-session knowledge beyond the built-in MEMORY.md and USER.md. This guide covers how to build one.
 
 ## Directory Structure
 
-Each memory provider lives in `plugins/memory/<name>/`:
+Each memory provider lives in `plugins/memory//`:
 
 ```
 plugins/memory/my-provider/
@@ -114,7 +107,8 @@ def get_config_schema(self):
 
 Fields with `secret: True` and `env_var` go to `.env`. Non-secret fields are passed to `save_config()`.
 
-:::tip Minimal vs Full Schema
+:::tip
+Minimal vs Full Schema
 Every field in `get_config_schema()` is prompted during `hermes memory setup`. Providers with many options should keep the schema minimal — only include fields the user **must** configure (API key, required credentials). Document optional settings in a config file reference (e.g. `$HERMES_HOME/myprovider.json`) rather than prompting for them all during setup. This keeps the setup wizard fast while still supporting advanced configuration. See the Supermemory provider for an example — it only prompts for the API key; all other options live in `supermemory.json`.
 :::
 
@@ -209,7 +203,7 @@ Memory provider plugins can register their own CLI subcommand tree (e.g. `hermes
 1. Add a `cli.py` file to your plugin directory
 2. Define a `register_cli(subparser)` function that builds the argparse tree
 3. The memory plugin system discovers it at startup via `discover_plugin_cli_commands()`
-4. Your commands appear under `hermes <provider-name> <subcommand>`
+4. Your commands appear under `hermes  `
 
 **Active-provider gating:** Your CLI commands only appear when your provider is the active `memory.provider` in config. If a user hasn't configured your provider, your commands won't show in `hermes --help`.
 

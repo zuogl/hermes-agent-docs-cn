@@ -101,17 +101,25 @@ function syncTranslations() {
     const translatedDir = join(BATCHES_DIR, batchId, 'translated');
     if (!existsSync(translatedDir)) continue;
 
-    // Walk the translated directory looking for translation.md files
-    const translationFiles = walkFiles(translatedDir).filter(f => f.endsWith('/translation.md'));
+    // Walk the translated directory looking for translation files
+    // Support two directory structures across batches:
+    // Old format: "getting-started/quickstart-zh-CN/translation.md"
+    // New format: "getting-started/quickstart.md"
+    const mdFiles = walkFiles(translatedDir).filter(f => f.endsWith('.md'));
 
-    for (const relFile of translationFiles) {
-      // relFile example: "getting-started/quickstart-zh-CN/translation.md"
-      // We need to extract the doc path: "getting-started/quickstart.md"
-      const parts = relFile.split('/');
-      const translationDir = parts[parts.length - 2]; // "quickstart-zh-CN"
-      const docName = translationDir.replace(/-zh-CN$/, ''); // "quickstart"
-      const parentPath = parts.slice(0, -2).join('/'); // "getting-started"
-      const docPath = parentPath ? `${parentPath}/${docName}.md` : `${docName}.md`;
+    for (const relFile of mdFiles) {
+      let docPath;
+      if (relFile.endsWith('/translation.md')) {
+        // Parse old format: getting-started/quickstart-zh-CN/translation.md -> getting-started/quickstart.md
+        const parts = relFile.split('/');
+        const translationDir = parts[parts.length - 2];
+        const docName = translationDir.replace(/-zh-CN$/, '');
+        const parentPath = parts.slice(0, -2).join('/');
+        docPath = parentPath ? `${parentPath}/${docName}.md` : `${docName}.md`;
+      } else {
+        // New format directly maps the file
+        docPath = relFile;
+      }
 
       translationMap.set(docPath, {
         batchId,

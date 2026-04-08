@@ -1,13 +1,6 @@
 ---
 title: "Cron Internals"
-sidebar_label: "Cron Internals"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Cron Internals
 
 The cron subsystem provides scheduled task execution — from simple one-shot delays to recurring cron-expression jobs with skill injection and cross-platform delivery.
@@ -144,7 +137,7 @@ Cron job results can be delivered to any supported platform:
 |--------|--------|---------|
 | Origin chat | `origin` | Deliver to the chat where the job was created |
 | Local file | `local` | Save to `~/.hermes/cron/output/` |
-| Telegram | `telegram` or `telegram:<chat_id>` | `telegram:-1001234567890` |
+| Telegram | `telegram` or `telegram:` | `telegram:-1001234567890` |
 | Discord | `discord` or `discord:#channel` | `discord:#engineering` |
 | Slack | `slack` | Deliver to Slack home channel |
 | WhatsApp | `whatsapp` | Deliver to WhatsApp home |
@@ -158,7 +151,7 @@ Cron job results can be delivered to any supported platform:
 | Feishu | `feishu` | Deliver to Feishu |
 | WeCom | `wecom` | Deliver to WeCom |
 
-For Telegram topics, use the format `telegram:<chat_id>:<thread_id>` (e.g., `telegram:-1001234567890:17585`).
+For Telegram topics, use the format `telegram::` (e.g., `telegram:-1001234567890:17585`).
 
 ### Response Wrapping
 
@@ -199,6 +192,6 @@ hermes cron remove <job_id>         # Delete a job
 
 ## Related Docs
 
-- [Cron Feature Guide](/user-guide/features/cron)
+- [Cron Feature Guide](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron)
 - [Gateway Internals](/developer-guide/gateway-internals)
 - [Agent Loop Internals](/developer-guide/agent-loop)

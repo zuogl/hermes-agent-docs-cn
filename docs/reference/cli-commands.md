@@ -1,13 +1,6 @@
 ---
 title: "CLI Commands Reference"
-sidebar_label: "CLI Commands Reference"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # CLI Commands Reference
 
 This page covers the **terminal commands** you run from your shell.
@@ -25,8 +18,8 @@ hermes [global-options] <command> [subcommand/options]
 | Option | Description |
 |--------|-------------|
 | `--version`, `-V` | Show version and exit. |
-| `--profile <name>`, `-p <name>` | Select which Hermes profile to use for this invocation. Overrides the sticky default set by `hermes profile use`. |
-| `--resume <session>`, `-r <session>` | Resume a previous session by ID or title. |
+| `--profile `, `-p ` | Select which Hermes profile to use for this invocation. Overrides the sticky default set by `hermes profile use`. |
+| `--resume `, `-r ` | Resume a previous session by ID or title. |
 | `--continue [name]`, `-c [name]` | Resume the most recent session, or the most recent session matching a title. |
 | `--worktree`, `-w` | Start in an isolated git worktree for parallel-agent workflows. |
 | `--yolo` | Bypass dangerous-command approval prompts. |
@@ -76,19 +69,19 @@ Common options:
 | Option | Description |
 |--------|-------------|
 | `-q`, `--query "..."` | One-shot, non-interactive prompt. |
-| `-m`, `--model <model>` | Override the model for this run. |
-| `-t`, `--toolsets <csv>` | Enable a comma-separated set of toolsets. |
-| `--provider <provider>` | Force a provider: `auto`, `openrouter`, `nous`, `openai-codex`, `copilot-acp`, `copilot`, `anthropic`, `huggingface`, `zai`, `kimi-coding`, `minimax`, `minimax-cn`, `deepseek`, `ai-gateway`, `opencode-zen`, `opencode-go`, `kilocode`, `alibaba`. |
-| `-s`, `--skills <name>` | Preload one or more skills for the session (can be repeated or comma-separated). |
+| `-m`, `--model ` | Override the model for this run. |
+| `-t`, `--toolsets ` | Enable a comma-separated set of toolsets. |
+| `--provider ` | Force a provider: `auto`, `openrouter`, `nous`, `openai-codex`, `copilot-acp`, `copilot`, `anthropic`, `huggingface`, `zai`, `kimi-coding`, `minimax`, `minimax-cn`, `deepseek`, `ai-gateway`, `opencode-zen`, `opencode-go`, `kilocode`, `alibaba`. |
+| `-s`, `--skills ` | Preload one or more skills for the session (can be repeated or comma-separated). |
 | `-v`, `--verbose` | Verbose output. |
 | `-Q`, `--quiet` | Programmatic mode: suppress banner/spinner/tool previews. |
-| `--resume <session>` / `--continue [name]` | Resume a session directly from `chat`. |
+| `--resume ` / `--continue [name]` | Resume a session directly from `chat`. |
 | `--worktree` | Create an isolated git worktree for this run. |
 | `--checkpoints` | Enable filesystem checkpoints before destructive file changes. |
 | `--yolo` | Skip approval prompts. |
 | `--pass-session-id` | Pass the session ID into the system prompt. |
-| `--source <tag>` | Session source tag for filtering (default: `cli`). Use `tool` for third-party integrations that should not appear in user session lists. |
-| `--max-turns <N>` | Maximum tool-calling iterations per conversation turn (default: 90, or `agent.max_turns` in config). |
+| `--source ` | Session source tag for filtering (default: `cli`). Use `tool` for third-party integrations that should not appear in user session lists. |
+| `--max-turns ` | Maximum tool-calling iterations per conversation turn (default: 90, or `agent.max_turns` in config). |
 
 Examples:
 
@@ -190,7 +183,7 @@ Runs the WhatsApp pairing/setup flow, including mode selection and QR-code pairi
 
 ## `hermes auth`
 
-Manage credential pools for same-provider key rotation. See [Credential Pools](/user-guide/features/credential-pools) for full documentation.
+Manage credential pools for same-provider key rotation. See [Credential Pools](https://hermes-agent.nousresearch.com/docs/user-guide/features/credential-pools) for full documentation.
 
 ```bash
 hermes auth                                              # Interactive wizard
@@ -288,7 +281,7 @@ Subcommands:
 |------------|-------------|
 | `show` | Show current config values. |
 | `edit` | Open `config.yaml` in your editor. |
-| `set <key> <value>` | Set a config value. |
+| `set  ` | Set a config value. |
 | `path` | Print the config file path. |
 | `env-path` | Print the `.env` file path. |
 | `check` | Check for missing or stale config. |
@@ -303,8 +296,8 @@ hermes pairing <list|approve|revoke|clear-pending>
 | Subcommand | Description |
 |------------|-------------|
 | `list` | Show pending and approved users. |
-| `approve <platform> <code>` | Approve a pairing code. |
-| `revoke <platform> <user-id>` | Revoke a user's access. |
+| `approve  ` | Approve a pairing code. |
+| `revoke  ` | Revoke a user's access. |
 | `clear-pending` | Clear pending pairing codes. |
 
 ## `hermes skills`
@@ -431,11 +424,11 @@ Manage MCP (Model Context Protocol) server configurations and run Hermes as an M
 | Subcommand | Description |
 |------------|-------------|
 | `serve [-v\|--verbose]` | Run Hermes as an MCP server — expose conversations to other agents. |
-| `add <name> [--url URL] [--command CMD] [--args ...] [--auth oauth\|header]` | Add an MCP server with automatic tool discovery. |
-| `remove <name>` (alias: `rm`) | Remove an MCP server from config. |
+| `add  [--url URL] [--command CMD] [--args ...] [--auth oauth\|header]` | Add an MCP server with automatic tool discovery. |
+| `remove ` (alias: `rm`) | Remove an MCP server from config. |
 | `list` (alias: `ls`) | List configured MCP servers. |
-| `test <name>` | Test connection to an MCP server. |
-| `configure <name>` (alias: `config`) | Toggle tool selection for a server. |
+| `test ` | Test connection to an MCP server. |
+| `configure ` (alias: `config`) | Toggle tool selection for a server. |
 
 See [MCP Config Reference](/reference/mcp-config-reference), [Use MCP with Hermes](/guides/use-mcp-with-hermes), and [MCP Server Mode](/user-guide/features/mcp#running-hermes-as-an-mcp-server).
 
@@ -450,11 +443,11 @@ Manage Hermes Agent plugins. Running `hermes plugins` with no subcommand launche
 | Subcommand | Description |
 |------------|-------------|
 | *(none)* | Interactive toggle UI — enable/disable plugins with arrow keys and space. |
-| `install <identifier> [--force]` | Install a plugin from a Git URL or `owner/repo`. |
-| `update <name>` | Pull latest changes for an installed plugin. |
-| `remove <name>` (aliases: `rm`, `uninstall`) | Remove an installed plugin. |
-| `enable <name>` | Enable a disabled plugin. |
-| `disable <name>` | Disable a plugin without removing it. |
+| `install  [--force]` | Install a plugin from a Git URL or `owner/repo`. |
+| `update ` | Pull latest changes for an installed plugin. |
+| `remove ` (aliases: `rm`, `uninstall`) | Remove an installed plugin. |
+| `enable ` | Enable a disabled plugin. |
+| `disable ` | Disable a plugin without removing it. |
 | `list` (alias: `ls`) | List installed plugins with enabled/disabled status. |
 
 Disabled plugins are stored in `config.yaml` under `plugins.disabled` and skipped during loading.
@@ -485,11 +478,11 @@ Subcommands:
 |------------|-------------|
 | `list` | List recent sessions. |
 | `browse` | Interactive session picker with search and resume. |
-| `export <output> [--session-id ID]` | Export sessions to JSONL. |
-| `delete <session-id>` | Delete one session. |
+| `export  [--session-id ID]` | Export sessions to JSONL. |
+| `delete ` | Delete one session. |
 | `prune` | Delete old sessions. |
 | `stats` | Show session-store statistics. |
-| `rename <session-id> <title>` | Set or change a session title. |
+| `rename  ` | Set or change a session title. |
 
 ## `hermes insights`
 
@@ -499,8 +492,8 @@ hermes insights [--days N] [--source platform]
 
 | Option | Description |
 |--------|-------------|
-| `--days <n>` | Analyze the last `n` days (default: 30). |
-| `--source <platform>` | Filter by source such as `cli`, `telegram`, or `discord`. |
+| `--days ` | Analyze the last `n` days (default: 30). |
+| `--source ` | Filter by source such as `cli`, `telegram`, or `discord`. |
 
 ## `hermes claw`
 
@@ -513,12 +506,12 @@ Migrate your OpenClaw setup to Hermes. Reads from `~/.openclaw` (or a custom pat
 | Option | Description |
 |--------|-------------|
 | `--dry-run` | Preview what would be migrated without writing anything. |
-| `--preset <name>` | Migration preset: `full` (default, includes secrets) or `user-data` (excludes API keys). |
+| `--preset ` | Migration preset: `full` (default, includes secrets) or `user-data` (excludes API keys). |
 | `--overwrite` | Overwrite existing Hermes files on conflicts (default: skip). |
 | `--migrate-secrets` | Include API keys in migration (enabled by default with `--preset full`). |
-| `--source <path>` | Custom OpenClaw directory (default: `~/.openclaw`). |
-| `--workspace-target <path>` | Target directory for workspace instructions (AGENTS.md). |
-| `--skill-conflict <mode>` | Handle skill name collisions: `skip` (default), `overwrite`, or `rename`. |
+| `--source ` | Custom OpenClaw directory (default: `~/.openclaw`). |
+| `--workspace-target ` | Target directory for workspace instructions (AGENTS.md). |
+| `--skill-conflict ` | Handle skill name collisions: `skip` (default), `overwrite`, or `rename`. |
 | `--yes` | Skip the confirmation prompt. |
 
 ### What gets migrated
@@ -560,14 +553,14 @@ Manage profiles — multiple isolated Hermes instances, each with its own config
 | Subcommand | Description |
 |------------|-------------|
 | `list` | List all profiles. |
-| `use <name>` | Set a sticky default profile. |
-| `create <name> [--clone] [--clone-all] [--clone-from <source>] [--no-alias]` | Create a new profile. `--clone` copies config, `.env`, and `SOUL.md` from the active profile. `--clone-all` copies all state. `--clone-from` specifies a source profile. |
-| `delete <name> [-y]` | Delete a profile. |
-| `show <name>` | Show profile details (home directory, config, etc.). |
-| `alias <name> [--remove] [--name NAME]` | Manage wrapper scripts for quick profile access. |
-| `rename <old> <new>` | Rename a profile. |
-| `export <name> [-o FILE]` | Export a profile to a `.tar.gz` archive. |
-| `import <archive> [--name NAME]` | Import a profile from a `.tar.gz` archive. |
+| `use ` | Set a sticky default profile. |
+| `create  [--clone] [--clone-all] [--clone-from ] [--no-alias]` | Create a new profile. `--clone` copies config, `.env`, and `SOUL.md` from the active profile. `--clone-all` copies all state. `--clone-from` specifies a source profile. |
+| `delete  [-y]` | Delete a profile. |
+| `show ` | Show profile details (home directory, config, etc.). |
+| `alias  [--remove] [--name NAME]` | Manage wrapper scripts for quick profile access. |
+| `rename  ` | Rename a profile. |
+| `export  [-o FILE]` | Export a profile to a `.tar.gz` archive. |
+| `import  [--name NAME]` | Import a profile from a `.tar.gz` archive. |
 
 Examples:
 

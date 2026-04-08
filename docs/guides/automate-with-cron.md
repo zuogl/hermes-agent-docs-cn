@@ -1,20 +1,14 @@
 ---
 title: "Automate Anything with Cron"
-sidebar_label: "Automate Anything with Cron"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Automate Anything with Cron
 
-The [daily briefing bot tutorial](/guides/daily-briefing-bot) covers the basics. This guide goes further — five real-world automation patterns you can adapt for your own workflows.
+The [daily briefing bot tutorial](https://hermes-agent.nousresearch.com/docs/guides/daily-briefing-bot) covers the basics. This guide goes further — five real-world automation patterns you can adapt for your own workflows.
 
-For the full feature reference, see [Scheduled Tasks (Cron)](/user-guide/features/cron).
+For the full feature reference, see [Scheduled Tasks (Cron)](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron).
 
-:::info Key Concept
+:::info
+Key Concept
 Cron jobs run in fresh agent sessions with no memory of your current chat. Prompts must be **completely self-contained** — include everything the agent needs to know.
 :::
 
@@ -69,7 +63,8 @@ Set up the cron job:
 /cron add "every 1h" "If the script output says CHANGE DETECTED, summarize what changed on the page and why it might matter. If it says NO_CHANGE, respond with just [SILENT]." --script ~/.hermes/scripts/watch-site.py --name "Pricing monitor" --deliver telegram
 ```
 
-:::tip The [SILENT] Trick
+:::tip
+The [SILENT] Trick
 When the agent's final response contains `[SILENT]`, delivery is suppressed. This means you only get notified when something actually happens — no spam on quiet hours.
 :::
 
@@ -121,7 +116,8 @@ Filter to only items from the last 6 hours. If nothing new, respond with [SILENT
 Otherwise, provide a concise summary of the activity." --name "Repo watcher" --deliver discord
 ```
 
-:::warning Self-Contained Prompts
+:::caution
+Self-Contained Prompts
 Notice how the prompt includes the exact `gh` commands. The cron agent has no memory of previous runs or your preferences — spell everything out.
 :::
 
@@ -256,10 +252,10 @@ The `--deliver` flag controls where results go:
 
 **Use scripts for data collection.** The `script` parameter lets a Python script handle the boring parts (HTTP requests, file I/O, state tracking). The agent only sees the script's stdout and applies reasoning to it. This is cheaper and more reliable than having the agent do the fetching itself.
 
-**Test with `/cron run`.** Before waiting for the schedule to trigger, use `/cron run <job_id>` to execute immediately and verify the output looks right.
+**Test with `/cron run`.** Before waiting for the schedule to trigger, use `/cron run ` to execute immediately and verify the output looks right.
 
 **Schedule expressions.** Human-readable formats like `every 2h`, `30m`, and `daily at 9am` all work alongside standard cron expressions like `0 9 * * *`.
 
 ---
 
-*For the complete cron reference — all parameters, edge cases, and internals — see [Scheduled Tasks (Cron)](/user-guide/features/cron).*
+*For the complete cron reference — all parameters, edge cases, and internals — see [Scheduled Tasks (Cron)](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron).*

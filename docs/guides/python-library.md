@@ -1,13 +1,6 @@
 ---
 title: "Using Hermes as a Python Library"
-sidebar_label: "Using Hermes as a Python Library"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Using Hermes as a Python Library
 
 Hermes isn't just a CLI tool. You can import `AIAgent` directly and use it programmatically in your own Python scripts, web applications, or automation pipelines. This guide shows you how.
@@ -57,7 +50,7 @@ print(response)
 
 `chat()` handles the full conversation loop internally — tool calls, retries, everything — and returns just the final text response.
 
-:::warning
+:::caution
 Always set `quiet_mode=True` when embedding Hermes in your own code. Without it, the agent prints CLI spinners, progress indicators, and other terminal output that will clutter your application's output.
 :::
 
@@ -224,7 +217,7 @@ for prompt, result in zip(prompts, results):
     print(f"Q: {prompt}\nA: {result}\n")
 ```
 
-:::warning
+:::caution
 Always create a **new `AIAgent` instance per thread or task**. The agent maintains internal state (conversation history, tool sessions, iteration counters) that is not thread-safe to share.
 :::
 
@@ -337,7 +330,7 @@ print(review)
 - The `platform` parameter (e.g., `"discord"`, `"telegram"`) injects platform-specific formatting hints so the agent adapts its output style.
 :::
 
-:::warning
+:::caution
 - **Thread safety**: Create one `AIAgent` per thread or task. Never share an instance across concurrent calls.
 - **Resource cleanup**: The agent automatically cleans up resources (terminal sessions, browser instances) when a conversation ends. If you're running in a long-lived process, ensure each conversation completes normally.
 - **Iteration limits**: The default `max_iterations=90` is generous. For simple Q&A use cases, consider lowering it (e.g., `max_iterations=10`) to prevent runaway tool-calling loops and control costs.

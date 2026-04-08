@@ -1,13 +1,6 @@
 ---
 title: "Tools Runtime"
-sidebar_label: "Tools Runtime"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Tools Runtime
 
 Hermes tools are self-registering functions grouped into toolsets and executed through a central registry/dispatch system.

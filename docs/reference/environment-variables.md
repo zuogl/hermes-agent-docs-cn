@@ -1,13 +1,6 @@
 ---
-title: "Environment Variables"
-sidebar_label: "Environment Variables"
+title: "Environment Variables Reference"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Environment Variables Reference
 
 All variables go in `~/.hermes/.env`. You can also set them with `hermes config set VAR value`.
@@ -324,7 +317,7 @@ fallback_model:
   model: anthropic/claude-sonnet-4
 ```
 
-See [Fallback Providers](/user-guide/features/fallback-providers) for full details.
+See [Fallback Providers](https://hermes-agent.nousresearch.com/docs/user-guide/features/fallback-providers) for full details.
 
 ## Provider Routing (config.yaml only)
 

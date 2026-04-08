@@ -1,13 +1,6 @@
 ---
-title: "Tutorial: Team Telegram Assistant"
-sidebar_label: "Tutorial: Team Telegram Assistant"
+title: "Set Up a Team Telegram Assistant"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Set Up a Team Telegram Assistant
 
 This tutorial walks you through setting up a Telegram bot powered by Hermes Agent that multiple team members can use. By the end, your team will have a shared AI assistant they can message for help with code, research, system administration, and anything else — secured with per-user authorization.
@@ -28,7 +21,7 @@ A Telegram bot that:
 
 Before starting, make sure you have:
 
-- **Hermes Agent installed** on a server or VPS (not your laptop — the bot needs to stay running). Follow the [installation guide](/getting-started/installation) if you haven't yet.
+- **Hermes Agent installed** on a server or VPS (not your laptop — the bot needs to stay running). Follow the [installation guide](https://hermes-agent.nousresearch.com/docs/getting-started/installation) if you haven't yet.
 - **A Telegram account** for yourself (the bot owner)
 - **An LLM provider configured** — at minimum, an API key for OpenAI, Anthropic, or another supported provider in `~/.hermes/.env`
 
@@ -77,7 +70,7 @@ Every Telegram bot starts with **@BotFather** — Telegram's official bot for cr
    stop - Stop the current task
    ```
 
-:::warning
+:::caution
 Keep your bot token secret. Anyone with the token can control the bot. If it leaks, use `/revoke` in BotFather to generate a new one.
 :::
 
@@ -177,7 +170,8 @@ hermes gateway stop
 tail -f ~/.hermes/logs/gateway.log
 ```
 
-:::tip macOS PATH
+:::tip
+macOS PATH
 The launchd plist captures your shell PATH at install time so gateway subprocesses can find tools like Node.js and ffmpeg. If you install new tools later, re-run `hermes gateway install` to update the plist.
 :::
 
@@ -295,7 +289,7 @@ Users can also change this per-session with the `/verbose` command in chat.
 
 Customize how the bot communicates by editing `~/.hermes/SOUL.md`:
 
-For a full guide, see [Use SOUL.md with Hermes](/guides/use-soul-with-hermes).
+For a full guide, see [Use SOUL.md with Hermes](https://hermes-agent.nousresearch.com/docs/guides/use-soul-with-hermes).
 
 ```markdown
 # Soul
@@ -364,7 +358,7 @@ hermes cron status        # Check if scheduler is running
 /cron remove <job_id>     # Remove a job
 ```
 
-:::warning
+:::caution
 Cron job prompts run in completely fresh sessions with no memory of prior conversations. Make sure each prompt contains **all** the context the agent needs — file paths, URLs, server addresses, and clear instructions.
 :::
 
@@ -432,13 +426,13 @@ hermes gateway stop && hermes gateway start
 
 You've got a working team Telegram assistant. Here are some next steps:
 
-- **[Security Guide](/user-guide/security)** — deep dive into authorization, container isolation, and command approval
-- **[Messaging Gateway](/user-guide/messaging)** — full reference for gateway architecture, session management, and chat commands
-- **[Telegram Setup](/user-guide/messaging/telegram)** — platform-specific details including voice messages and TTS
-- **[Scheduled Tasks](/user-guide/features/cron)** — advanced cron scheduling with delivery options and cron expressions
-- **[Context Files](/user-guide/features/context-files)** — AGENTS.md, SOUL.md, and .cursorrules for project knowledge
-- **[Personality](/user-guide/features/personality)** — built-in personality presets and custom persona definitions
-- **Add more platforms** — the same gateway can simultaneously run [Discord](/user-guide/messaging/discord), [Slack](/user-guide/messaging/slack), and [WhatsApp](/user-guide/messaging/whatsapp)
+- **[Security Guide](https://hermes-agent.nousresearch.com/docs/user-guide/security)** — deep dive into authorization, container isolation, and command approval
+- **[Messaging Gateway](https://hermes-agent.nousresearch.com/docs/user-guide/messaging)** — full reference for gateway architecture, session management, and chat commands
+- **[Telegram Setup](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram)** — platform-specific details including voice messages and TTS
+- **[Scheduled Tasks](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron)** — advanced cron scheduling with delivery options and cron expressions
+- **[Context Files](https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files)** — AGENTS.md, SOUL.md, and .cursorrules for project knowledge
+- **[Personality](https://hermes-agent.nousresearch.com/docs/user-guide/features/personality)** — built-in personality presets and custom persona definitions
+- **Add more platforms** — the same gateway can simultaneously run [Discord](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/discord), [Slack](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/slack), and [WhatsApp](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/whatsapp)
 
 ---
 

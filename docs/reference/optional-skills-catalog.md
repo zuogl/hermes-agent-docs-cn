@@ -1,13 +1,6 @@
 ---
 title: "Optional Skills Catalog"
-sidebar_label: "Optional Skills Catalog"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Optional Skills Catalog
 
 Official optional skills ship with the hermes-agent repository under `optional-skills/` but are **not active by default**. Install them explicitly:
@@ -151,7 +144,7 @@ The largest optional category — covers the full ML pipeline from data curation
 
 To add a new optional skill to the repository:
 
-1. Create a directory under `optional-skills/<category>/<skill-name>/`
+1. Create a directory under `optional-skills///`
 2. Add a `SKILL.md` with standard frontmatter (name, description, version, author)
 3. Include any supporting files in `references/`, `templates/`, or `scripts/` subdirectories
 4. Submit a pull request — the skill will appear in this catalog once merged

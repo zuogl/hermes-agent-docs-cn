@@ -1,13 +1,6 @@
 ---
 title: "Context Compression and Caching"
-sidebar_label: "Context Compression and Caching"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Context Compression and Caching
 
 Hermes Agent uses a dual compression system and Anthropic prompt caching to

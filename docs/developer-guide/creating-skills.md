@@ -1,13 +1,6 @@
 ---
 title: "Creating Skills"
-sidebar_label: "Creating Skills"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Creating Skills
 
 Skills are the preferred way to add new capabilities to Hermes Agent. They're easier to create than tools, require no code changes to the agent, and can be shared with the community.
@@ -176,8 +169,9 @@ required_environment_variables:
 
 The user can skip setup and keep loading the skill. Hermes never exposes the raw secret value to the model. Gateway and messaging sessions show local setup guidance instead of collecting secrets in-band.
 
-:::tip Sandbox Passthrough
-When your skill is loaded, any declared `required_environment_variables` that are set are **automatically passed through** to `execute_code` and `terminal` sandboxes — including remote backends like Docker and Modal. Your skill's scripts can access `$TENOR_API_KEY` (or `os.environ["TENOR_API_KEY"]` in Python) without the user needing to configure anything extra. See [Environment Variable Passthrough](/user-guide/security#environment-variable-passthrough) for details.
+:::tip
+Sandbox Passthrough
+When your skill is loaded, any declared `required_environment_variables` that are set are **automatically passed through** to `execute_code` and `terminal` sandboxes — including remote backends like Docker and Modal. Your skill's scripts can access `$TENOR_API_KEY` (or `os.environ["TENOR_API_KEY"]` in Python) without the user needing to configure anything extra. See [Environment Variable Passthrough](https://hermes-agent.nousresearch.com/docs/user-guide/security#environment-variable-passthrough) for details.
 :::
 
 Legacy `prerequisites.env_vars` remains supported as a backward-compatible alias.
@@ -208,7 +202,7 @@ Each entry supports:
 
 **How it works:**
 
-1. **Storage:** Values are written to `config.yaml` under `skills.config.<key>`:
+1. **Storage:** Values are written to `config.yaml` under `skills.config.`:
    ```yaml
    skills:
      config:
@@ -231,7 +225,8 @@ Each entry supports:
    hermes config set skills.config.wiki.path ~/my-wiki
    ```
 
-:::tip When to use which
+:::tip
+When to use which
 Use `required_environment_variables` for API keys, tokens, and other **secrets** (stored in `~/.hermes/.env`, never shown to the model). Use `config` for **paths, preferences, and non-sensitive settings** (stored in `config.yaml`, visible in config show).
 :::
 
@@ -256,7 +251,8 @@ When loaded, Hermes checks if these files exist. Missing files trigger `setup_ne
 - **Synced into Modal** sandboxes (at creation + before each command, so mid-session OAuth works)
 - Available on **local** backend without any special handling
 
-:::tip When to use which
+:::tip
+When to use which
 Use `required_environment_variables` for simple API keys and tokens (strings stored in `~/.hermes/.env`). Use `required_credential_files` for OAuth token files, client secrets, service account JSON, certificates, or any credential that's a file on disk.
 :::
 

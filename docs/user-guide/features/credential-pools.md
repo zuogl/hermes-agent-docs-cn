@@ -1,13 +1,6 @@
 ---
 title: "Credential Pools"
-sidebar_label: "Credential Pools"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Credential Pools
 
 Credential pools let you register multiple API keys or OAuth tokens for the same provider. When one key hits a rate limit or billing quota, Hermes automatically rotates to the next healthy key — keeping your session alive without switching providers.
@@ -102,12 +95,12 @@ Type [1/2]:
 |---------|-------------|
 | `hermes auth` | Interactive pool management wizard |
 | `hermes auth list` | Show all pools and credentials |
-| `hermes auth list <provider>` | Show a specific provider's pool |
-| `hermes auth add <provider>` | Add a credential (prompts for type and key) |
-| `hermes auth add <provider> --type api-key --api-key <key>` | Add an API key non-interactively |
-| `hermes auth add <provider> --type oauth` | Add an OAuth credential via browser login |
-| `hermes auth remove <provider> <index>` | Remove credential by 1-based index |
-| `hermes auth reset <provider>` | Clear all cooldowns/exhaustion status |
+| `hermes auth list ` | Show a specific provider's pool |
+| `hermes auth add ` | Add a credential (prompts for type and key) |
+| `hermes auth add  --type api-key --api-key ` | Add an API key non-interactively |
+| `hermes auth add  --type oauth` | Add an OAuth credential via browser login |
+| `hermes auth remove  ` | Remove credential by 1-based index |
+| `hermes auth reset ` | Clear all cooldowns/exhaustion status |
 
 ## Rotation Strategies
 

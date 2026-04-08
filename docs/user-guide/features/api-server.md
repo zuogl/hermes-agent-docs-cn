@@ -1,13 +1,6 @@
 ---
 title: "API Server"
-sidebar_label: "API Server"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # API Server
 
 The API server exposes hermes-agent as an OpenAI-compatible HTTP endpoint. Any frontend that speaks the OpenAI format — Open WebUI, LobeChat, LibreChat, NextChat, ChatBox, and hundreds more — can connect to hermes-agent and use it as a backend.
@@ -51,7 +44,7 @@ curl http://localhost:8642/v1/chat/completions \
   -d '{"model": "hermes-agent", "messages": [{"role": "user", "content": "Hello!"}]}'
 ```
 
-Or connect Open WebUI, LobeChat, or any other frontend — see the [Open WebUI integration guide](/user-guide/messaging/open-webui) for step-by-step instructions.
+Or connect Open WebUI, LobeChat, or any other frontend — see the [Open WebUI integration guide](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/open-webui) for step-by-step instructions.
 
 ## Endpoints
 
@@ -180,7 +173,8 @@ Authorization: Bearer ***
 
 Configure the key via `API_SERVER_KEY` env var. If you need a browser to call Hermes directly, also set `API_SERVER_CORS_ORIGINS` to an explicit allowlist.
 
-:::warning Security
+:::caution
+Security
 The API server gives full access to hermes-agent's toolset, **including terminal commands**. If you change the bind address to `0.0.0.0` (network-accessible), **always set `API_SERVER_KEY`** and keep `API_SERVER_CORS_ORIGINS` narrow — without that, remote callers may be able to execute arbitrary commands on your machine.
 
 The default bind address (`127.0.0.1`) is for local-only use. Browser access is disabled by default; enable it only for explicit trusted origins.
@@ -234,7 +228,7 @@ Any frontend that supports the OpenAI API format works. Tested/documented integr
 
 | Frontend | Stars | Connection |
 |----------|-------|------------|
-| [Open WebUI](/user-guide/messaging/open-webui) | 126k | Full guide available |
+| [Open WebUI](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/open-webui) | 126k | Full guide available |
 | LobeChat | 73k | Custom provider endpoint |
 | LibreChat | 34k | Custom endpoint in librechat.yaml |
 | AnythingLLM | 56k | Generic OpenAI provider |

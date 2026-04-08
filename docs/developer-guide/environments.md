@@ -1,13 +1,6 @@
 ---
 title: "Environments, Benchmarks & Data Generation"
-sidebar_label: "Environments, Benchmarks & Data Generation"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Environments, Benchmarks & Data Generation
 
 Hermes Agent includes a full environment framework that connects its tool-calling capabilities to the [Atropos](https://github.com/NousResearch/atropos) RL training framework. This enables three workflows:
@@ -18,11 +11,13 @@ Hermes Agent includes a full environment framework that connects its tool-callin
 
 All three share the same core: an **environment** class that defines tasks, runs an agent loop, and scores the output.
 
-:::info Repo environments vs RL training tools
+:::info
+Repo environments vs RL training tools
 The Python environment framework documented here lives under the repo's `environments/` directory and is the implementation-level API for Hermes/Atropos integration. This is separate from the user-facing `rl_*` tools, which operate as an orchestration surface for remote RL training workflows.
 :::
 
-:::tip Quick Links
+:::tip
+Quick Links
 - **Want to run benchmarks?** Jump to [Available Benchmarks](#available-benchmarks)
 - **Want to train with RL?** See [RL Training Tools](/user-guide/features/rl-training) for the agent-driven interface, or [Running Environments](#running-environments) for manual execution
 - **Want to create a new environment?** See [Creating Environments](#creating-environments)

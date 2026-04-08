@@ -1,13 +1,6 @@
 ---
 title: "Fallback Providers"
-sidebar_label: "Fallback Providers"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Fallback Providers
 
 Hermes Agent has three layers of resilience that keep your sessions running when providers hit issues:
@@ -88,7 +81,8 @@ When triggered, Hermes:
 
 The switch is seamless — your conversation history, tool calls, and context are preserved. The agent continues from exactly where it left off, just using a different model.
 
-:::info One-Shot
+:::info
+One-Shot
 Fallback activates **at most once** per session. If the fallback provider also fails, normal error handling takes over (retries, then error message). This prevents cascading failover loops.
 :::
 
@@ -296,7 +290,7 @@ delegation:
   # api_key: "local-key"
 ```
 
-See [Subagent Delegation](/user-guide/features/delegation) for full configuration details.
+See [Subagent Delegation](https://hermes-agent.nousresearch.com/docs/user-guide/features/delegation) for full configuration details.
 
 ---
 
@@ -314,7 +308,7 @@ cronjob(
 )
 ```
 
-See [Scheduled Tasks (Cron)](/user-guide/features/cron) for full configuration details.
+See [Scheduled Tasks (Cron)](https://hermes-agent.nousresearch.com/docs/user-guide/features/cron) for full configuration details.
 
 ---
 

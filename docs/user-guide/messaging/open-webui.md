@@ -1,20 +1,6 @@
 ---
-title: "Step 6 — Polish (Final Translation)"
+title: "Open WebUI 集成"
 ---
-# Step 6 — Polish (Final Translation)
-
-## 润色说明
-
-基于 Revision 版本进行最终润色，改动极小：
-
-1. 简介段 "完整支持会话管理、用户账号和现代化聊天界面" — 保持，表达准确自然
-2. "智能体精致的 Web 前端" — 调整语序为"精致的 Web 前端"更通顺
-3. 步骤 4 "开始聊天！" — 保留，与原文感叹语气一致
-4. 提示块 "工具运行进度" — 保持，比 "工具进度" 更具描述性
-5. 全文最终校对：无遗漏、无格式错误、无多余空行
-
----
-
 # Open WebUI 集成
 
 [Open WebUI](https://github.com/open-webui/open-webui)（126k★）是目前最流行的自托管 AI 聊天界面。借助 Hermes Agent 内置的 API 服务器，你可以将 Open WebUI 作为智能体精致的 Web 前端——完整支持会话管理、用户账号和现代化聊天界面。

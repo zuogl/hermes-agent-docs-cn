@@ -1,13 +1,6 @@
 ---
 title: "Adding Tools"
-sidebar_label: "Adding Tools"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Adding Tools
 
 Before writing a tool, ask yourself: **should this be a [skill](/developer-guide/creating-skills) instead?**
@@ -102,12 +95,11 @@ registry.register(
 
 ### Key Rules
 
-:::danger Important
-- Handlers **MUST** return a JSON string (via `json.dumps()`), never raw dicts
-- Errors **MUST** be returned as `{"error": "message"}`, never raised as exceptions
-- The `check_fn` is called when building tool definitions — if it returns `False`, the tool is silently excluded
-- The `handler` receives `(args: dict, **kwargs)` where `args` is the LLM's tool call arguments
-:::
+> 🚫 **危险**：Important
+> - Handlers **MUST** return a JSON string (via `json.dumps()`), never raw dicts
+> - Errors **MUST** be returned as `{"error": "message"}`, never raised as exceptions
+> - The `check_fn` is called when building tool definitions — if it returns `False`, the tool is silently excluded
+> - The `handler` receives `(args: dict, **kwargs)` where `args` is the LLM's tool call arguments
 
 ## Step 2: Add to a Toolset
 

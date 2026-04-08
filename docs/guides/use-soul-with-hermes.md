@@ -1,13 +1,6 @@
 ---
 title: "Use SOUL.md with Hermes"
-sidebar_label: "Use SOUL.md with Hermes"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Use SOUL.md with Hermes
 
 `SOUL.md` is the **primary identity** for your Hermes instance. It's the first thing in the system prompt — it defines who the agent is, how it speaks, and what it avoids.
@@ -262,7 +255,7 @@ Move project instructions into `AGENTS.md` and keep `SOUL.md` focused on identit
 
 ## Related docs
 
-- [Personality & SOUL.md](/user-guide/features/personality)
-- [Context Files](/user-guide/features/context-files)
-- [Configuration](/user-guide/configuration)
-- [Tips & Best Practices](/guides/tips)
+- [Personality & SOUL.md](https://hermes-agent.nousresearch.com/docs/user-guide/features/personality)
+- [Context Files](https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files)
+- [Configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration)
+- [Tips & Best Practices](https://hermes-agent.nousresearch.com/docs/guides/tips)

@@ -1,13 +1,6 @@
 ---
 title: "Trajectory Format"
-sidebar_label: "Trajectory Format"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Trajectory Format
 
 Hermes Agent saves conversation trajectories in ShareGPT-compatible JSONL format
@@ -123,20 +116,20 @@ The `conversations` array uses ShareGPT role conventions:
 
 ### Reasoning Content Markup
 
-The trajectory converter normalizes ALL reasoning into `<think>` tags, regardless
+The trajectory converter normalizes ALL reasoning into `` tags, regardless
 of how the model originally produced it:
 
 1. **Native thinking tokens** (`msg["reasoning"]` field from providers like
-   Anthropic, OpenAI o-series): Wrapped as `<think>\n{reasoning}\n</think>\n`
+   Anthropic, OpenAI o-series): Wrapped as `\n{reasoning}\n\n`
    and prepended before the content.
 
 2. **REASONING_SCRATCHPAD XML** (when native thinking is disabled and the model
-   reasons via system-prompt-instructed XML): `<REASONING_SCRATCHPAD>` tags are
-   converted to `<think>` via `convert_scratchpad_to_think()`.
+   reasons via system-prompt-instructed XML): `` tags are
+   converted to `` via `convert_scratchpad_to_think()`.
 
-3. **Empty think blocks**: Every `gpt` turn is guaranteed to have a `<think>`
+3. **Empty think blocks**: Every `gpt` turn is guaranteed to have a ``
    block. If no reasoning was produced, an empty block is inserted:
-   `<think>\n</think>\n` — this ensures consistent format for training data.
+   `\n\n` — this ensures consistent format for training data.
 
 ### Tool Call Normalization
 
@@ -152,7 +145,7 @@ JSON string) are converted to XML-wrapped JSON:
 - Arguments are parsed from JSON strings back to objects (not double-encoded)
 - If JSON parsing fails (shouldn't happen — validated during conversation),
   an empty `{}` is used with a warning logged
-- Multiple tool calls in one assistant turn produce multiple `<tool_call>` blocks
+- Multiple tool calls in one assistant turn produce multiple `` blocks
   in a single `gpt` message
 
 ### Tool Response Normalization
@@ -178,9 +171,9 @@ The system message is generated at save time (not taken from the conversation).
 It follows the Hermes function-calling prompt template with:
 
 - Preamble explaining the function-calling protocol
-- `<tools>` XML block containing the JSON tool definitions
+- `` XML block containing the JSON tool definitions
 - Schema reference for `FunctionCall` objects
-- `<tool_call>` example
+- `` example
 
 Tool definitions include `name`, `description`, `parameters`, and `required`
 (set to `null` to match the canonical format).

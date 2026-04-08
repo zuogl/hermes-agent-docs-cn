@@ -1,13 +1,6 @@
 ---
 title: "Use MCP with Hermes"
-sidebar_label: "Use MCP with Hermes"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Use MCP with Hermes
 
 This guide shows how to actually use MCP with Hermes Agent in day-to-day workflows.
@@ -414,6 +407,6 @@ Not-great first servers:
 
 ## Related docs
 
-- [MCP (Model Context Protocol)](/user-guide/features/mcp)
-- [FAQ](/reference/faq)
-- [Slash Commands](/reference/slash-commands)
+- [MCP (Model Context Protocol)](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp)
+- [FAQ](https://hermes-agent.nousresearch.com/docs/reference/faq)
+- [Slash Commands](https://hermes-agent.nousresearch.com/docs/reference/slash-commands)

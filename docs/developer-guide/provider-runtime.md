@@ -1,13 +1,6 @@
 ---
 title: "Provider Runtime Resolution"
-sidebar_label: "Provider Runtime Resolution"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Provider Runtime Resolution
 
 Hermes has a shared provider runtime resolver used across:

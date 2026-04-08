@@ -1,13 +1,6 @@
 ---
 title: "Migrate from OpenClaw"
-sidebar_label: "Migrate from OpenClaw"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Migrate from OpenClaw
 
 `hermes claw migrate` imports your OpenClaw (or legacy Clawdbot/Moldbot) setup into Hermes. This guide covers exactly what gets migrated, the config key mappings, and what to verify after migration.
@@ -32,12 +25,12 @@ The migration reads from `~/.openclaw/` by default. If you still have a legacy `
 | Option | Description |
 |--------|-------------|
 | `--dry-run` | Preview what would be migrated without writing anything. |
-| `--preset <name>` | `full` (default, includes secrets) or `user-data` (excludes API keys). |
+| `--preset ` | `full` (default, includes secrets) or `user-data` (excludes API keys). |
 | `--overwrite` | Overwrite existing Hermes files on conflicts (default: skip). |
 | `--migrate-secrets` | Include API keys (on by default with `--preset full`). |
-| `--source <path>` | Custom OpenClaw directory. |
-| `--workspace-target <path>` | Where to place `AGENTS.md`. |
-| `--skill-conflict <mode>` | `skip` (default), `overwrite`, or `rename`. |
+| `--source ` | Custom OpenClaw directory. |
+| `--workspace-target ` | Where to place `AGENTS.md`. |
+| `--skill-conflict ` | `skip` (default), `overwrite`, or `rename`. |
 | `--yes` | Skip confirmation prompt. |
 
 ## What gets migrated
@@ -161,7 +154,7 @@ TTS settings are read from **two** OpenClaw config locations with this priority:
 
 ### Archived (no direct Hermes equivalent)
 
-These are saved to `~/.hermes/migration/openclaw/<timestamp>/archive/` for manual review:
+These are saved to `~/.hermes/migration/openclaw//archive/` for manual review:
 
 | What | Archive file | How to recreate in Hermes |
 |------|-------------|--------------------------|
@@ -170,7 +163,7 @@ These are saved to `~/.hermes/migration/openclaw/<timestamp>/archive/` for manua
 | `HEARTBEAT.md` | `archive/workspace/HEARTBEAT.md` | Use cron jobs for periodic tasks |
 | `BOOTSTRAP.md` | `archive/workspace/BOOTSTRAP.md` | Use context files or skills |
 | Cron jobs | `archive/cron-config.json` | Recreate with `hermes cron create` |
-| Plugins | `archive/plugins-config.json` | See [plugins guide](/user-guide/features/hooks) |
+| Plugins | `archive/plugins-config.json` | See [plugins guide](https://hermes-agent.nousresearch.com/docs/user-guide/features/hooks) |
 | Hooks/webhooks | `archive/hooks-config.json` | Use `hermes webhook` or gateway hooks |
 | Memory backend | `archive/memory-backend-config.json` | Configure via `hermes honcho` |
 | Skills registry | `archive/skills-registry-config.json` | Use `hermes skills config` |
@@ -217,7 +210,7 @@ The migration resolves all three formats. For env templates and SecretRef object
 
 1. **Check the migration report** — printed on completion with counts of migrated, skipped, and conflicting items.
 
-2. **Review archived files** — anything in `~/.hermes/migration/openclaw/<timestamp>/archive/` needs manual attention.
+2. **Review archived files** — anything in `~/.hermes/migration/openclaw//archive/` needs manual attention.
 
 3. **Verify API keys** — run `hermes status` to check provider authentication.
 

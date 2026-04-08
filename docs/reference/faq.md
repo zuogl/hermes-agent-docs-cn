@@ -1,13 +1,6 @@
 ---
 title: "FAQ & Troubleshooting"
-sidebar_label: "FAQ & Troubleshooting"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # FAQ & Troubleshooting
 
 Quick answers and fixes for the most common questions and issues.
@@ -70,7 +63,8 @@ Hermes persists the endpoint, provider, and base URL in `config.yaml` so it surv
 
 This works with Ollama, vLLM, llama.cpp server, SGLang, LocalAI, and others. See the [Configuration guide](/user-guide/configuration) for details.
 
-:::tip Ollama users
+:::tip
+Ollama users
 If you set a custom `num_ctx` in Ollama (e.g., `ollama run --num_ctx 16384`), make sure to set the matching context length in Hermes — Ollama's `/api/show` reports the model's *maximum* context, not the effective `num_ctx` you configured.
 :::
 
@@ -189,7 +183,7 @@ hermes model
 hermes config set OPENROUTER_API_KEY sk-or-v1-xxxxxxxxxxxx
 ```
 
-:::warning
+:::caution
 Make sure the key matches the provider. An OpenAI key won't work with OpenRouter and vice versa. Check `~/.hermes/.env` for conflicting entries.
 :::
 
@@ -216,7 +210,7 @@ hermes chat --model openrouter/meta-llama/llama-3.1-70b-instruct
 **Solution:** Wait a moment and retry. For sustained usage, consider:
 - Upgrading your provider plan
 - Switching to a different model or provider
-- Using `hermes chat --provider <alternative>` to route to a different backend
+- Using `hermes chat --provider ` to route to a different backend
 
 #### Context length exceeded
 
@@ -474,9 +468,9 @@ hermes chat
 ```
 
 See also:
-- [MCP (Model Context Protocol)](/user-guide/features/mcp)
-- [Use MCP with Hermes](/guides/use-mcp-with-hermes)
-- [MCP Config Reference](/reference/mcp-config-reference)
+- [MCP (Model Context Protocol)](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp)
+- [Use MCP with Hermes](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes)
+- [MCP Config Reference](https://hermes-agent.nousresearch.com/docs/reference/mcp-config-reference)
 
 #### MCP timeout errors
 
@@ -487,7 +481,7 @@ See also:
 - Check if the MCP server process is still running
 - For remote HTTP MCP servers, check network connectivity
 
-:::warning
+:::caution
 If an MCP server crashes mid-request, Hermes will report a timeout. Check the server's own logs (not just Hermes logs) to diagnose the root cause.
 :::
 

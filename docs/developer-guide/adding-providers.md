@@ -1,13 +1,6 @@
 ---
 title: "Adding Providers"
-sidebar_label: "Adding Providers"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Adding Providers
 
 Hermes can already talk to any OpenAI-compatible endpoint through the custom provider path. Do not add a built-in provider unless you want first-class UX for that service:
@@ -93,7 +86,7 @@ This path includes everything from Path A plus:
 
 ### Additional for native / non-OpenAI providers
 
-10. `agent/<provider>_adapter.py`
+10. `agent/_adapter.py`
 11. `run_agent.py`
 12. `pyproject.toml` if a provider SDK is required
 
@@ -203,7 +196,7 @@ Update these in `hermes_cli/main.py`:
 - provider dispatch (`if selected_provider == ...`)
 - `--provider` argument choices
 - login/logout choices if the provider supports those flows
-- a `_model_flow_<provider>()` function, or reuse `_model_flow_api_key_provider()` if it fits
+- a `_model_flow_()` function, or reuse `_model_flow_api_key_provider()` if it fits
 
 :::tip
 `hermes_cli/setup.py` does not need changes — it calls `select_provider_and_model()` from `main.py`, so your new provider appears in both `hermes model` and `hermes setup` automatically.
@@ -233,7 +226,7 @@ Add context lengths for the provider's models so token budgeting, compression th
 
 ## Step 7: If the provider is native, add an adapter and `run_agent.py` support
 
-If the provider is not plain chat completions, isolate the provider-specific logic in `agent/<provider>_adapter.py`.
+If the provider is not plain chat completions, isolate the provider-specific logic in `agent/_adapter.py`.
 
 Keep `run_agent.py` focused on orchestration. It should call adapter helpers, not hand-build provider payloads inline all over the file.
 
@@ -291,7 +284,7 @@ Common places:
 - `tests/test_setup_model_selection.py`
 - `tests/test_provider_parity.py`
 - `tests/test_run_agent.py`
-- `tests/test_<provider>_adapter.py` for a native provider
+- `tests/test__adapter.py` for a native provider
 
 For docs-only examples, the exact file set may differ. The point is to cover:
 
@@ -364,7 +357,7 @@ Use this if the provider is standard chat completions.
 Use this when the provider needs a new protocol path.
 
 - [ ] everything in the OpenAI-compatible checklist
-- [ ] adapter added in `agent/<provider>_adapter.py`
+- [ ] adapter added in `agent/_adapter.py`
 - [ ] new `api_mode` supported in `run_agent.py`
 - [ ] interrupt / rebuild path works
 - [ ] usage and finish-reason extraction works

@@ -1,13 +1,6 @@
 ---
 title: "Agent Loop Internals"
-sidebar_label: "Agent Loop Internals"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Agent Loop Internals
 
 The core orchestration engine is `run_agent.py`'s `AIAgent` class — roughly 9,200 lines that handle everything from prompt assembly to tool dispatch to provider failover.

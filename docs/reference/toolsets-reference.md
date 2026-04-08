@@ -1,13 +1,6 @@
 ---
 title: "Toolsets Reference"
-sidebar_label: "Toolsets Reference"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Toolsets Reference
 
 Toolsets are named bundles of tools that control what the agent can do. They're the primary mechanism for configuring tool availability per platform, per session, or per task.
@@ -115,7 +108,7 @@ Platform toolsets define the complete tool configuration for a deployment target
 
 ### MCP server toolsets
 
-Each configured MCP server generates a `mcp-<server>` toolset at runtime. For example, if you configure a `github` MCP server, a `mcp-github` toolset is created containing all tools that server exposes.
+Each configured MCP server generates a `mcp-` toolset at runtime. For example, if you configure a `github` MCP server, a `mcp-github` toolset is created containing all tools that server exposes.
 
 ```yaml
 # config.yaml

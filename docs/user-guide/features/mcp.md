@@ -1,13 +1,6 @@
 ---
 title: "MCP (Model Context Protocol)"
-sidebar_label: "MCP (Model Context Protocol)"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # MCP (Model Context Protocol)
 
 MCP lets Hermes Agent connect to external tool servers so the agent can use tools that live outside Hermes itself — GitHub, databases, file systems, browser stacks, internal APIs, and more.
@@ -547,7 +540,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
 
 ## Related docs
 
-- [Use MCP with Hermes](/guides/use-mcp-with-hermes)
-- [CLI Commands](/reference/cli-commands)
-- [Slash Commands](/reference/slash-commands)
-- [FAQ](/reference/faq)
+- [Use MCP with Hermes](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes)
+- [CLI Commands](https://hermes-agent.nousresearch.com/docs/reference/cli-commands)
+- [Slash Commands](https://hermes-agent.nousresearch.com/docs/reference/slash-commands)
+- [FAQ](https://hermes-agent.nousresearch.com/docs/reference/faq)

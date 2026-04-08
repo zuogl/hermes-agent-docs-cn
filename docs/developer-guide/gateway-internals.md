@@ -1,13 +1,6 @@
 ---
 title: "Gateway Internals"
-sidebar_label: "Gateway Internals"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Gateway Internals
 
 The messaging gateway is the long-running process that connects Hermes to 14+ external messaging platforms through a unified architecture.
@@ -257,4 +250,4 @@ The gateway runs as a long-lived process, managed via:
 - [Cron Internals](/developer-guide/cron-internals)
 - [ACP Internals](/developer-guide/acp-internals)
 - [Agent Loop Internals](/developer-guide/agent-loop)
-- [Messaging Gateway (User Guide)](/user-guide/messaging)
+- [Messaging Gateway (User Guide)](https://hermes-agent.nousresearch.com/docs/user-guide/messaging)

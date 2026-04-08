@@ -1,18 +1,11 @@
 ---
 title: "Delegation & Parallel Work"
-sidebar_label: "Delegation & Parallel Work"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Delegation & Parallel Work
 
 Hermes can spawn isolated child agents to work on tasks in parallel. Each subagent gets its own conversation, terminal session, and toolset. Only the final summary comes back — intermediate tool calls never enter your context window.
 
-For the full feature reference, see [Subagent Delegation](/user-guide/features/delegation).
+For the full feature reference, see [Subagent Delegation](https://hermes-agent.nousresearch.com/docs/user-guide/features/delegation).
 
 ---
 
@@ -95,7 +88,8 @@ delegate_task(
 )
 ```
 
-:::warning The Context Problem
+:::caution
+The Context Problem
 Subagents know **absolutely nothing** about your conversation. They start completely fresh. If you delegate "fix the bug we were discussing," the subagent has no idea what bug you mean. Always pass file paths, error messages, project structure, and constraints explicitly.
 :::
 
@@ -240,4 +234,4 @@ Restricting toolsets keeps the subagent focused and prevents accidental side eff
 
 ---
 
-*For the complete delegation reference — all parameters, ACP integration, and advanced configuration — see [Subagent Delegation](/user-guide/features/delegation).*
+*For the complete delegation reference — all parameters, ACP integration, and advanced configuration — see [Subagent Delegation](https://hermes-agent.nousresearch.com/docs/user-guide/features/delegation).*

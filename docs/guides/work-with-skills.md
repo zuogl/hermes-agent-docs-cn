@@ -1,18 +1,11 @@
 ---
 title: "Working with Skills"
-sidebar_label: "Working with Skills"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Working with Skills
 
 Skills are on-demand knowledge documents that teach Hermes how to handle specific tasks — from generating ASCII art to managing GitHub PRs. This guide walks you through using them day to day.
 
-For the full technical reference, see [Skills System](/user-guide/features/skills).
+For the full technical reference, see [Skills System](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills).
 
 ---
 
@@ -269,4 +262,4 @@ Both are persistent across sessions, but they serve different purposes:
 
 ---
 
-*For the complete skills reference — frontmatter fields, conditional activation, external directories, and more — see [Skills System](/user-guide/features/skills).*
+*For the complete skills reference — frontmatter fields, conditional activation, external directories, and more — see [Skills System](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills).*

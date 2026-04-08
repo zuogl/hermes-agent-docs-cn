@@ -1,16 +1,9 @@
 ---
 title: "Use Voice Mode with Hermes"
-sidebar_label: "Use Voice Mode with Hermes"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Use Voice Mode with Hermes
 
-This guide is the practical companion to the [Voice Mode feature reference](/user-guide/features/voice-mode).
+This guide is the practical companion to the [Voice Mode feature reference](https://hermes-agent.nousresearch.com/docs/user-guide/features/voice-mode).
 
 If the feature page explains what voice mode can do, this guide shows how to actually use it well.
 
@@ -451,8 +444,8 @@ That progression keeps the debugging surface small.
 
 ## Where to read next
 
-- [Voice Mode feature reference](/user-guide/features/voice-mode)
-- [Messaging Gateway](/user-guide/messaging)
-- [Discord setup](/user-guide/messaging/discord)
-- [Telegram setup](/user-guide/messaging/telegram)
-- [Configuration](/user-guide/configuration)
+- [Voice Mode feature reference](https://hermes-agent.nousresearch.com/docs/user-guide/features/voice-mode)
+- [Messaging Gateway](https://hermes-agent.nousresearch.com/docs/user-guide/messaging)
+- [Discord setup](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/discord)
+- [Telegram setup](https://hermes-agent.nousresearch.com/docs/user-guide/messaging/telegram)
+- [Configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration)

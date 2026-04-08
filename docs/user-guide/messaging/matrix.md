@@ -1,13 +1,6 @@
 ---
-title: "Matrix"
-sidebar_label: "Matrix"
+title: "Matrix Setup"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Matrix Setup
 
 Hermes Agent integrates with Matrix, the open, federated messaging protocol. Matrix lets you run your own homeserver or use a public one like matrix.org — either way, you keep control of your communications. The bot connects via the `matrix-nio` Python SDK, processes messages through the Hermes Agent pipeline (including tool use, memory, and reasoning), and responds in real time. It supports text, file attachments, images, audio, video, and optional end-to-end encryption (E2EE).
@@ -136,7 +129,8 @@ curl -X POST https://your-server/_matrix/client/v3/login \
 
 The response includes an `access_token` field — copy it.
 
-:::warning[Keep your access token safe]
+:::caution
+[Keep your access token safe]
 The access token gives full access to the bot's Matrix account. Never share it publicly or commit it to Git. If compromised, revoke it by logging out all sessions for that user.
 :::
 
@@ -274,7 +268,7 @@ When E2EE is enabled, Hermes:
 - Decrypts incoming messages and encrypts outgoing messages automatically
 - Auto-joins encrypted rooms when invited
 
-:::warning
+:::caution
 If you delete the `~/.hermes/platforms/matrix/store/` directory, the bot loses its encryption keys. You'll need to verify the device again in your Matrix client. Back up this directory if you want to preserve encrypted sessions.
 :::
 
@@ -369,7 +363,7 @@ pip install 'hermes-agent[matrix]'
 
 ## Security
 
-:::warning
+:::caution
 Always set `MATRIX_ALLOWED_USERS` to restrict who can interact with the bot. Without it, the gateway denies all users by default as a safety measure. Only add User IDs of people you trust — authorized users have full access to the agent's capabilities, including tool use and system access.
 :::
 

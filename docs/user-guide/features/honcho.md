@@ -1,18 +1,12 @@
 ---
 title: "Honcho Memory"
-sidebar_label: "Honcho Memory"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Honcho Memory
 
 [Honcho](https://github.com/plastic-labs/honcho) is an AI-native memory backend that adds dialectic reasoning and deep user modeling on top of Hermes's built-in memory system. Instead of simple key-value storage, Honcho maintains a running model of who the user is — their preferences, communication style, goals, and patterns — by reasoning about conversations after they happen.
 
-:::info Honcho is a Memory Provider Plugin
+:::info
+Honcho is a Memory Provider Plugin
 Honcho is integrated into the [Memory Providers](/user-guide/features/memory-providers) system. All features below are available through the unified memory provider interface.
 :::
 

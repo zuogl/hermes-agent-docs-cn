@@ -1,13 +1,6 @@
 ---
 title: "Profile Commands Reference"
-sidebar_label: "Profile Commands Reference"
 ---
-:::caution 本文尚未翻译
-本文暂时显示英文原文，中文翻译正在进行中。翻译完成后将自动更新。
-
-原文链接：[English Version](https://hermes-agent.nousresearch.com/docs/)
-:::
-
 # Profile Commands Reference
 
 This page covers all commands related to [Hermes profiles](/user-guide/profiles). For general CLI commands, see [CLI Commands Reference](/reference/cli-commands).
@@ -58,11 +51,11 @@ No options.
 hermes profile use <name>
 ```
 
-Sets `<name>` as the active profile. All subsequent `hermes` commands (without `-p`) will use this profile.
+Sets `` as the active profile. All subsequent `hermes` commands (without `-p`) will use this profile.
 
 | Argument | Description |
 |----------|-------------|
-| `<name>` | Profile name to activate. Use `default` to return to the base profile. |
+| `` | Profile name to activate. Use `default` to return to the base profile. |
 
 **Example:**
 
@@ -81,10 +74,10 @@ Creates a new profile.
 
 | Argument / Option | Description |
 |-------------------|-------------|
-| `<name>` | Name for the new profile. Must be a valid directory name (alphanumeric, hyphens, underscores). |
+| `` | Name for the new profile. Must be a valid directory name (alphanumeric, hyphens, underscores). |
 | `--clone` | Copy `config.yaml`, `.env`, and `SOUL.md` from the current profile. |
 | `--clone-all` | Copy everything (config, memories, skills, sessions, state) from the current profile. |
-| `--clone-from <profile>` | Clone from a specific profile instead of the current one. Used with `--clone` or `--clone-all`. |
+| `--clone-from ` | Clone from a specific profile instead of the current one. Used with `--clone` or `--clone-all`. |
 
 **Examples:**
 
@@ -112,7 +105,7 @@ Deletes a profile and removes its shell alias.
 
 | Argument / Option | Description |
 |-------------------|-------------|
-| `<name>` | Profile to delete. |
+| `` | Profile to delete. |
 | `--yes`, `-y` | Skip confirmation prompt. |
 
 **Example:**
@@ -122,7 +115,7 @@ hermes profile delete mybot
 hermes profile delete mybot --yes
 ```
 
-:::warning
+:::caution
 This permanently deletes the profile's entire directory including all config, memories, sessions, and skills. Cannot delete the currently active profile.
 :::
 
@@ -136,7 +129,7 @@ Displays details about a profile including its home directory, configured model,
 
 | Argument | Description |
 |----------|-------------|
-| `<name>` | Profile to inspect. |
+| `` | Profile to inspect. |
 
 **Example:**
 
@@ -158,13 +151,13 @@ Alias:   ~/.local/bin/work
 hermes profile alias <name> [options]
 ```
 
-Regenerates the shell alias script at `~/.local/bin/<name>`. Useful if the alias was accidentally deleted or if you need to update it after moving your Hermes installation.
+Regenerates the shell alias script at `~/.local/bin/`. Useful if the alias was accidentally deleted or if you need to update it after moving your Hermes installation.
 
 | Argument / Option | Description |
 |-------------------|-------------|
-| `<name>` | Profile to create/update the alias for. |
+| `` | Profile to create/update the alias for. |
 | `--remove` | Remove the wrapper script instead of creating it. |
-| `--name <alias>` | Custom alias name (default: profile name). |
+| `--name ` | Custom alias name (default: profile name). |
 
 **Example:**
 
@@ -189,8 +182,8 @@ Renames a profile. Updates the directory and shell alias.
 
 | Argument | Description |
 |----------|-------------|
-| `<old-name>` | Current profile name. |
-| `<new-name>` | New profile name. |
+| `` | Current profile name. |
+| `` | New profile name. |
 
 **Example:**
 
@@ -210,8 +203,8 @@ Exports a profile as a compressed tar.gz archive.
 
 | Argument / Option | Description |
 |-------------------|-------------|
-| `<name>` | Profile to export. |
-| `-o`, `--output <path>` | Output file path (default: `<name>.tar.gz`). |
+| `` | Profile to export. |
+| `-o`, `--output ` | Output file path (default: `.tar.gz`). |
 
 **Example:**
 
@@ -232,8 +225,8 @@ Imports a profile from a tar.gz archive.
 
 | Argument / Option | Description |
 |-------------------|-------------|
-| `<archive>` | Path to the tar.gz archive to import. |
-| `--name <name>` | Name for the imported profile (default: inferred from archive). |
+| `` | Path to the tar.gz archive to import. |
+| `--name ` | Name for the imported profile (default: inferred from archive). |
 
 **Example:**
 
@@ -255,7 +248,7 @@ Global flag to run any Hermes command under a specific profile without changing 
 
 | Option | Description |
 |--------|-------------|
-| `-p <name>`, `--profile <name>` | Profile to use for this command. |
+| `-p `, `--profile ` | Profile to use for this command. |
 
 **Examples:**
 
@@ -276,7 +269,7 @@ Generates shell completion scripts. Includes completions for profile names and p
 
 | Argument | Description |
 |----------|-------------|
-| `<shell>` | Shell to generate completions for: `bash` or `zsh`. |
+| `` | Shell to generate completions for: `bash` or `zsh`. |
 
 **Examples:**
 
@@ -290,9 +283,9 @@ source ~/.bashrc
 ```
 
 After installation, tab completion works for:
-- `hermes profile <TAB>` — subcommands (list, use, create, etc.)
-- `hermes profile use <TAB>` — profile names
-- `hermes -p <TAB>` — profile names
+- `hermes profile ` — subcommands (list, use, create, etc.)
+- `hermes profile use ` — profile names
+- `hermes -p ` — profile names
 
 ## See also
 
