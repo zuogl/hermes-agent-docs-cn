@@ -57,7 +57,7 @@ docker run -d -p 3000:8080 \
 
 ### 4. 打开界面
 
-访问 **http://localhost:3000**。创建管理员账号（第一个注册的用户成为管理员）。你应该能在模型下拉列表中看到 **hermes-agent**。开始聊天！
+访问 [http://localhost:3000](http://localhost:3000)。创建管理员账号（第一个注册的用户成为管理员）。你应该能在模型下拉列表中看到 **hermes-agent**。开始聊天！
 
 ## Docker Compose 配置
 
@@ -92,7 +92,7 @@ docker compose up -d
 
 如果你倾向于通过界面而非环境变量配置连接：
 
-1. 访问 **http://localhost:3000** 登录 Open WebUI
+1. 访问 [http://localhost:3000](http://localhost:3000) 登录 Open WebUI
 2. 点击**头像** → **管理员设置**
 3. 进入**连接**
 4. 在 **OpenAI API** 下，点击**扳手图标**（管理）
