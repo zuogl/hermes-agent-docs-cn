@@ -1,78 +1,76 @@
 ---
-title: "Use SOUL.md with Hermes"
+title: "在 Hermes 中使用 SOUL.md"
 ---
-# Use SOUL.md with Hermes
+# 在 Hermes 中使用 SOUL.md
 
-`SOUL.md` is the **primary identity** for your Hermes instance. It's the first thing in the system prompt — it defines who the agent is, how it speaks, and what it avoids.
+`SOUL.md` 是你的 Hermes 实例的**主要身份**文件。它是系统提示词的首位内容——定义这个智能体是谁、如何说话，以及应该避免什么。
 
-If you want Hermes to feel like the same assistant every time you talk to it — or if you want to replace the Hermes persona entirely with your own — this is the file to use.
+如果你希望每次与 Hermes 对话时都有一致的助手体验，或者想用自己定义的人格完全替换默认的 Hermes 人格，这就是你需要编辑的文件。
 
-## What SOUL.md is for
+## SOUL.md 的用途
 
-Use `SOUL.md` for:
-- tone
-- personality
-- communication style
-- how direct or warm Hermes should be
-- what Hermes should avoid stylistically
-- how Hermes should relate to uncertainty, disagreement, and ambiguity
+`SOUL.md` 适合用于：
+- 语气
+- 个性
+- 沟通风格
+- Hermes 应保持多直接或多亲和
+- Hermes 在风格上应避免什么
+- Hermes 面对不确定性、分歧和模糊时的应对方式
 
-In short:
-- `SOUL.md` is about who Hermes is and how Hermes speaks
+简而言之：
+- `SOUL.md` 定义 Hermes 是谁、如何说话
 
-## What SOUL.md is not for
+## SOUL.md 不适合的内容
 
-Do not use it for:
-- repo-specific coding conventions
-- file paths
-- commands
-- service ports
-- architecture notes
-- project workflow instructions
+不要用它来存放：
+- 特定代码库的编码规范
+- 文件路径
+- 命令
+- 服务端口
+- 架构说明
+- 项目工作流程指引
 
-Those belong in `AGENTS.md`.
+这些内容应放在 `AGENTS.md`。
 
-A good rule:
-- if it should apply everywhere, put it in `SOUL.md`
-- if it only belongs to one project, put it in `AGENTS.md`
+一条简单的判断规则：
+- 凡是需要在所有地方普遍生效的规则，放到 `SOUL.md`
+- 只属于某个具体项目的规则，放到 `AGENTS.md`
 
-## Where it lives
+## 文件位置
 
-Hermes now uses only the global SOUL file for the current instance:
+Hermes 目前只使用当前实例的全局 SOUL 文件：
 
 ```text
 ~/.hermes/SOUL.md
 ```
 
-If you run Hermes with a custom home directory, it becomes:
+如果你使用了自定义的 home 目录启动 Hermes，路径变为：
 
 ```text
 $HERMES_HOME/SOUL.md
 ```
 
-## First-run behavior
+## 首次运行行为
 
-Hermes automatically seeds a starter `SOUL.md` for you if one does not already exist.
+如果 `SOUL.md` 不存在，Hermes 会自动为你生成一个初始模板。这意味着大多数用户一开始就有一个真实可用的文件，可以立即查看和编辑。
 
-That means most users now begin with a real file they can read and edit immediately.
+注意：
+- 如果你已有 `SOUL.md`，Hermes 不会覆盖它
+- 如果文件存在但内容为空，Hermes 不会将任何内容加入提示词
 
-Important:
-- if you already have a `SOUL.md`, Hermes does not overwrite it
-- if the file exists but is empty, Hermes adds nothing from it to the prompt
+## Hermes 如何使用它
 
-## How Hermes uses it
+Hermes 启动会话时，会从 `HERMES_HOME` 读取 `SOUL.md`，扫描其中是否存在提示词注入模式，必要时进行截断，然后将其作为**智能体身份**使用——这是系统提示词中的第一个位置（插槽 #1）。这意味着 SOUL.md 会完全替换内置的默认身份文本。
 
-When Hermes starts a session, it reads `SOUL.md` from `HERMES_HOME`, scans it for prompt-injection patterns, truncates it if needed, and uses it as the **agent identity** — slot #1 in the system prompt. This means SOUL.md completely replaces the built-in default identity text.
+如果 SOUL.md 缺失、为空或无法加载，Hermes 会回退到内置的默认身份。
 
-If SOUL.md is missing, empty, or cannot be loaded, Hermes falls back to a built-in default identity.
+Hermes 不会在文件内容外添加任何包装文字。内容本身才是关键——想让智能体怎样思考和表达，就怎样写。
 
-No wrapper language is added around the file. The content itself matters — write the way you want your agent to think and speak.
+## 第一次编辑建议
 
-## A good first edit
+如果你不知道从哪里开始，就打开文件，改几行让它更像你自己的风格。
 
-If you do nothing else, open the file and change just a few lines so it feels like you.
-
-For example:
+例如：
 
 ```markdown
 You are direct, calm, and technically precise.
@@ -81,11 +79,11 @@ Push back clearly when an idea is weak.
 Keep answers compact unless deeper detail is useful.
 ```
 
-That alone can noticeably change how Hermes feels.
+仅凭这几行，就能明显改变 Hermes 的感觉。
 
-## Example styles
+## 风格示例
 
-### 1. Pragmatic engineer
+### 1. 务实工程师
 
 ```markdown
 You are a pragmatic senior engineer.
@@ -103,7 +101,7 @@ You care more about correctness and operational reality than sounding impressive
 - Overexplaining obvious things
 ```
 
-### 2. Research partner
+### 2. 研究伙伴
 
 ```markdown
 You are a thoughtful research collaborator.
@@ -116,7 +114,7 @@ You are curious, honest about uncertainty, and excited by unusual ideas.
 - Prefer conceptual depth over shallow completeness
 ```
 
-### 3. Teacher / explainer
+### 3. 教学型
 
 ```markdown
 You are a patient technical teacher.
@@ -129,7 +127,7 @@ You care about understanding, not performance.
 - Build from intuition to details
 ```
 
-### 4. Tough reviewer
+### 4. 严格审阅者
 
 ```markdown
 You are a rigorous reviewer.
@@ -142,27 +140,27 @@ You are fair, but you do not soften important criticism.
 - Prefer blunt clarity to vague diplomacy
 ```
 
-## What makes a strong SOUL.md?
+## 什么是好的 SOUL.md？
 
-A strong `SOUL.md` is:
-- stable
-- broadly applicable
-- specific in voice
-- not overloaded with temporary instructions
+好的 `SOUL.md`：
+- 稳定
+- 广泛适用
+- 在风格上具体明确
+- 不包含临时性指令
 
-A weak `SOUL.md` is:
-- full of project details
-- contradictory
-- trying to micro-manage every response shape
-- mostly generic filler like "be helpful" and "be clear"
+弱的 `SOUL.md`：
+- 充斥项目细节
+- 前后矛盾
+- 试图管控每一种回复的形式
+- 大多是空洞的通用说法，比如"有帮助"和"清晰表达"
 
-Hermes already tries to be helpful and clear. `SOUL.md` should add real personality and style, not restate obvious defaults.
+Hermes 本来就会尽力做到有用且清晰。`SOUL.md` 应该赋予它真实的个性和风格，而不是重复那些显而易见的默认行为。
 
-## Suggested structure
+## 建议结构
 
-You do not need headings, but they help.
+不需要使用标题，但标题有助于组织内容。
 
-A simple structure that works well:
+一个实用的结构：
 
 ```markdown
 # Identity
@@ -178,84 +176,84 @@ What Hermes should not do.
 How Hermes should behave when ambiguity appears.
 ```
 
-## SOUL.md vs /personality
+## SOUL.md 与 /personality
 
-These are complementary.
+两者是互补的。
 
-Use `SOUL.md` for your durable baseline.
-Use `/personality` for temporary mode switches.
+用 `SOUL.md` 定义你的稳定基准风格。
+用 `/personality` 进行临时模式切换。
 
-Examples:
-- your default SOUL is pragmatic and direct
-- then for one session you use `/personality teacher`
-- later you switch back without changing your base voice file
+示例：
+- 你的默认 SOUL.md 是务实而直接的
+- 然后在某次会话中使用 `/personality teacher`
+- 会话结束后切换回来，无需修改基础风格文件
 
-## SOUL.md vs AGENTS.md
+## SOUL.md 与 AGENTS.md
 
-This is the most common mistake.
+这是最常见的错误。
 
-### Put this in SOUL.md
-- “Be direct.”
-- “Avoid hype language.”
-- “Prefer short answers unless depth helps.”
-- “Push back when the user is wrong.”
+### 应放入 SOUL.md
+- "保持直接。"
+- "避免夸大宣传的措辞。"
+- "需要深入时再展开，否则保持简短。"
+- "用户说错时要指出来。"
 
-### Put this in AGENTS.md
-- “Use pytest, not unittest.”
-- “Frontend lives in `frontend/`.”
-- “Never edit migrations directly.”
-- “The API runs on port 8000.”
+### 应放入 AGENTS.md
+- "使用 pytest，不用 unittest。"
+- "前端代码在 `frontend/` 目录。"
+- "永远不要直接编辑数据库迁移文件。"
+- "API 运行在 8000 端口。"
 
-## How to edit it
+## 如何编辑
 
 ```bash
 nano ~/.hermes/SOUL.md
 ```
 
-or
+或
 
 ```bash
 vim ~/.hermes/SOUL.md
 ```
 
-Then restart Hermes or start a new session.
+编辑完成后，重启 Hermes 或开始新会话。
 
-## A practical workflow
+## 实用工作流
 
-1. Start with the seeded default file
-2. Trim anything that does not feel like the voice you want
-3. Add 4–8 lines that clearly define tone and defaults
-4. Talk to Hermes for a while
-5. Adjust based on what still feels off
+1. 从自动生成的初始默认文件开始
+2. 删掉不符合你期望风格的内容
+3. 添加 4–8 行清晰定义语气和默认行为的内容
+4. 与 Hermes 对话一段时间
+5. 根据仍然不对劲的地方进行调整
 
-That iterative approach works better than trying to design the perfect personality in one shot.
+这种迭代方式比一次性设计出完美人格更有效。
 
-## Troubleshooting
+## 排错
 
-### I edited SOUL.md but Hermes still sounds the same
+### 我编辑了 SOUL.md，但 Hermes 听起来还是一样
 
-Check:
-- you edited `~/.hermes/SOUL.md` or `$HERMES_HOME/SOUL.md`
-- not some repo-local `SOUL.md`
-- the file is not empty
-- your session was restarted after the edit
-- a `/personality` overlay is not dominating the result
+检查：
+- 你编辑的是 `~/.hermes/SOUL.md` 或 `$HERMES_HOME/SOUL.md`
+- 不是某个仓库本地的 `SOUL.md`
+- 文件不为空
+- 编辑后已重启会话
+- 没有 `/personality` 临时覆盖在主导结果
 
-### Hermes is ignoring parts of my SOUL.md
+### Hermes 忽略了 SOUL.md 中的部分内容
 
-Possible causes:
-- higher-priority instructions are overriding it
-- the file includes conflicting guidance
-- the file is too long and got truncated
-- some of the text resembles prompt-injection content and may be blocked or altered by the scanner
+可能原因：
+- 更高优先级的指令覆盖了它
+- 文件中存在相互矛盾的指引
+- 文件过长，被截断了
+- 部分文本类似提示词注入内容，可能被扫描器拦截或修改
 
-### My SOUL.md became too project-specific
+### 我的 SOUL.md 变得过于项目特定
 
-Move project instructions into `AGENTS.md` and keep `SOUL.md` focused on identity and style.
+将项目指令移到 `AGENTS.md`，保持 `SOUL.md` 专注于身份和风格。
 
-## Related docs
+## 相关文档
 
-- [Personality & SOUL.md](https://hermes-agent.nousresearch.com/docs/user-guide/features/personality)
-- [Context Files](https://hermes-agent.nousresearch.com/docs/user-guide/features/context-files)
-- [Configuration](https://hermes-agent.nousresearch.com/docs/user-guide/configuration)
-- [Tips & Best Practices](https://hermes-agent.nousresearch.com/docs/guides/tips)
+- [人格与 SOUL.md](/user-guide/features/personality)
+- [上下文文件](/user-guide/features/context-files)
+- [配置说明](/user-guide/configuration)
+- [技巧与最佳实践](/guides/tips)

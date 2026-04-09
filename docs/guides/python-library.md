@@ -1,41 +1,41 @@
 ---
-title: "Using Hermes as a Python Library"
+title: "将 Hermes 作为 Python 库使用"
 ---
-# Using Hermes as a Python Library
+# 将 Hermes 作为 Python 库使用
 
-Hermes isn't just a CLI tool. You can import `AIAgent` directly and use it programmatically in your own Python scripts, web applications, or automation pipelines. This guide shows you how.
+Hermes 不仅是一个 CLI 工具。你可以直接导入 `AIAgent`，在自己的 Python 脚本、Web 应用或自动化流水线中以编程方式使用它。本指南将展示如何操作。
 
 ---
 
-## Installation
+## 安装
 
-Install Hermes directly from the repository:
+直接从仓库安装 Hermes：
 
 ```bash
 pip install git+https://github.com/NousResearch/hermes-agent.git
 ```
 
-Or with [uv](https://docs.astral.sh/uv/):
+或使用 [uv](https://docs.astral.sh/uv/)：
 
 ```bash
 uv pip install git+https://github.com/NousResearch/hermes-agent.git
 ```
 
-You can also pin it in your `requirements.txt`:
+也可以在 `requirements.txt` 中固定版本：
 
 ```text
 hermes-agent @ git+https://github.com/NousResearch/hermes-agent.git
 ```
 
 :::tip
-The same environment variables used by the CLI are required when using Hermes as a library. At minimum, set `OPENROUTER_API_KEY` (or `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` if using direct provider access).
+以库方式使用 Hermes 时，CLI 所需的环境变量同样必须配置。至少需要设置 `OPENROUTER_API_KEY`（如果直接访问模型提供商，则设置 `OPENAI_API_KEY` 或 `ANTHROPIC_API_KEY`）。
 :::
 
 ---
 
-## Basic Usage
+## 基础用法
 
-The simplest way to use Hermes is the `chat()` method — pass a message, get a string back:
+使用 Hermes 最简单的方式是 `chat()` 方法——传入一条消息，返回一个字符串：
 
 ```python
 from run_agent import AIAgent
@@ -48,17 +48,17 @@ response = agent.chat("What is the capital of France?")
 print(response)
 ```
 
-`chat()` handles the full conversation loop internally — tool calls, retries, everything — and returns just the final text response.
+`chat()` 在内部处理完整的对话循环——工具调用、重试等——仅返回最终文本回复。
 
 :::caution
-Always set `quiet_mode=True` when embedding Hermes in your own code. Without it, the agent prints CLI spinners, progress indicators, and other terminal output that will clutter your application's output.
+嵌入 Hermes 时，务必设置 `quiet_mode=True`。不设置的话，智能体会输出 CLI 的加载动画、进度提示等终端输出，干扰你应用的输出。
 :::
 
 ---
 
-## Full Conversation Control
+## 完整对话控制
 
-For more control over the conversation, use `run_conversation()` directly. It returns a dictionary with the full response, message history, and metadata:
+如需对对话进行更精细的控制，可以直接使用 `run_conversation()`。它返回一个字典，包含完整的响应、消息历史和元数据：
 
 ```python
 agent = AIAgent(
@@ -75,12 +75,12 @@ print(result["final_response"])
 print(f"Messages exchanged: {len(result['messages'])}")
 ```
 
-The returned dictionary contains:
-- **`final_response`** — The agent's final text reply
-- **`messages`** — The complete message history (system, user, assistant, tool calls)
-- **`task_id`** — The task identifier used for VM isolation
+返回的字典包含：
+- **`final_response`** — 智能体的最终文本回复
+- **`messages`** — 完整的消息历史（system、user、assistant、工具调用）
+- **`task_id`** — 用于 VM 隔离的任务标识符
 
-You can also pass a custom system message that overrides the ephemeral system prompt for that call:
+也可以传入自定义系统消息，覆盖该次调用的系统提示词：
 
 ```python
 result = agent.run_conversation(
@@ -91,19 +91,19 @@ result = agent.run_conversation(
 
 ---
 
-## Configuring Tools
+## 配置工具
 
-Control which toolsets the agent has access to using `enabled_toolsets` or `disabled_toolsets`:
+通过 `enabled_toolsets` 或 `disabled_toolsets` 控制智能体可以访问哪些工具集：
 
 ```python
-# Only enable web tools (browsing, search)
+# 只启用 Web 工具（浏览、搜索）
 agent = AIAgent(
     model="anthropic/claude-sonnet-4",
     enabled_toolsets=["web"],
     quiet_mode=True,
 )
 
-# Enable everything except terminal access
+# 启用所有工具，但禁用终端访问
 agent = AIAgent(
     model="anthropic/claude-sonnet-4",
     disabled_toolsets=["terminal"],
@@ -112,14 +112,14 @@ agent = AIAgent(
 ```
 
 :::tip
-Use `enabled_toolsets` when you want a minimal, locked-down agent (e.g., only web search for a research bot). Use `disabled_toolsets` when you want most capabilities but need to restrict specific ones (e.g., no terminal access in a shared environment).
+需要构建精简受限的智能体时（例如只用于网络搜索的研究机器人），使用 `enabled_toolsets`。需要保留大部分能力但限制特定功能时（例如在共享环境中禁用终端访问），使用 `disabled_toolsets`。
 :::
 
 ---
 
-## Multi-turn Conversations
+## 多轮对话
 
-Maintain conversation state across multiple turns by passing the message history back in:
+将消息历史回传，即可跨多轮保持对话状态：
 
 ```python
 agent = AIAgent(
@@ -127,11 +127,11 @@ agent = AIAgent(
     quiet_mode=True,
 )
 
-# First turn
+# 第一轮
 result1 = agent.run_conversation("My name is Alice")
 history = result1["messages"]
 
-# Second turn — agent remembers the context
+# 第二轮——智能体记得上下文
 result2 = agent.run_conversation(
     "What's my name?",
     conversation_history=history,
@@ -139,13 +139,13 @@ result2 = agent.run_conversation(
 print(result2["final_response"])  # "Your name is Alice."
 ```
 
-The `conversation_history` parameter accepts the `messages` list from a previous result. The agent copies it internally, so your original list is never mutated.
+`conversation_history` 参数接受上一次结果中的 `messages` 列表。智能体内部会复制该列表，不会修改你的原始数据。
 
 ---
 
-## Saving Trajectories
+## 保存轨迹
 
-Enable trajectory saving to capture conversations in ShareGPT format — useful for generating training data or debugging:
+启用轨迹保存，可以将对话以 ShareGPT 格式记录下来——适用于生成训练数据或调试：
 
 ```python
 agent = AIAgent(
@@ -155,16 +155,16 @@ agent = AIAgent(
 )
 
 agent.chat("Write a Python function to sort a list")
-# Saves to trajectory_samples.jsonl in ShareGPT format
+# 以 ShareGPT 格式保存到 trajectory_samples.jsonl
 ```
 
-Each conversation is appended as a single JSONL line, making it easy to collect datasets from automated runs.
+每次对话以单行 JSONL 格式追加写入，方便从自动化运行中收集数据集。
 
 ---
 
-## Custom System Prompts
+## 自定义系统提示词
 
-Use `ephemeral_system_prompt` to set a custom system prompt that guides the agent's behavior but is **not** saved to trajectory files (keeping your training data clean):
+使用 `ephemeral_system_prompt` 设置自定义系统提示词，引导智能体行为，但**不会**保存到轨迹文件中（保持训练数据整洁）：
 
 ```python
 agent = AIAgent(
@@ -177,19 +177,19 @@ response = agent.chat("How do I write a JOIN query?")
 print(response)
 ```
 
-This is ideal for building specialized agents — a code reviewer, a documentation writer, a SQL assistant — all using the same underlying tooling.
+适合构建各类专用智能体——代码审查员、文档撰写员、SQL 助手——复用同一套底层工具体系。
 
 ---
 
-## Batch Processing
+## 批处理
 
-For running many prompts in parallel, Hermes includes `batch_runner.py`. It manages concurrent `AIAgent` instances with proper resource isolation:
+Hermes 内置了 `batch_runner.py`，用于并行处理大量提示词，管理并发的 `AIAgent` 实例并提供资源隔离：
 
 ```bash
 python batch_runner.py --input prompts.jsonl --output results.jsonl
 ```
 
-Each prompt gets its own `task_id` and isolated environment. If you need custom batch logic, you can build your own using `AIAgent` directly:
+每个提示词有独立的 `task_id` 和隔离环境。如需自定义批处理逻辑，可以直接使用 `AIAgent` 实现：
 
 ```python
 import concurrent.futures
@@ -202,7 +202,7 @@ prompts = [
 ]
 
 def process_prompt(prompt):
-    # Create a fresh agent per task for thread safety
+    # 每个任务创建一个新的 agent 实例，确保线程安全
     agent = AIAgent(
         model="anthropic/claude-sonnet-4",
         quiet_mode=True,
@@ -218,14 +218,14 @@ for prompt, result in zip(prompts, results):
 ```
 
 :::caution
-Always create a **new `AIAgent` instance per thread or task**. The agent maintains internal state (conversation history, tool sessions, iteration counters) that is not thread-safe to share.
+务必为**每个线程或任务创建一个新的 `AIAgent` 实例**。智能体维护内部状态（对话历史、工具会话、迭代计数器），不能在并发调用间共享。
 :::
 
 ---
 
-## Integration Examples
+## 集成示例
 
-### FastAPI Endpoint
+### FastAPI 端点
 
 ```python
 from fastapi import FastAPI
@@ -250,7 +250,7 @@ async def chat(request: ChatRequest):
     return {"response": response}
 ```
 
-### Discord Bot
+### Discord 机器人
 
 ```python
 import discord
@@ -277,11 +277,11 @@ async def on_message(message):
 client.run("YOUR_DISCORD_TOKEN")
 ```
 
-### CI/CD Pipeline Step
+### CI/CD 流水线步骤
 
 ```python
 #!/usr/bin/env python3
-"""CI step: auto-review a PR diff."""
+"""CI 步骤：自动审查 PR diff。"""
 import subprocess
 from run_agent import AIAgent
 
@@ -303,35 +303,35 @@ print(review)
 
 ---
 
-## Key Constructor Parameters
+## 关键构造函数参数
 
-| Parameter | Type | Default | Description |
+| 参数 | 类型 | 默认值 | 说明 |
 |-----------|------|---------|-------------|
-| `model` | `str` | `"anthropic/claude-opus-4.6"` | Model in OpenRouter format |
-| `quiet_mode` | `bool` | `False` | Suppress CLI output |
-| `enabled_toolsets` | `List[str]` | `None` | Whitelist specific toolsets |
-| `disabled_toolsets` | `List[str]` | `None` | Blacklist specific toolsets |
-| `save_trajectories` | `bool` | `False` | Save conversations to JSONL |
-| `ephemeral_system_prompt` | `str` | `None` | Custom system prompt (not saved to trajectories) |
-| `max_iterations` | `int` | `90` | Max tool-calling iterations per conversation |
-| `skip_context_files` | `bool` | `False` | Skip loading AGENTS.md files |
-| `skip_memory` | `bool` | `False` | Disable persistent memory read/write |
-| `api_key` | `str` | `None` | API key (falls back to env vars) |
-| `base_url` | `str` | `None` | Custom API endpoint URL |
-| `platform` | `str` | `None` | Platform hint (`"discord"`, `"telegram"`, etc.) |
+| `model` | `str` | `"anthropic/claude-opus-4.6"` | OpenRouter 格式的模型名 |
+| `quiet_mode` | `bool` | `False` | 抑制 CLI 输出 |
+| `enabled_toolsets` | `List[str]` | `None` | 白名单工具集 |
+| `disabled_toolsets` | `List[str]` | `None` | 黑名单工具集 |
+| `save_trajectories` | `bool` | `False` | 将对话保存为 JSONL |
+| `ephemeral_system_prompt` | `str` | `None` | 自定义系统提示词（不保存到轨迹） |
+| `max_iterations` | `int` | `90` | 每次对话最大工具调用迭代次数 |
+| `skip_context_files` | `bool` | `False` | 跳过加载 AGENTS.md 文件 |
+| `skip_memory` | `bool` | `False` | 禁用持久化记忆的读写 |
+| `api_key` | `str` | `None` | API 密钥（回退到环境变量） |
+| `base_url` | `str` | `None` | 自定义 API 端点 URL |
+| `platform` | `str` | `None` | 平台提示（`"discord"`、`"telegram"` 等） |
 
 ---
 
-## Important Notes
+## 重要说明
 
 :::tip
-- Set **`skip_context_files=True`** if you don't want `AGENTS.md` files from the working directory loaded into the system prompt.
-- Set **`skip_memory=True`** to prevent the agent from reading or writing persistent memory — recommended for stateless API endpoints.
-- The `platform` parameter (e.g., `"discord"`, `"telegram"`) injects platform-specific formatting hints so the agent adapts its output style.
+- 如果不想将工作目录中的 `AGENTS.md` 文件加载到系统提示词，请设置 **`skip_context_files=True`**。
+- 如需阻止智能体读写持久化记忆，请设置 **`skip_memory=True`**——推荐在无状态 API 端点中使用。
+- `platform` 参数（如 `"discord"`、`"telegram"`）会注入平台特定的格式提示，使智能体适配其输出风格。
 :::
 
 :::caution
-- **Thread safety**: Create one `AIAgent` per thread or task. Never share an instance across concurrent calls.
-- **Resource cleanup**: The agent automatically cleans up resources (terminal sessions, browser instances) when a conversation ends. If you're running in a long-lived process, ensure each conversation completes normally.
-- **Iteration limits**: The default `max_iterations=90` is generous. For simple Q&A use cases, consider lowering it (e.g., `max_iterations=10`) to prevent runaway tool-calling loops and control costs.
+- **线程安全**：每个线程或任务创建一个 `AIAgent` 实例，不要在并发调用间共享。
+- **资源释放**：对话结束时，智能体会自动清理资源（终端会话、浏览器实例）。在长期运行的进程中，确保每次对话正常完成。
+- **迭代限制**：默认的 `max_iterations=90` 较为宽松。对于简单的问答场景，建议调低（如 `max_iterations=10`），以防止失控的工具调用循环并控制费用。
 :::

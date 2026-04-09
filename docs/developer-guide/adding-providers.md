@@ -1,75 +1,75 @@
 ---
-title: "Adding Providers"
+title: "添加 Provider"
 ---
-# Adding Providers
+# 添加 Provider
 
-Hermes can already talk to any OpenAI-compatible endpoint through the custom provider path. Do not add a built-in provider unless you want first-class UX for that service:
+Hermes 已经可以通过自定义 provider 路径对接任意 OpenAI 兼容的 endpoint。除非你需要为某个服务提供一流的用户体验，否则不必添加内置 provider：
 
-- provider-specific auth or token refresh
-- a curated model catalog
-- setup / `hermes model` menu entries
-- provider aliases for `provider:model` syntax
-- a non-OpenAI API shape that needs an adapter
+- provider 特有的 auth 或 token 刷新
+- 精选模型目录
+- `hermes model` 菜单中的 setup / 入口项
+- `provider:model` 语法所需的 provider 别名
+- 需要适配器的非 OpenAI API 格式
 
-If the provider is just "another OpenAI-compatible base URL and API key", a named custom provider may be enough.
+如果该 provider 只是"另一个 OpenAI 兼容的 base URL 加 API key"，一个命名的自定义 provider 通常就足够了。
 
-## The mental model
+## 心智模型
 
-A built-in provider has to line up across a few layers:
+内置 provider 需要在几个层次上保持一致：
 
-1. `hermes_cli/auth.py` decides how credentials are found.
-2. `hermes_cli/runtime_provider.py` turns that into runtime data:
+1. `hermes_cli/auth.py` 负责查找凭据。
+2. `hermes_cli/runtime_provider.py` 将凭据转换为 runtime 数据：
    - `provider`
    - `api_mode`
    - `base_url`
    - `api_key`
    - `source`
-3. `run_agent.py` uses `api_mode` to decide how requests are built and sent.
-4. `hermes_cli/models.py` and `hermes_cli/main.py` make the provider show up in the CLI. (`hermes_cli/setup.py` delegates to `main.py` automatically — no changes needed there.)
-5. `agent/auxiliary_client.py` and `agent/model_metadata.py` keep side tasks and token budgeting working.
+3. `run_agent.py` 使用 `api_mode` 决定如何构建和发送请求。
+4. `hermes_cli/models.py` 和 `hermes_cli/main.py` 让 provider 在 CLI 中可见。（`hermes_cli/setup.py` 自动委托给 `main.py`，无需修改。）
+5. `agent/auxiliary_client.py` 和 `agent/model_metadata.py` 保证辅助任务和 token 预算正常运作。
 
-The important abstraction is `api_mode`.
+核心抽象是 `api_mode`：
 
-- Most providers use `chat_completions`.
-- Codex uses `codex_responses`.
-- Anthropic uses `anthropic_messages`.
-- A new non-OpenAI protocol usually means adding a new adapter and a new `api_mode` branch.
+- 大多数 provider 使用 `chat_completions`。
+- Codex 使用 `codex_responses`。
+- Anthropic 使用 `anthropic_messages`。
+- 新的非 OpenAI 协议通常意味着需要添加新的适配器和新的 `api_mode` 分支。
 
-## Choose the implementation path first
+## 首先选择实现路径
 
-### Path A — OpenAI-compatible provider
+### 路径 A — OpenAI 兼容 provider
 
-Use this when the provider accepts standard chat-completions style requests.
+当 provider 接受标准 chat completions 风格的请求时使用此路径。
 
-Typical work:
+典型工作：
 
-- add auth metadata
-- add model catalog / aliases
-- add runtime resolution
-- add CLI menu wiring
-- add aux-model defaults
-- add tests and user docs
+- 添加 auth 元数据
+- 添加模型目录 / 别名
+- 添加 runtime 解析
+- 添加 CLI 菜单接入
+- 添加辅助模型默认值
+- 添加测试和用户文档
 
-You usually do not need a new adapter or a new `api_mode`.
+通常不需要新的适配器或新的 `api_mode`。
 
-### Path B — Native provider
+### 路径 B — 原生 provider
 
-Use this when the provider does not behave like OpenAI chat completions.
+当 provider 的行为与 OpenAI chat completions 不同时使用此路径。
 
-Examples in-tree today:
+代码库中现有示例：
 
 - `codex_responses`
 - `anthropic_messages`
 
-This path includes everything from Path A plus:
+此路径包含路径 A 的全部内容，并额外需要：
 
-- a provider adapter in `agent/`
-- `run_agent.py` branches for request building, dispatch, usage extraction, interrupt handling, and response normalization
-- adapter tests
+- `agent/` 中的 provider 适配器
+- `run_agent.py` 中针对请求构建、调度、usage 提取、中断处理和响应规范化的分支
+- 适配器测试
 
-## File checklist
+## 文件清单
 
-### Required for every built-in provider
+### 每个内置 provider 必须修改的文件
 
 1. `hermes_cli/auth.py`
 2. `hermes_cli/models.py`
@@ -77,103 +77,103 @@ This path includes everything from Path A plus:
 4. `hermes_cli/main.py`
 5. `agent/auxiliary_client.py`
 6. `agent/model_metadata.py`
-7. tests
-8. user-facing docs under `website/docs/`
+7. 测试
+8. `website/docs/` 下的用户文档
 
 :::tip
-`hermes_cli/setup.py` does **not** need changes. The setup wizard delegates provider/model selection to `select_provider_and_model()` in `main.py` — any provider added there is automatically available in `hermes setup`.
+`hermes_cli/setup.py` **无需**修改。setup 向导将 provider/model 选择委托给 `main.py` 中的 `select_provider_and_model()`——在那里添加的任何 provider 都会自动出现在 `hermes setup` 中。
 :::
 
-### Additional for native / non-OpenAI providers
+### 原生 / 非 OpenAI provider 额外需要修改的文件
 
 10. `agent/_adapter.py`
 11. `run_agent.py`
-12. `pyproject.toml` if a provider SDK is required
+12. 如需引入 provider SDK，还需修改 `pyproject.toml`
 
-## Step 1: Pick one canonical provider id
+## 第 1 步：选定一个规范的 provider id
 
-Choose a single provider id and use it everywhere.
+选择唯一的 provider id，并在所有地方统一使用。
 
-Examples from the repo:
+代码库中的示例：
 
 - `openai-codex`
 - `kimi-coding`
 - `minimax-cn`
 
-That same id should appear in:
+该 id 应出现在：
 
-- `PROVIDER_REGISTRY` in `hermes_cli/auth.py`
-- `_PROVIDER_LABELS` in `hermes_cli/models.py`
-- `_PROVIDER_ALIASES` in both `hermes_cli/auth.py` and `hermes_cli/models.py`
-- CLI `--provider` choices in `hermes_cli/main.py`
-- setup / model selection branches
-- auxiliary-model defaults
-- tests
+- `hermes_cli/auth.py` 中的 `PROVIDER_REGISTRY`
+- `hermes_cli/models.py` 中的 `_PROVIDER_LABELS`
+- `hermes_cli/auth.py` 和 `hermes_cli/models.py` 中的 `_PROVIDER_ALIASES`
+- `hermes_cli/main.py` 中 CLI 的 `--provider` 选项
+- setup / 模型选择分支
+- 辅助模型默认值
+- 测试
 
-If the id differs between those files, the provider will feel half-wired: auth may work while `/model`, setup, or runtime resolution silently misses it.
+如果各文件中的 id 不一致，provider 将处于"半接入"状态：auth 可能正常，但 `/model`、setup 或 runtime 解析会悄无声息地遗漏它。
 
-## Step 2: Add auth metadata in `hermes_cli/auth.py`
+## 第 2 步：在 `hermes_cli/auth.py` 中添加 auth 元数据
 
-For API-key providers, add a `ProviderConfig` entry to `PROVIDER_REGISTRY` with:
+对于 API key 类型的 provider，在 `PROVIDER_REGISTRY` 中添加一个 `ProviderConfig` 条目，包含：
 
 - `id`
 - `name`
 - `auth_type="api_key"`
 - `inference_base_url`
 - `api_key_env_vars`
-- optional `base_url_env_var`
+- 可选的 `base_url_env_var`
 
-Also add aliases to `_PROVIDER_ALIASES`.
+同时将别名添加到 `_PROVIDER_ALIASES`。
 
-Use the existing providers as templates:
+参考现有 provider 作为模板：
 
-- simple API-key path: Z.AI, MiniMax
-- API-key path with endpoint detection: Kimi, Z.AI
-- native token resolution: Anthropic
-- OAuth / auth-store path: Nous, OpenAI Codex
+- 简单 API key 路径：Z.AI、MiniMax
+- 带 endpoint 探测的 API key 路径：Kimi、Z.AI
+- 原生 token 解析：Anthropic
+- OAuth / auth-store 路径：Nous、OpenAI Codex
 
-Questions to answer here:
+需要回答的问题：
 
-- What env vars should Hermes check, and in what priority order?
-- Does the provider need base-URL overrides?
-- Does it need endpoint probing or token refresh?
-- What should the auth error say when credentials are missing?
+- Hermes 应检查哪些环境变量，优先级顺序如何？
+- provider 是否需要 base URL 覆盖？
+- 是否需要 endpoint 探测或 token 刷新？
+- 凭据缺失时，auth 错误信息应提示什么？
 
-If the provider needs something more than "look up an API key", add a dedicated credential resolver instead of shoving logic into unrelated branches.
+如果 provider 需要的不只是"查找 API key"，请添加专用的凭据解析器，而不是将逻辑塞进不相关的分支中。
 
-## Step 3: Add model catalog and aliases in `hermes_cli/models.py`
+## 第 3 步：在 `hermes_cli/models.py` 中添加模型目录和别名
 
-Update the provider catalog so the provider works in menus and in `provider:model` syntax.
+更新 provider 目录，使 provider 在菜单和 `provider:model` 语法中均可使用。
 
-Typical edits:
+典型修改：
 
 - `_PROVIDER_MODELS`
 - `_PROVIDER_LABELS`
 - `_PROVIDER_ALIASES`
-- provider display order inside `list_available_providers()`
-- `provider_model_ids()` if the provider supports a live `/models` fetch
+- `list_available_providers()` 中的 provider 展示顺序
+- 如果 provider 支持实时 `/models` 接口，还需修改 `provider_model_ids()`
 
-If the provider exposes a live model list, prefer that first and keep `_PROVIDER_MODELS` as the static fallback.
+如果 provider 提供实时模型列表，优先使用，并将 `_PROVIDER_MODELS` 作为静态 fallback。
 
-This file is also what makes inputs like these work:
+此文件也让以下输入能正常工作：
 
 ```text
 anthropic:claude-sonnet-4-6
 kimi:model-name
 ```
 
-If aliases are missing here, the provider may authenticate correctly but still fail in `/model` parsing.
+如果别名在此处缺失，provider 可能 auth 正常但 `/model` 解析仍然失败。
 
-## Step 4: Resolve runtime data in `hermes_cli/runtime_provider.py`
+## 第 4 步：在 `hermes_cli/runtime_provider.py` 中解析 runtime 数据
 
-`resolve_runtime_provider()` is the shared path used by CLI, gateway, cron, ACP, and helper clients.
+`resolve_runtime_provider()` 是 CLI、gateway、cron、ACP 和辅助客户端共用的路径。
 
-Add a branch that returns a dict with at least:
+添加一个分支，返回至少包含以下字段的字典：
 
 ```python
 {
     "provider": "your-provider",
-    "api_mode": "chat_completions",  # or your native mode
+    "api_mode": "chat_completions",  # 或你的原生模式
     "base_url": "https://...",
     "api_key": "...",
     "source": "env|portal|auth-store|explicit",
@@ -181,102 +181,102 @@ Add a branch that returns a dict with at least:
 }
 ```
 
-If the provider is OpenAI-compatible, `api_mode` should usually stay `chat_completions`.
+如果 provider 兼容 OpenAI，`api_mode` 通常应保持 `chat_completions`。
 
-Be careful with API-key precedence. Hermes already contains logic to avoid leaking an OpenRouter key to unrelated endpoints. A new provider should be equally explicit about which key goes to which base URL.
+注意 API key 优先级。Hermes 已有逻辑防止 OpenRouter 的 key 泄漏到无关的 endpoint。新 provider 应同样明确地将哪个 key 用于哪个 base URL。
 
-## Step 5: Wire the CLI in `hermes_cli/main.py`
+## 第 5 步：在 `hermes_cli/main.py` 中接入 CLI
 
-A provider is not discoverable until it shows up in the interactive `hermes model` flow.
+provider 必须出现在交互式 `hermes model` 流程中才能被用户发现。
 
-Update these in `hermes_cli/main.py`:
+在 `hermes_cli/main.py` 中更新：
 
-- `provider_labels` dict
-- `providers` list in `select_provider_and_model()`
-- provider dispatch (`if selected_provider == ...`)
-- `--provider` argument choices
-- login/logout choices if the provider supports those flows
-- a `_model_flow_()` function, or reuse `_model_flow_api_key_provider()` if it fits
+- `provider_labels` 字典
+- `select_provider_and_model()` 中的 `providers` 列表
+- provider 分发逻辑（`if selected_provider == ...`）
+- `--provider` 参数的选项
+- 如果 provider 支持 login/logout 流程，更新相应选项
+- 添加 `_model_flow_()` 函数，或在适用时复用 `_model_flow_api_key_provider()`
 
 :::tip
-`hermes_cli/setup.py` does not need changes — it calls `select_provider_and_model()` from `main.py`, so your new provider appears in both `hermes model` and `hermes setup` automatically.
+`hermes_cli/setup.py` 无需修改——它调用 `main.py` 中的 `select_provider_and_model()`，因此你的新 provider 会自动出现在 `hermes model` 和 `hermes setup` 中。
 :::
 
-## Step 6: Keep auxiliary calls working
+## 第 6 步：保证辅助调用正常工作
 
-Two files matter here:
+这里涉及两个文件：
 
 ### `agent/auxiliary_client.py`
 
-Add a cheap / fast default aux model to `_API_KEY_PROVIDER_AUX_MODELS` if this is a direct API-key provider.
+如果这是一个直接 API key 类型的 provider，在 `_API_KEY_PROVIDER_AUX_MODELS` 中为其添加一个廉价/快速的默认辅助模型。
 
-Auxiliary tasks include things like:
+辅助任务包括：
 
-- vision summarization
-- web extraction summarization
-- context compression summaries
-- session-search summaries
-- memory flushes
+- 视觉摘要
+- 网页内容提取摘要
+- 上下文压缩摘要
+- session 搜索摘要
+- memory 刷新
 
-If the provider has no sensible aux default, side tasks may fall back badly or use an expensive main model unexpectedly.
+如果 provider 没有合理的辅助默认值，辅助任务可能 fallback 异常，或意外使用代价高昂的主模型。
 
 ### `agent/model_metadata.py`
 
-Add context lengths for the provider's models so token budgeting, compression thresholds, and limits stay sane.
+为该 provider 的模型添加上下文长度，确保 token 预算、压缩阈值和限制保持合理。
 
-## Step 7: If the provider is native, add an adapter and `run_agent.py` support
+## 第 7 步：若为原生 provider，添加适配器并在 `run_agent.py` 中提供支持
 
-If the provider is not plain chat completions, isolate the provider-specific logic in `agent/_adapter.py`.
+如果 provider 不是标准 chat completions，请将 provider 特有的逻辑隔离在 `agent/_adapter.py` 中。
 
-Keep `run_agent.py` focused on orchestration. It should call adapter helpers, not hand-build provider payloads inline all over the file.
+保持 `run_agent.py` 专注于编排逻辑，让它调用适配器辅助函数，而不是在文件各处内联构建 provider 请求负载。
 
-A native provider usually needs work in these places:
+原生 provider 通常需要在以下位置做修改：
 
-### New adapter file
+### 新建适配器文件
 
-Typical responsibilities:
+典型职责：
 
-- build the SDK / HTTP client
-- resolve tokens
-- convert OpenAI-style conversation messages to the provider's request format
-- convert tool schemas if needed
-- normalize provider responses back into what `run_agent.py` expects
-- extract usage and finish-reason data
+- 构建 SDK / HTTP 客户端
+- 解析 token
+- 将 OpenAI 风格的会话消息转换为 provider 的请求格式
+- 如有需要，转换工具 schema
+- 将 provider 响应规范化为 `run_agent.py` 期望的格式
+- 提取 usage 和 finish-reason 数据
 
 ### `run_agent.py`
 
-Search for `api_mode` and audit every switch point. At minimum, verify:
+搜索 `api_mode` 并审查每个分支点。至少验证：
 
-- `__init__` chooses the new `api_mode`
-- client construction works for the provider
-- `_build_api_kwargs()` knows how to format requests
-- `_api_call_with_interrupt()` dispatches to the right client call
-- interrupt / client rebuild paths work
-- response validation accepts the provider's shape
-- finish-reason extraction is correct
-- token-usage extraction is correct
-- fallback-model activation can switch into the new provider cleanly
-- summary-generation and memory-flush paths still work
+- `__init__` 选择了新的 `api_mode`
+- 客户端构建对该 provider 有效
+- `_build_api_kwargs()` 能正确格式化请求
+- `_api_call_with_interrupt()` 正确分发到对应的客户端调用
+- 中断 / 客户端重建路径正常工作
+- 响应校验能接受该 provider 的响应格式
+- finish-reason 提取正确
+- token usage 提取正确
+- fallback 模型激活能干净地切换到新 provider
+- 摘要生成和 memory 刷新路径仍然正常
 
-Also search `run_agent.py` for `self.client.`. Any code path that assumes the standard OpenAI client exists can break when a native provider uses a different client object or `self.client = None`.
+同时搜索 `run_agent.py` 中的 `self.client.`。任何假设标准 OpenAI 客户端存在的代码路径，在原生 provider 使用不同客户端对象或 `self.client = None` 时都可能出错。
 
-### Prompt caching and provider-specific request fields
+### 提示词缓存与 provider 特有请求字段
 
-Prompt caching and provider-specific knobs are easy to regress.
+提示词缓存和 provider 特有的配置项很容易出现回归。
 
-Examples already in-tree:
+代码库中的现有示例：
 
-- Anthropic has a native prompt-caching path
-- OpenRouter gets provider-routing fields
-- not every provider should receive every request-side option
+- Anthropic 有原生的提示词缓存路径
+- OpenRouter 获取 provider 路由字段
+- 并非每个 provider 都应接收每个请求端选项
 
-When you add a native provider, double-check that Hermes is only sending fields that provider actually understands.
+添加原生 provider 时，仔细确认 Hermes 只向该 provider 发送其实际支持的字段。
 
-## Step 8: Tests
+## 第 8 步：测试
 
-At minimum, touch the tests that guard provider wiring.
+至少修改用于保护 provider 接入的测试。
 
-Common places:
+常见位置：
 
 - `tests/test_runtime_provider_resolution.py`
 - `tests/test_cli_provider_resolution.py`
@@ -284,41 +284,41 @@ Common places:
 - `tests/test_setup_model_selection.py`
 - `tests/test_provider_parity.py`
 - `tests/test_run_agent.py`
-- `tests/test__adapter.py` for a native provider
+- 原生 provider 还需要 `tests/test__adapter.py`
 
-For docs-only examples, the exact file set may differ. The point is to cover:
+对于仅作示例的文档，具体文件集可能有所不同。关键是覆盖以下方面：
 
-- auth resolution
-- CLI menu / provider selection
-- runtime provider resolution
-- agent execution path
-- provider:model parsing
-- any adapter-specific message conversion
+- auth 解析
+- CLI 菜单 / provider 选择
+- runtime provider 解析
+- agent 执行路径
+- `provider:model` 解析
+- 适配器特有的消息转换（如有）
 
-Run tests with xdist disabled:
+禁用 xdist 运行测试：
 
 ```bash
 source venv/bin/activate
 python -m pytest tests/test_runtime_provider_resolution.py tests/test_cli_provider_resolution.py tests/test_cli_model_command.py tests/test_setup_model_selection.py -n0 -q
 ```
 
-For deeper changes, run the full suite before pushing:
+对于影响较深的改动，推送前运行完整测试套件：
 
 ```bash
 source venv/bin/activate
 python -m pytest tests/ -n0 -q
 ```
 
-## Step 9: Live verification
+## 第 9 步：线上验证
 
-After tests, run a real smoke test.
+测试通过后，进行真实冒烟测试。
 
 ```bash
 source venv/bin/activate
 python -m hermes_cli.main chat -q "Say hello" --provider your-provider --model your-model
 ```
 
-Also test the interactive flows if you changed menus:
+如果修改了菜单，也要测试交互式流程：
 
 ```bash
 source venv/bin/activate
@@ -326,78 +326,78 @@ python -m hermes_cli.main model
 python -m hermes_cli.main setup
 ```
 
-For native providers, verify at least one tool call too, not just a plain text response.
+对于原生 provider，除纯文本响应外，还需至少验证一次工具调用。
 
-## Step 10: Update user-facing docs
+## 第 10 步：更新用户文档
 
-If the provider is meant to ship as a first-class option, update the user docs too:
+如果该 provider 计划作为一流选项发布，同时更新用户文档：
 
 - `website/docs/getting-started/quickstart.md`
 - `website/docs/user-guide/configuration.md`
 - `website/docs/reference/environment-variables.md`
 
-A developer can wire the provider perfectly and still leave users unable to discover the required env vars or setup flow.
+开发者可以完美地接入 provider，却让用户无法发现所需的环境变量或 setup 流程。
 
-## OpenAI-compatible provider checklist
+## OpenAI 兼容 provider 检查清单
 
-Use this if the provider is standard chat completions.
+适用于标准 chat completions provider。
 
-- [ ] `ProviderConfig` added in `hermes_cli/auth.py`
-- [ ] aliases added in `hermes_cli/auth.py` and `hermes_cli/models.py`
-- [ ] model catalog added in `hermes_cli/models.py`
-- [ ] runtime branch added in `hermes_cli/runtime_provider.py`
-- [ ] CLI wiring added in `hermes_cli/main.py` (setup.py inherits automatically)
-- [ ] aux model added in `agent/auxiliary_client.py`
-- [ ] context lengths added in `agent/model_metadata.py`
-- [ ] runtime / CLI tests updated
-- [ ] user docs updated
+- [ ] 在 `hermes_cli/auth.py` 中添加 `ProviderConfig`
+- [ ] 在 `hermes_cli/auth.py` 和 `hermes_cli/models.py` 中添加别名
+- [ ] 在 `hermes_cli/models.py` 中添加模型目录
+- [ ] 在 `hermes_cli/runtime_provider.py` 中添加 runtime 分支
+- [ ] 在 `hermes_cli/main.py` 中完成 CLI 接入（setup.py 自动继承）
+- [ ] 在 `agent/auxiliary_client.py` 中添加辅助模型
+- [ ] 在 `agent/model_metadata.py` 中添加上下文长度
+- [ ] 更新 runtime / CLI 测试
+- [ ] 更新用户文档
 
-## Native provider checklist
+## 原生 provider 检查清单
 
-Use this when the provider needs a new protocol path.
+适用于需要新协议路径的 provider。
 
-- [ ] everything in the OpenAI-compatible checklist
-- [ ] adapter added in `agent/_adapter.py`
-- [ ] new `api_mode` supported in `run_agent.py`
-- [ ] interrupt / rebuild path works
-- [ ] usage and finish-reason extraction works
-- [ ] fallback path works
-- [ ] adapter tests added
-- [ ] live smoke test passes
+- [ ] OpenAI 兼容检查清单中的全部内容
+- [ ] 在 `agent/_adapter.py` 中添加适配器
+- [ ] 在 `run_agent.py` 中支持新的 `api_mode`
+- [ ] 中断 / 重建路径正常工作
+- [ ] usage 和 finish-reason 提取正常工作
+- [ ] fallback 路径正常工作
+- [ ] 添加适配器测试
+- [ ] 线上冒烟测试通过
 
-## Common pitfalls
+## 常见坑点
 
-### 1. Adding the provider to auth but not to model parsing
+### 1. 将 provider 添加到 auth 但未添加到模型解析
 
-That makes credentials resolve correctly while `/model` and `provider:model` inputs fail.
+这会导致凭据解析正确，但 `/model` 和 `provider:model` 输入失败。
 
-### 2. Forgetting that `config["model"]` can be a string or a dict
+### 2. 忘记 `config["model"]` 可以是字符串或字典
 
-A lot of provider-selection code has to normalize both forms.
+大量 provider 选择代码需要对这两种形式进行规范化处理。
 
-### 3. Assuming a built-in provider is required
+### 3. 误以为必须添加内置 provider
 
-If the service is just OpenAI-compatible, a custom provider may already solve the user problem with less maintenance.
+如果该服务只是 OpenAI 兼容的，自定义 provider 通常已能解决用户问题，且维护成本更低。
 
-### 4. Forgetting auxiliary paths
+### 4. 忘记辅助路径
 
-The main chat path can work while summarization, memory flushes, or vision helpers fail because aux routing was never updated.
+主聊天路径可能正常，但摘要、memory 刷新或视觉辅助功能却失败，原因是辅助路由从未更新。
 
-### 5. Native-provider branches hiding in `run_agent.py`
+### 5. 原生 provider 分支隐藏在 `run_agent.py` 中
 
-Search for `api_mode` and `self.client.`. Do not assume the obvious request path is the only one.
+搜索 `api_mode` 和 `self.client.`，不要认为显而易见的请求路径是唯一的。
 
-### 6. Sending OpenRouter-only knobs to other providers
+### 6. 将 OpenRouter 专有字段发送给其他 provider
 
-Fields like provider routing belong only on the providers that support them.
+provider 路由等字段只应发送给支持它们的 provider。
 
-### 7. Updating `hermes model` but not `hermes setup`
+### 7. 更新了 `hermes model` 但未更新 `hermes setup`
 
-Both flows need to know about the provider.
+两个流程都需要感知到该 provider。
 
-## Good search targets while implementing
+## 实现时的搜索目标
 
-If you are hunting for all the places a provider touches, search these symbols:
+如果你要查找 provider 涉及的所有位置，搜索以下符号：
 
 - `PROVIDER_REGISTRY`
 - `_PROVIDER_ALIASES`
@@ -409,8 +409,8 @@ If you are hunting for all the places a provider touches, search these symbols:
 - `_API_KEY_PROVIDER_AUX_MODELS`
 - `self.client.`
 
-## Related docs
+## 相关文档
 
-- [Provider Runtime Resolution](/developer-guide/provider-runtime)
-- [Architecture](/developer-guide/architecture)
-- [Contributing](/developer-guide/contributing)
+- [Provider Runtime 解析](/developer-guide/provider-runtime)
+- [架构](/developer-guide/architecture)
+- [贡献指南](/developer-guide/contributing)

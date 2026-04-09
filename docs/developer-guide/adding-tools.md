@@ -1,25 +1,25 @@
 ---
-title: "Adding Tools"
+title: "添加工具"
 ---
-# Adding Tools
+# 添加工具
 
-Before writing a tool, ask yourself: **should this be a [skill](/developer-guide/creating-skills) instead?**
+在开始编写工具之前，先问自己：**这个能力是否应该实现为[技能](/developer-guide/creating-skills)？**
 
-Make it a **Skill** when the capability can be expressed as instructions + shell commands + existing tools (arXiv search, git workflows, Docker management, PDF processing).
+如果能力可通过指令 + Shell 命令 + 现有工具来实现（如 arXiv 搜索、git 工作流、Docker 管理、PDF 处理），选用**技能**。
 
-Make it a **Tool** when it requires end-to-end integration with API keys, custom processing logic, binary data handling, or streaming (browser automation, TTS, vision analysis).
+如果能力需要端到端集成 API 密钥、自定义处理逻辑、二进制数据处理或流式传输（如浏览器自动化、TTS、视觉分析），选用**工具**。
 
-## Overview
+## 概述
 
-Adding a tool touches **3 files**:
+添加一个工具需要修改 **3 个文件**：
 
-1. **`tools/your_tool.py`** — handler, schema, check function, `registry.register()` call
-2. **`toolsets.py`** — add tool name to `_HERMES_CORE_TOOLS` (or a specific toolset)
-3. **`model_tools.py`** — add `"tools.your_tool"` to the `_discover_tools()` list
+1. **`tools/your_tool.py`** — 处理函数、Schema、可用性检查函数及 `registry.register()` 调用
+2. **`toolsets.py`** — 将工具名称添加到 `_HERMES_CORE_TOOLS`（或某个特定工具集）
+3. **`model_tools.py`** — 在 `_discover_tools()` 列表中添加 `"tools.your_tool"`
 
-## Step 1: Create the Tool File
+## 第一步：创建工具文件
 
-Every tool file follows the same structure:
+每个工具文件都遵循相同的结构：
 
 ```python
 # tools/weather_tool.py
@@ -32,22 +32,22 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# --- Availability check ---
+# --- 可用性检查 ---
 
 def check_weather_requirements() -> bool:
-    """Return True if the tool's dependencies are available."""
+    """如果工具依赖已就绪，返回 True。"""
     return bool(os.getenv("WEATHER_API_KEY"))
 
 
-# --- Handler ---
+# --- 处理函数 ---
 
 def weather_tool(location: str, units: str = "metric") -> str:
-    """Fetch weather for a location. Returns JSON string."""
+    """获取指定地点的天气，返回 JSON 字符串。"""
     api_key = os.getenv("WEATHER_API_KEY")
     if not api_key:
         return json.dumps({"error": "WEATHER_API_KEY not configured"})
     try:
-        # ... call weather API ...
+        # ... 调用天气 API ...
         return json.dumps({"location": location, "temp": 22, "units": units})
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -77,7 +77,7 @@ WEATHER_SCHEMA = {
 }
 
 
-# --- Registration ---
+# --- 注册 ---
 
 from tools.registry import registry
 
@@ -93,26 +93,26 @@ registry.register(
 )
 ```
 
-### Key Rules
+### 关键规则
 
-> 🚫 **危险**：Important
-> - Handlers **MUST** return a JSON string (via `json.dumps()`), never raw dicts
-> - Errors **MUST** be returned as `{"error": "message"}`, never raised as exceptions
-> - The `check_fn` is called when building tool definitions — if it returns `False`, the tool is silently excluded
-> - The `handler` receives `(args: dict, **kwargs)` where `args` is the LLM's tool call arguments
+> ⚠️ **重要**：
+> - 处理函数**必须**通过 `json.dumps()` 返回 JSON 字符串，不可返回原始字典
+> - 错误**必须**以 `{"error": "message"}` 形式返回，不可抛出异常
+> - `check_fn` 在构建工具定义时被调用——若返回 `False`，该工具会被静默跳过
+> - `handler` 接收 `(args: dict, **kwargs)`，其中 `args` 是 LLM 的工具调用参数
 
-## Step 2: Add to a Toolset
+## 第二步：添加到工具集
 
-In `toolsets.py`, add the tool name:
+在 `toolsets.py` 中添加工具名称：
 
 ```python
-# If it should be available on all platforms (CLI + messaging):
+# 如果需要在所有平台（CLI + 消息）上可用：
 _HERMES_CORE_TOOLS = [
     ...
-    "weather",  # <-- add here
+    "weather",  # <-- 在此添加
 ]
 
-# Or create a new standalone toolset:
+# 或者创建一个新的独立工具集：
 "weather": {
     "description": "Weather lookup tools",
     "tools": ["weather"],
@@ -120,23 +120,23 @@ _HERMES_CORE_TOOLS = [
 },
 ```
 
-## Step 3: Add Discovery Import
+## 第三步：添加发现导入
 
-In `model_tools.py`, add the module to the `_discover_tools()` list:
+在 `model_tools.py` 中，将模块添加到 `_discover_tools()` 列表：
 
 ```python
 def _discover_tools():
     _modules = [
         ...
-        "tools.weather_tool",  # <-- add here
+        "tools.weather_tool",  # <-- 在此添加
     ]
 ```
 
-This import triggers the `registry.register()` call at the bottom of your tool file.
+该导入会触发工具文件末尾的 `registry.register()` 注册调用。
 
-## Async Handlers
+## 异步处理函数
 
-If your handler needs async code, mark it with `is_async=True`:
+如果处理函数需要使用异步代码，在注册时添加 `is_async=True`：
 
 ```python
 async def weather_tool_async(location: str) -> str:
@@ -150,15 +150,15 @@ registry.register(
     schema=WEATHER_SCHEMA,
     handler=lambda args, **kw: weather_tool_async(args.get("location", "")),
     check_fn=check_weather_requirements,
-    is_async=True,  # registry calls _run_async() automatically
+    is_async=True,  # 注册表会自动调用 _run_async()
 )
 ```
 
-The registry handles async bridging transparently — you never call `asyncio.run()` yourself.
+注册表会透明地处理异步桥接——你无需自行调用 `asyncio.run()`。
 
-## Handlers That Need task_id
+## 需要 task_id 的处理函数
 
-Tools that manage per-session state receive `task_id` via `**kwargs`:
+管理会话级状态的工具可以通过 `**kwargs` 接收 `task_id`：
 
 ```python
 def _handle_weather(args, **kw):
@@ -172,13 +172,13 @@ registry.register(
 )
 ```
 
-## Agent-Loop Intercepted Tools
+## 由 Agent 循环拦截的工具
 
-Some tools (`todo`, `memory`, `session_search`, `delegate_task`) need access to per-session agent state. These are intercepted by `run_agent.py` before reaching the registry. The registry still holds their schemas, but `dispatch()` returns a fallback error if the intercept is bypassed.
+部分工具（`todo`、`memory`、`session_search`、`delegate_task`）需要访问会话级 agent 状态，它们会在到达注册表之前被 `run_agent.py` 拦截。注册表中仍保有这些工具的 Schema，但若绕过拦截直接调用 `dispatch()`，将返回回退错误响应。
 
-## Optional: Setup Wizard Integration
+## 可选：配置向导集成
 
-If your tool requires an API key, add it to `hermes_cli/config.py`:
+如果工具需要 API 密钥，在 `hermes_cli/config.py` 中添加相应配置：
 
 ```python
 OPTIONAL_ENV_VARS = {
@@ -193,12 +193,12 @@ OPTIONAL_ENV_VARS = {
 }
 ```
 
-## Checklist
+## 检查清单
 
-- [ ] Tool file created with handler, schema, check function, and registration
-- [ ] Added to appropriate toolset in `toolsets.py`
-- [ ] Discovery import added to `model_tools.py`
-- [ ] Handler returns JSON strings, errors returned as `{"error": "..."}`
-- [ ] Optional: API key added to `OPTIONAL_ENV_VARS` in `hermes_cli/config.py`
-- [ ] Optional: Added to `toolset_distributions.py` for batch processing
-- [ ] Tested with `hermes chat -q "Use the weather tool for London"`
+- [ ] 工具文件已创建，包含处理函数、Schema、可用性检查函数和注册代码
+- [ ] 已在 `toolsets.py` 中添加到合适的工具集
+- [ ] 已在 `model_tools.py` 中添加发现导入
+- [ ] 处理函数返回 JSON 字符串，错误以 `{"error": "..."}` 形式返回
+- [ ] 可选：已在 `hermes_cli/config.py` 的 `OPTIONAL_ENV_VARS` 中添加 API 密钥配置
+- [ ] 可选：已在 `toolset_distributions.py` 中添加批量处理支持
+- [ ] 已通过 `hermes chat -q "Use the weather tool for London"` 完成测试

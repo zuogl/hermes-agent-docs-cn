@@ -1,122 +1,122 @@
 ---
-title: "Working with Skills"
+title: "使用技能"
 ---
-# Working with Skills
+# 使用技能
 
-Skills are on-demand knowledge documents that teach Hermes how to handle specific tasks — from generating ASCII art to managing GitHub PRs. This guide walks you through using them day to day.
+技能（skill）是按需加载的知识文档，用于教会 Hermes 如何处理特定任务——从生成 ASCII 艺术字到管理 GitHub PR，应有尽有。本指南介绍日常使用的各种方法。
 
-For the full technical reference, see [Skills System](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills).
+完整的技术参考，请查阅[技能系统](/user-guide/features/skills)。
 
 ---
 
-## Finding Skills
+## 查找技能
 
-Every Hermes installation ships with bundled skills. See what's available:
+每个 Hermes 安装都自带一批内置技能。查看可用技能：
 
 ```bash
-# In any chat session:
+# 在任意聊天会话中：
 /skills
 
-# Or from the CLI:
+# 或通过 CLI：
 hermes skills list
 ```
 
-This shows a compact list with names and descriptions:
+命令输出包含名称和描述的精简列表：
 
 ```
-ascii-art         Generate ASCII art using pyfiglet, cowsay, boxes...
-arxiv             Search and retrieve academic papers from arXiv...
-github-pr-workflow Full PR lifecycle — create branches, commit...
-plan              Plan mode — inspect context, write a markdown...
-excalidraw        Create hand-drawn style diagrams using Excalidraw...
+ascii-art         使用 pyfiglet、cowsay、boxes 等生成 ASCII 艺术字...
+arxiv             在 arXiv 上搜索和获取学术论文...
+github-pr-workflow 完整的 PR 生命周期——创建分支、提交...
+plan              计划模式——检查上下文、编写 markdown...
+excalidraw        使用 Excalidraw 创建手绘风格图表...
 ```
 
-### Searching for a Skill
+### 搜索技能
 
 ```bash
-# Search by keyword
+# 按关键词搜索
 /skills search docker
 /skills search music
 ```
 
-### The Skills Hub
+### 技能 Hub
 
-Official optional skills (heavier or niche skills not active by default) are available via the Hub:
+官方可选技能（较重或小众、默认不启用）可通过 Hub 获取：
 
 ```bash
-# Browse official optional skills
+# 浏览官方可选技能
 /skills browse
 
-# Search the hub
+# 在 Hub 中搜索
 /skills search blockchain
 ```
 
 ---
 
-## Using a Skill
+## 使用技能
 
-Every installed skill is automatically a slash command. Just type its name:
+所有已安装的技能都会自动成为斜杠命令，直接输入技能名即可触发：
 
 ```bash
-# Load a skill and give it a task
+# 加载技能并指定任务
 /ascii-art Make a banner that says "HELLO WORLD"
 /plan Design a REST API for a todo app
 /github-pr-workflow Create a PR for the auth refactor
 
-# Just the skill name (no task) loads it and lets you describe what you need
+# 只输入技能名（不带任务）则加载技能，再描述需求
 /excalidraw
 ```
 
-You can also trigger skills through natural conversation — ask Hermes to use a specific skill, and it will load it via the `skill_view` tool.
+你也可以通过自然对话触发技能——告诉 Hermes 使用某个技能，它会通过 `skill_view` 工具自动加载。
 
-### Progressive Disclosure
+### 渐进式加载
 
-Skills use a token-efficient loading pattern. The agent doesn't load everything at once:
+技能采用节省 token 的按需加载模式，代理不会一次性加载所有内容：
 
-1. **`skills_list()`** — compact list of all skills (~3k tokens). Loaded at session start.
-2. **`skill_view(name)`** — full SKILL.md content for one skill. Loaded when the agent decides it needs that skill.
-3. **`skill_view(name, file_path)`** — a specific reference file within the skill. Only loaded if needed.
+1. **`skills_list()`** — 所有技能的精简列表（约 3k token），会话启动时加载。
+2. **`skill_view(name)`** — 单个技能的完整 SKILL.md 内容，在代理判断需要该技能时加载。
+3. **`skill_view(name, file_path)`** — 技能内的特定参考文件，仅在实际需要时按需加载。
 
-This means skills don't cost tokens until they're actually used.
+这意味着技能在真正被使用之前不消耗任何 token。
 
 ---
 
-## Installing from the Hub
+## 从 Hub 安装
 
-Official optional skills ship with Hermes but aren't active by default. Install them explicitly:
+官方可选技能随 Hermes 一同发布，但默认不启用，需显式安装：
 
 ```bash
-# Install an official optional skill
+# 安装官方可选技能
 hermes skills install official/research/arxiv
 
-# Install from the hub in a chat session
+# 在聊天会话中从 Hub 安装
 /skills install official/creative/songwriting-and-ai-music
 ```
 
-What happens:
-1. The skill directory is copied to `~/.hermes/skills/`
-2. It appears in your `skills_list` output
-3. It becomes available as a slash command
+安装流程：
+1. 技能目录被复制到 `~/.hermes/skills/`
+2. 出现在 `skills_list` 输出中
+3. 可作为斜杠命令使用
 
 :::tip
-Installed skills take effect in new sessions. If you want it available in the current session, use `/reset` to start fresh, or add `--now` to invalidate the prompt cache immediately (costs more tokens on the next turn).
+已安装的技能在新会话中生效。若希望在当前会话中立即使用，可用 `/reset` 重新开始，或在命令中加上 `--now` 立即使提示词缓存失效（下一轮会消耗更多 token）。
 :::
 
-### Verifying Installation
+### 验证安装
 
 ```bash
-# Check it's there
+# 检查是否安装成功
 hermes skills list | grep arxiv
 
-# Or in chat
+# 或在聊天中查询
 /skills search arxiv
 ```
 
 ---
 
-## Configuring Skill Settings
+## 配置技能参数
 
-Some skills declare configuration they need in their frontmatter:
+部分技能会在其 frontmatter 中声明所需的配置项：
 
 ```yaml
 metadata:
@@ -128,31 +128,31 @@ metadata:
         url: "https://developers.google.com/tenor/guides/quickstart"
 ```
 
-When a skill with config is first loaded, Hermes prompts you for the values. They're stored in `config.yaml` under `skills.config.*`.
+首次加载带有配置项的技能时，Hermes 会提示你输入相应值，并将其存储到 `config.yaml` 的 `skills.config.*` 路径下。
 
-Manage skill config from the CLI:
+通过 CLI 管理技能配置：
 
 ```bash
-# Interactive config for a specific skill
+# 为特定技能进行交互式配置
 hermes skills config gif-search
 
-# View all skill config
+# 查看所有技能配置
 hermes config get skills.config
 ```
 
 ---
 
-## Creating Your Own Skill
+## 创建自定义技能
 
-Skills are just markdown files with YAML frontmatter. Creating one takes under five minutes.
+技能本质上是带有 YAML frontmatter 的 Markdown 文件，创建一个技能不超过五分钟。
 
-### 1. Create the Directory
+### 1. 创建目录
 
 ```bash
 mkdir -p ~/.hermes/skills/my-category/my-skill
 ```
 
-### 2. Write SKILL.md
+### 2. 编写 SKILL.md
 
 ```markdown title="~/.hermes/skills/my-category/my-skill/SKILL.md"
 ---
@@ -183,83 +183,83 @@ Use this skill when the user asks about [specific topic] or needs to [specific t
 Run `check-command` to confirm the result is correct.
 ```
 
-### 3. Add Reference Files (Optional)
+### 3. 添加参考文件（可选）
 
-Skills can include supporting files the agent loads on demand:
+技能可以包含代理按需加载的辅助文件：
 
 ```
 my-skill/
-├── SKILL.md                    # Main skill document
+├── SKILL.md                    # 技能主文档
 ├── references/
-│   ├── api-docs.md             # API reference the agent can consult
-│   └── examples.md             # Example inputs/outputs
+│   ├── api-docs.md             # 代理可查阅的 API 参考
+│   └── examples.md             # 示例输入/输出
 ├── templates/
-│   └── config.yaml             # Template files the agent can use
+│   └── config.yaml             # 代理可使用的模板文件
 └── scripts/
-    └── setup.sh                # Scripts the agent can execute
+    └── setup.sh                # 代理可执行的脚本
 ```
 
-Reference these in your SKILL.md:
+在 SKILL.md 中引用这些文件：
 
 ```markdown
-For API details, load the reference: `skill_view("my-skill", "references/api-docs.md")`
+如需 API 详情，加载参考文件：`skill_view("my-skill", "references/api-docs.md")`
 ```
 
-### 4. Test It
+### 4. 测试技能
 
-Start a new session and try your skill:
+启动新会话并测试：
 
 ```bash
 hermes chat -q "/my-skill help me with the thing"
 ```
 
-The skill appears automatically — no registration needed. Drop it in `~/.hermes/skills/` and it's live.
+技能会自动出现，无需注册。将其放入 `~/.hermes/skills/` 即刻生效。
 
 :::info
-The agent can also create and update skills itself using `skill_manage`. After solving a complex problem, Hermes may offer to save the approach as a skill for next time.
+代理本身也可以通过 `skill_manage` 工具创建和更新技能。在解决复杂问题后，Hermes 可能会主动提议将解决方案保存为技能，供下次使用。
 :::
 
 ---
 
-## Per-Platform Skill Management
+## 跨平台技能管理
 
-Control which skills are available on which platforms:
+控制哪些平台可以使用哪些技能：
 
 ```bash
 hermes skills
 ```
 
-This opens an interactive TUI where you can enable or disable skills per platform (CLI, Telegram, Discord, etc.). Useful when you want certain skills only available in specific contexts — for example, keeping development skills off Telegram.
+这会打开一个交互式 TUI，可按平台（CLI、Telegram、Discord 等）单独启用或禁用技能。当你希望某些技能只在特定场景下可用时非常实用——例如，不在 Telegram 中暴露开发类技能。
 
 ---
 
-## Skills vs Memory
+## 技能 vs 记忆
 
-Both are persistent across sessions, but they serve different purposes:
+两者都在会话之间持久化，但用途不同：
 
-| | Skills | Memory |
+| | 技能 | 记忆 |
 |---|---|---|
-| **What** | Procedural knowledge — how to do things | Factual knowledge — what things are |
-| **When** | Loaded on demand, only when relevant | Injected into every session automatically |
-| **Size** | Can be large (hundreds of lines) | Should be compact (key facts only) |
-| **Cost** | Zero tokens until loaded | Small but constant token cost |
-| **Examples** | "How to deploy to Kubernetes" | "User prefers dark mode, lives in PST" |
-| **Who creates** | You, the agent, or installed from Hub | The agent, based on conversations |
+| **是什么** | 程序性知识——如何做事 | 事实性知识——事物是什么 |
+| **触发时机** | 按需加载，仅在相关时 | 每次会话自动注入 |
+| **大小** | 可以很大（数百行） | 应保持精简（仅关键事实） |
+| **Token 开销** | 未加载时为零 | 少量但持续的 token 开销 |
+| **示例** | "如何部署到 Kubernetes" | "用户偏好深色模式，居住在 PST 时区" |
+| **由谁创建** | 用户、代理，或从 Hub 安装 | 代理根据对话内容创建 |
 
-**Rule of thumb:** If you'd put it in a reference document, it's a skill. If you'd put it on a sticky note, it's memory.
-
----
-
-## Tips
-
-**Keep skills focused.** A skill that tries to cover "all of DevOps" will be too long and too vague. A skill that covers "deploy a Python app to Fly.io" is specific enough to be genuinely useful.
-
-**Let the agent create skills.** After a complex multi-step task, Hermes will often offer to save the approach as a skill. Say yes — these agent-authored skills capture the exact workflow including pitfalls that were discovered along the way.
-
-**Use categories.** Organize skills into subdirectories (`~/.hermes/skills/devops/`, `~/.hermes/skills/research/`, etc.). This keeps the list manageable and helps the agent find relevant skills faster.
-
-**Update skills when they go stale.** If you use a skill and hit issues not covered by it, tell Hermes to update the skill with what you learned. Skills that aren't maintained become liabilities.
+**经验法则：** 如果你会把它写进参考文档，它就是技能；如果你会把它贴在便利贴上，它就是记忆。
 
 ---
 
-*For the complete skills reference — frontmatter fields, conditional activation, external directories, and more — see [Skills System](https://hermes-agent.nousresearch.com/docs/user-guide/features/skills).*
+## 使用建议
+
+**保持技能聚焦。** 试图涵盖"全部 DevOps"的技能会过于冗长且模糊。而专注于"将 Python 应用部署到 Fly.io"的技能才足够具体，真正有用。
+
+**让代理来创建技能。** 完成复杂的多步骤任务后，Hermes 通常会主动提议将解决方案保存为技能，接受它——这些由代理编写的技能会完整记录工作流，包括过程中发现的坑。
+
+**善用分类目录。** 将技能组织到子目录中（`~/.hermes/skills/devops/`、`~/.hermes/skills/research/` 等），这样技能列表更易管理，代理也能更快找到相关技能。
+
+**及时更新过时的技能。** 如果使用某个技能时遇到了它未覆盖的问题，告诉 Hermes 将新学到的内容更新进去。缺乏维护的技能会成为负担。
+
+---
+
+*完整的技能参考——frontmatter 字段、条件激活、外部目录等内容——请参阅[技能系统](/user-guide/features/skills)。*

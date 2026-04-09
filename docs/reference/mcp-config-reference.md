@@ -1,25 +1,25 @@
 ---
-title: "MCP Config Reference"
+title: "MCP 配置参考"
 ---
-# MCP Config Reference
+# MCP 配置参考
 
-This page is the compact reference companion to the main MCP docs.
+本页是 MCP 主文档的精简参考手册。
 
-For conceptual guidance, see:
-- [MCP (Model Context Protocol)](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp)
-- [Use MCP with Hermes](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes)
+如需概念性说明，请参阅：
+- [MCP（模型上下文协议）](https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp)
+- [在 Hermes 中使用 MCP](https://hermes-agent.nousresearch.com/docs/guides/use-mcp-with-hermes)
 
-## Root config shape
+## 根配置结构
 
 ```yaml
 mcp_servers:
   <server_name>:
-    command: "..."      # stdio servers
+    command: "..."      # stdio 服务器
     args: []
     env: {}
 
-    # OR
-    url: "..."          # HTTP servers
+    # 或
+    url: "..."          # HTTP 服务器
     headers: {}
 
     enabled: true
@@ -32,36 +32,36 @@ mcp_servers:
       prompts: true
 ```
 
-## Server keys
+## 服务器配置键
 
-| Key | Type | Applies to | Meaning |
+| 键 | 类型 | 适用范围 | 含义 |
 |---|---|---|---|
-| `command` | string | stdio | Executable to launch |
-| `args` | list | stdio | Arguments for the subprocess |
-| `env` | mapping | stdio | Environment passed to the subprocess |
-| `url` | string | HTTP | Remote MCP endpoint |
-| `headers` | mapping | HTTP | Headers for remote server requests |
-| `enabled` | bool | both | Skip the server entirely when false |
-| `timeout` | number | both | Tool call timeout |
-| `connect_timeout` | number | both | Initial connection timeout |
-| `tools` | mapping | both | Filtering and utility-tool policy |
-| `auth` | string | HTTP | Authentication method. Set to `oauth` to enable OAuth 2.1 with PKCE |
-| `sampling` | mapping | both | Server-initiated LLM request policy (see MCP guide) |
+| `command` | string | stdio | 启动的可执行文件 |
+| `args` | list | stdio | 子进程的参数列表 |
+| `env` | mapping | stdio | 传递给子进程的环境变量 |
+| `url` | string | HTTP | 远程 MCP 端点 |
+| `headers` | mapping | HTTP | 远程服务器请求的请求头 |
+| `enabled` | bool | 两者 | 为 false 时完全跳过该服务器 |
+| `timeout` | number | 两者 | 工具调用超时时间 |
+| `connect_timeout` | number | 两者 | 初始连接超时时间 |
+| `tools` | mapping | 两者 | 工具过滤及实用工具策略 |
+| `auth` | string | HTTP | 认证方式。设为 `oauth` 可启用 OAuth 2.1 with PKCE |
+| `sampling` | mapping | 两者 | 服务器发起的 LLM 请求策略（参见 MCP 指南） |
 
-## `tools` policy keys
+## `tools` 策略配置键
 
-| Key | Type | Meaning |
+| 键 | 类型 | 含义 |
 |---|---|---|
-| `include` | string or list | Whitelist server-native MCP tools |
-| `exclude` | string or list | Blacklist server-native MCP tools |
-| `resources` | bool-like | Enable/disable `list_resources` + `read_resource` |
-| `prompts` | bool-like | Enable/disable `list_prompts` + `get_prompt` |
+| `include` | string 或 list | 将服务器原生 MCP 工具加入白名单 |
+| `exclude` | string 或 list | 将服务器原生 MCP 工具加入黑名单 |
+| `resources` | 布尔类型 | 启用/禁用 `list_resources` + `read_resource` |
+| `prompts` | 布尔类型 | 启用/禁用 `list_prompts` + `get_prompt` |
 
-## Filtering semantics
+## 过滤语义
 
 ### `include`
 
-If `include` is set, only those server-native MCP tools are registered.
+若设置了 `include`，则只有列出的服务器原生 MCP 工具会被注册。
 
 ```yaml
 tools:
@@ -70,16 +70,16 @@ tools:
 
 ### `exclude`
 
-If `exclude` is set and `include` is not, every server-native MCP tool except those names is registered.
+若设置了 `exclude` 且未设置 `include`，则除列出名称之外的所有服务器原生 MCP 工具均会被注册。
 
 ```yaml
 tools:
   exclude: [delete_customer]
 ```
 
-### Precedence
+### 优先级
 
-If both are set, `include` wins.
+若两者均已设置，`include` 优先生效。
 
 ```yaml
 tools:
@@ -87,44 +87,44 @@ tools:
   exclude: [create_issue, delete_issue]
 ```
 
-Result:
-- `create_issue` is still allowed
-- `delete_issue` is ignored because `include` takes precedence
+结果：
+- `create_issue` 仍被允许注册
+- `delete_issue` 被忽略，因为 `include` 具有更高优先级
 
-## Utility-tool policy
+## 实用工具策略
 
-Hermes may register these utility wrappers per MCP server:
+Hermes 可能为每个 MCP 服务器注册以下实用工具包装器：
 
-Resources:
+Resources：
 - `list_resources`
 - `read_resource`
 
-Prompts:
+Prompts：
 - `list_prompts`
 - `get_prompt`
 
-### Disable resources
+### 禁用 resources
 
 ```yaml
 tools:
   resources: false
 ```
 
-### Disable prompts
+### 禁用 prompts
 
 ```yaml
 tools:
   prompts: false
 ```
 
-### Capability-aware registration
+### 能力感知注册
 
-Even when `resources: true` or `prompts: true`, Hermes only registers those utility tools if the MCP session actually exposes the corresponding capability.
+即使 `resources: true` 或 `prompts: true`，Hermes 也只会在 MCP session 实际暴露对应能力时，才注册相应的实用工具。
 
-So this is normal:
-- you enable prompts
-- but no prompt utilities appear
-- because the server does not support prompts
+因此以下情况是正常的：
+- 你启用了 prompts
+- 但没有 prompt 实用工具出现
+- 原因是该服务器不支持 prompts
 
 ## `enabled: false`
 
@@ -135,19 +135,19 @@ mcp_servers:
     enabled: false
 ```
 
-Behavior:
-- no connection attempt
-- no discovery
-- no tool registration
-- config remains in place for later reuse
+行为：
+- 不尝试建立连接
+- 不进行服务发现
+- 不注册工具
+- 配置保留，供后续重新启用
 
-## Empty result behavior
+## 空结果行为
 
-If filtering removes all server-native tools and no utility tools are registered, Hermes does not create an empty MCP runtime toolset for that server.
+如果过滤后服务器原生工具全部被移除，且没有实用工具被注册，Hermes 不会为该服务器创建空的 MCP 运行时工具集。
 
-## Example configs
+## 配置示例
 
-### Safe GitHub allowlist
+### 安全的 GitHub 白名单
 
 ```yaml
 mcp_servers:
@@ -162,7 +162,7 @@ mcp_servers:
       prompts: false
 ```
 
-### Stripe blacklist
+### Stripe 黑名单
 
 ```yaml
 mcp_servers:
@@ -174,7 +174,7 @@ mcp_servers:
       exclude: [delete_customer, refund_payment]
 ```
 
-### Resource-only docs server
+### 仅资源的文档服务器
 
 ```yaml
 mcp_servers:
@@ -186,48 +186,48 @@ mcp_servers:
       prompts: false
 ```
 
-## Reloading config
+## 重新加载配置
 
-After changing MCP config, reload servers with:
+修改 MCP 配置后，使用以下命令重新加载服务器：
 
 ```text
 /reload-mcp
 ```
 
-## Tool naming
+## 工具命名
 
-Server-native MCP tools become:
+服务器原生 MCP 工具的命名格式为：
 
 ```text
 mcp_<server>_<tool>
 ```
 
-Examples:
+示例：
 - `mcp_github_create_issue`
 - `mcp_filesystem_read_file`
 - `mcp_my_api_query_data`
 
-Utility tools follow the same prefixing pattern:
+实用工具遵循相同的前缀规则：
 - `mcp__list_resources`
 - `mcp__read_resource`
 - `mcp__list_prompts`
 - `mcp__get_prompt`
 
-### Name sanitization
+### 名称转义
 
-Hyphens (`-`) and dots (`.`) in both server names and tool names are replaced with underscores before registration. This ensures tool names are valid identifiers for LLM function-calling APIs.
+服务器名称和工具名称中的连字符（`-`）与点号（`.`）在注册前会被替换为下划线。这确保工具名称是 LLM function-calling API 的合法标识符。
 
-For example, a server named `my-api` exposing a tool called `list-items.v2` becomes:
+例如，名为 `my-api` 的服务器暴露名为 `list-items.v2` 的工具，最终变为：
 
 ```text
 mcp_my_api_list_items_v2
 ```
 
-Keep this in mind when writing `include` / `exclude` filters — use the **original** MCP tool name (with hyphens/dots), not the sanitized version.
+在编写 `include` / `exclude` 过滤器时请注意——应使用**原始** MCP 工具名称（含连字符/点号），而非转义后的名称。
 
-## OAuth 2.1 authentication
+## OAuth 2.1 认证
 
-For HTTP servers that require OAuth, set `auth: oauth` on the server entry:
+对于需要 OAuth 的 HTTP 服务器，在服务器条目中设置 `auth: oauth`：
 
 ```yaml
 mcp_servers:
@@ -236,9 +236,9 @@ mcp_servers:
     auth: oauth
 ```
 
-Behavior:
-- Hermes uses the MCP SDK's OAuth 2.1 PKCE flow (metadata discovery, dynamic client registration, token exchange, and refresh)
-- On first connect, a browser window opens for authorization
-- Tokens are persisted to `~/.hermes/mcp-tokens/.json` and reused across sessions
-- Token refresh is automatic; re-authorization only happens when refresh fails
-- Only applies to HTTP/StreamableHTTP transport (`url`-based servers)
+行为：
+- Hermes 使用 MCP SDK 的 OAuth 2.1 PKCE 流程（元数据发现、动态客户端注册、token 交换及刷新）
+- 首次连接时会打开浏览器窗口进行授权
+- Token 持久化存储至 `~/.hermes/mcp-tokens/.json`，并在 session 间复用
+- Token 自动刷新；仅在刷新失败时才需要重新授权
+- 仅适用于 HTTP/StreamableHTTP 传输（基于 `url` 的服务器）

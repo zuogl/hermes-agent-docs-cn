@@ -27,17 +27,30 @@ npm run build
 
 ## 翻译进度
 
-| 分类 | 状态 |进度 |
-|------|------|---|
-| Getting Started | ✅ 全部完成 | 5/5 |
-| Using Hermes | ✅ 全部完成 | 8/8 |
-| Features | ✅ 全部完成 | 28/28 |
-| Messaging Platforms | ⚠️ 部分完成 | 10/16 |
-| Integrations | ❌ 待翻译 | 0/2 |
-| Guides & Tutorials | ❌ 待翻译 | 0/13 |
-| Developer Guide | ❌ 待翻译 | 0/18 |
-| Reference | ❌ 待翻译 | 0/10 |
+> 🎉 **全部 102 篇文档翻译完成！**
+
+| 分类                | 状态        | 进度  |
+| ------------------- | ----------- | ----- |
+| Getting Started     | ✅ 全部完成 | 5/5   |
+| Using Hermes        | ✅ 全部完成 | 8/8   |
+| Features            | ✅ 全部完成 | 28/28 |
+| Messaging Platforms | ✅ 全部完成 | 17/17 |
+| Integrations        | ✅ 全部完成 | 2/2   |
+| Guides & Tutorials  | ✅ 全部完成 | 13/13 |
+| Developer Guide     | ✅ 全部完成 | 18/18 |
+| Reference           | ✅ 全部完成 | 10/10 |
 
 ## 许可
 
-文档内容版权属于 [Nous Research](https://nousresearch.com)，依据 MIT License 发布。中文翻译由社区维护。
+本项目涉及三个层次的版权：
+
+| 内容 | 版权归属 | 协议 |
+|------|---------|------|
+| 英文原版文档 | [Nous Research](https://nousresearch.com) | [MIT License](https://github.com/NousResearch/hermes-agent/blob/main/LICENSE) |
+| 中文翻译内容 | zuoguolei | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh) |
+| 网站代码（Docusaurus 配置、同步脚本等） | zuoguolei | MIT License |
+
+中文翻译内容采用 **[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh)** 协议：
+- ✅ 允许分享和引用（须署名）
+- ✅ 允许修改和二次创作（须署名）
+- ❌ **禁止商业使用**

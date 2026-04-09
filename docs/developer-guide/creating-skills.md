@@ -1,34 +1,34 @@
 ---
-title: "Creating Skills"
+title: "创建 Skill"
 ---
-# Creating Skills
+# 创建 Skill
 
-Skills are the preferred way to add new capabilities to Hermes Agent. They're easier to create than tools, require no code changes to the agent, and can be shared with the community.
+Skill 是为 Hermes Agent 添加新能力的首选方式。它们比工具（tool）更容易创建，无需修改 agent 代码，且可以与社区分享。
 
-## Should it be a Skill or a Tool?
+## 应该创建 Skill 还是 Tool？
 
-Make it a **Skill** when:
-- The capability can be expressed as instructions + shell commands + existing tools
-- It wraps an external CLI or API that the agent can call via `terminal` or `web_extract`
-- It doesn't need custom Python integration or API key management baked into the agent
-- Examples: arXiv search, git workflows, Docker management, PDF processing, email via CLI tools
+选择创建 **Skill** 的情况：
+- 该能力可以通过指令 + shell 命令 + 现有工具来实现
+- 它封装了 agent 可以通过 `terminal` 或 `web_extract` 调用的外部 CLI 或 API
+- 不需要在 agent 中内置自定义 Python 集成或 API 密钥管理
+- 示例：arXiv 搜索、git 工作流、Docker 管理、PDF 处理、通过 CLI 工具发送邮件
 
-Make it a **Tool** when:
-- It requires end-to-end integration with API keys, auth flows, or multi-component configuration
-- It needs custom processing logic that must execute precisely every time
-- It handles binary data, streaming, or real-time events
-- Examples: browser automation, TTS, vision analysis
+选择创建 **Tool** 的情况：
+- 需要与 API 密钥、认证流程或多组件配置进行端到端集成
+- 需要每次都精确执行的自定义处理逻辑
+- 处理二进制数据、流式传输或实时事件
+- 示例：浏览器自动化、TTS、视觉分析
 
-## Skill Directory Structure
+## Skill 目录结构
 
-Bundled skills live in `skills/` organized by category. Official optional skills use the same structure in `optional-skills/`:
+内置 skill 存放在 `skills/` 目录下，按类别组织。官方可选 skill 在 `optional-skills/` 中使用相同结构：
 
 ```text
 skills/
 ├── research/
 │   └── arxiv/
-│       ├── SKILL.md              # Required: main instructions
-│       └── scripts/              # Optional: helper scripts
+│       ├── SKILL.md              # 必须：主要指令文件
+│       └── scripts/              # 可选：辅助脚本
 │           └── search_arxiv.py
 ├── productivity/
 │   └── ocr-and-documents/
@@ -38,113 +38,113 @@ skills/
 └── ...
 ```
 
-## SKILL.md Format
+## SKILL.md 格式
 
 ```markdown
 ---
 name: my-skill
-description: Brief description (shown in skill search results)
+description: 简要描述（显示在 skill 搜索结果中）
 version: 1.0.0
-author: Your Name
+author: 你的名字
 license: MIT
-platforms: [macos, linux]          # Optional — restrict to specific OS platforms
-                                   #   Valid: macos, linux, windows
-                                   #   Omit to load on all platforms (default)
+platforms: [macos, linux]          # 可选 — 限制为特定操作系统平台
+                                   #   有效值：macos, linux, windows
+                                   #   省略则在所有平台加载（默认）
 metadata:
   hermes:
     tags: [Category, Subcategory, Keywords]
     related_skills: [other-skill-name]
-    requires_toolsets: [web]            # Optional — only show when these toolsets are active
-    requires_tools: [web_search]        # Optional — only show when these tools are available
-    fallback_for_toolsets: [browser]    # Optional — hide when these toolsets are active
-    fallback_for_tools: [browser_navigate]  # Optional — hide when these tools exist
-    config:                              # Optional — config.yaml settings the skill needs
+    requires_toolsets: [web]            # 可选 — 仅在这些 toolset 激活时显示
+    requires_tools: [web_search]        # 可选 — 仅在这些工具可用时显示
+    fallback_for_toolsets: [browser]    # 可选 — 当这些 toolset 激活时隐藏
+    fallback_for_tools: [browser_navigate]  # 可选 — 当这些工具存在时隐藏
+    config:                              # 可选 — skill 所需的 config.yaml 设置
       - key: my.setting
-        description: "What this setting controls"
-        default: "sensible-default"
-        prompt: "Display prompt for setup"
-required_environment_variables:          # Optional — env vars the skill needs
+        description: "该设置控制的内容"
+        default: "合理的默认值"
+        prompt: "设置向导中显示的提示"
+required_environment_variables:          # 可选 — skill 所需的环境变量
   - name: MY_API_KEY
-    prompt: "Enter your API key"
-    help: "Get one at https://example.com"
-    required_for: "API access"
+    prompt: "请输入你的 API 密钥"
+    help: "在 https://example.com 获取"
+    required_for: "API 访问"
 ---
 
-# Skill Title
+# Skill 标题
 
-Brief intro.
+简短介绍。
 
-## When to Use
-Trigger conditions — when should the agent load this skill?
+## 使用场景
+触发条件 — agent 应在何时加载此 skill？
 
-## Quick Reference
-Table of common commands or API calls.
+## 快速参考
+常用命令或 API 调用的对照表。
 
-## Procedure
-Step-by-step instructions the agent follows.
+## 操作步骤
+agent 遵循的分步指令。
 
-## Pitfalls
-Known failure modes and how to handle them.
+## 注意事项
+已知的失败模式及处理方法。
 
-## Verification
-How the agent confirms it worked.
+## 验证
+agent 如何确认操作成功。
 ```
 
-### Platform-Specific Skills
+### 平台专属 Skill
 
-Skills can restrict themselves to specific operating systems using the `platforms` field:
+Skill 可以使用 `platforms` 字段将自身限制在特定操作系统上：
 
 ```yaml
-platforms: [macos]            # macOS only (e.g., iMessage, Apple Reminders)
-platforms: [macos, linux]     # macOS and Linux
-platforms: [windows]          # Windows only
+platforms: [macos]            # 仅限 macOS（例如 iMessage、Apple 提醒事项）
+platforms: [macos, linux]     # macOS 和 Linux
+platforms: [windows]          # 仅限 Windows
 ```
 
-When set, the skill is automatically hidden from the system prompt, `skills_list()`, and slash commands on incompatible platforms. If omitted or empty, the skill loads on all platforms (backward compatible).
+设置后，该 skill 会在不兼容的平台上自动从系统提示词、`skills_list()` 和斜杠命令中隐藏。若省略或留空，则在所有平台加载（向后兼容）。
 
-### Conditional Skill Activation
+### 条件激活 Skill
 
-Skills can declare dependencies on specific tools or toolsets. This controls whether the skill appears in the system prompt for a given session.
+Skill 可以声明对特定工具或 toolset 的依赖，从而控制该 skill 是否出现在当前 session 的系统提示词中。
 
 ```yaml
 metadata:
   hermes:
-    requires_toolsets: [web]           # Hide if the web toolset is NOT active
-    requires_tools: [web_search]       # Hide if web_search tool is NOT available
-    fallback_for_toolsets: [browser]   # Hide if the browser toolset IS active
-    fallback_for_tools: [browser_navigate]  # Hide if browser_navigate IS available
+    requires_toolsets: [web]           # 如果 web toolset 未激活则隐藏
+    requires_tools: [web_search]       # 如果 web_search 工具不可用则隐藏
+    fallback_for_toolsets: [browser]   # 如果 browser toolset 已激活则隐藏
+    fallback_for_tools: [browser_navigate]  # 如果 browser_navigate 可用则隐藏
 ```
 
-| Field | Behavior |
-|-------|----------|
-| `requires_toolsets` | Skill is **hidden** when ANY listed toolset is **not** available |
-| `requires_tools` | Skill is **hidden** when ANY listed tool is **not** available |
-| `fallback_for_toolsets` | Skill is **hidden** when ANY listed toolset **is** available |
-| `fallback_for_tools` | Skill is **hidden** when ANY listed tool **is** available |
+| 字段 | 行为 |
+|------|------|
+| `requires_toolsets` | 当任意列出的 toolset **不可用**时，skill **隐藏** |
+| `requires_tools` | 当任意列出的工具**不可用**时，skill **隐藏** |
+| `fallback_for_toolsets` | 当任意列出的 toolset **可用**时，skill **隐藏** |
+| `fallback_for_tools` | 当任意列出的工具**可用**时，skill **隐藏** |
 
-**Use case for `fallback_for_*`:** Create a skill that serves as a workaround when a primary tool isn't available. For example, a `duckduckgo-search` skill with `fallback_for_tools: [web_search]` only shows when the web search tool (which requires an API key) is not configured.
+**`fallback_for_*` 的使用场景：** 创建一个在主要工具不可用时作为替代方案的 skill。例如，设置了 `fallback_for_tools: [web_search]` 的 `duckduckgo-search` skill，仅在未配置 API 密钥的 web 搜索工具不可用时才显示。
 
-**Use case for `requires_*`:** Create a skill that only makes sense when certain tools are present. For example, a web scraping workflow skill with `requires_toolsets: [web]` won't clutter the prompt when web tools are disabled.
+**`requires_*` 的使用场景：** 创建只有在特定工具存在时才有意义的 skill。例如，设置了 `requires_toolsets: [web]` 的网页抓取工作流 skill，在 web 工具被禁用时不会出现在提示词中。
 
-### Environment Variable Requirements
+### 环境变量需求声明
 
-Skills can declare environment variables they need. When a skill is loaded via `skill_view`, its required vars are automatically registered for passthrough into sandboxed execution environments (terminal, execute_code).
+Skill 可以声明所需的环境变量。当通过 `skill_view` 加载 skill 时，其声明的必需环境变量会自动注册，以便透传到沙箱执行环境（terminal、execute_code）。
 
 ```yaml
 required_environment_variables:
   - name: TENOR_API_KEY
-    prompt: "Tenor API key"               # Shown when prompting user
-    help: "Get your key at https://tenor.com"  # Help text or URL
-    required_for: "GIF search functionality"   # What needs this var
+    prompt: "Tenor API 密钥"               # 提示用户时显示
+    help: "在 https://tenor.com 获取密钥"  # 帮助文字或 URL
+    required_for: "GIF 搜索功能"           # 说明哪个功能需要此变量
 ```
 
-Each entry supports:
-- `name` (required) — the environment variable name
-- `prompt` (optional) — prompt text when asking the user for the value
-- `help` (optional) — help text or URL for obtaining the value
-- `required_for` (optional) — describes which feature needs this variable
+每个条目支持：
+- `name`（必填）— 环境变量名称
+- `prompt`（可选）— 向用户询问值时的提示文字
+- `help`（可选）— 获取该值的帮助文字或 URL
+- `required_for`（可选）— 描述哪个功能需要此变量
 
-Users can also manually configure passthrough variables in `config.yaml`:
+用户也可以在 `config.yaml` 中手动配置透传变量：
 
 ```yaml
 terminal:
@@ -153,56 +153,56 @@ terminal:
     - ANOTHER_VAR
 ```
 
-See `skills/apple/` for examples of macOS-only skills.
+macOS 专属 skill 示例请参见 `skills/apple/`。
 
-## Secure Setup on Load
+## 加载时安全设置
 
-Use `required_environment_variables` when a skill needs an API key or token. Missing values do **not** hide the skill from discovery. Instead, Hermes prompts for them securely when the skill is loaded in the local CLI.
+当 skill 需要 API 密钥或 token 时，请使用 `required_environment_variables`。缺少值**不会**让 skill 从发现列表中隐藏。Hermes 会在本地 CLI 加载 skill 时安全地提示用户输入。
 
 ```yaml
 required_environment_variables:
   - name: TENOR_API_KEY
-    prompt: Tenor API key
-    help: Get a key from https://developers.google.com/tenor
-    required_for: full functionality
+    prompt: Tenor API 密钥
+    help: 从 https://developers.google.com/tenor 获取密钥
+    required_for: 完整功能
 ```
 
-The user can skip setup and keep loading the skill. Hermes never exposes the raw secret value to the model. Gateway and messaging sessions show local setup guidance instead of collecting secrets in-band.
+用户可以跳过设置并继续加载 skill。Hermes 不会向模型暴露原始密钥值。Gateway 和消息 session 会显示本地设置指引，而不是在通信过程中收集密钥。
 
 :::tip
-Sandbox Passthrough
-When your skill is loaded, any declared `required_environment_variables` that are set are **automatically passed through** to `execute_code` and `terminal` sandboxes — including remote backends like Docker and Modal. Your skill's scripts can access `$TENOR_API_KEY` (or `os.environ["TENOR_API_KEY"]` in Python) without the user needing to configure anything extra. See [Environment Variable Passthrough](https://hermes-agent.nousresearch.com/docs/user-guide/security#environment-variable-passthrough) for details.
+沙箱透传
+当 skill 加载时，所有已设置的 `required_environment_variables` 声明变量都会**自动透传**到 `execute_code` 和 `terminal` 沙箱——包括 Docker 和 Modal 等远程后端。Skill 的脚本可以直接访问 `$TENOR_API_KEY`（或 Python 中的 `os.environ["TENOR_API_KEY"]`），无需用户额外配置任何内容。详见 [环境变量透传](https://hermes-agent.nousresearch.com/docs/user-guide/security#environment-variable-passthrough)。
 :::
 
-Legacy `prerequisites.env_vars` remains supported as a backward-compatible alias.
+旧版 `prerequisites.env_vars` 作为向后兼容的别名仍受支持。
 
-### Config Settings (config.yaml)
+### 配置项设置（config.yaml）
 
-Skills can declare non-secret settings that are stored in `config.yaml` under the `skills.config` namespace. Unlike environment variables (which are secrets stored in `.env`), config settings are for paths, preferences, and other non-sensitive values.
+Skill 可以声明非敏感配置项，这些配置项存储在 `config.yaml` 的 `skills.config` 命名空间下。与存储在 `.env` 中的密钥型环境变量不同，config 配置项用于存储路径、偏好设置及其他非敏感值。
 
 ```yaml
 metadata:
   hermes:
     config:
       - key: wiki.path
-        description: Path to the LLM Wiki knowledge base directory
+        description: LLM Wiki 知识库目录路径
         default: "~/wiki"
-        prompt: Wiki directory path
+        prompt: Wiki 目录路径
       - key: wiki.domain
-        description: Domain the wiki covers
+        description: Wiki 所涵盖的领域
         default: ""
-        prompt: Wiki domain (e.g., AI/ML research)
+        prompt: Wiki 领域（例如 AI/ML 研究）
 ```
 
-Each entry supports:
-- `key` (required) — dotpath for the setting (e.g., `wiki.path`)
-- `description` (required) — explains what the setting controls
-- `default` (optional) — default value if the user doesn't configure it
-- `prompt` (optional) — prompt text shown during `hermes config migrate`; falls back to `description`
+每个条目支持：
+- `key`（必填）— 设置的点路径（例如 `wiki.path`）
+- `description`（必填）— 说明该设置的用途
+- `default`（可选）— 用户未配置时的默认值
+- `prompt`（可选）— 执行 `hermes config migrate` 时显示的提示文字；若未填写则回退为 `description`
 
-**How it works:**
+**工作原理：**
 
-1. **Storage:** Values are written to `config.yaml` under `skills.config.`:
+1. **存储：** 值被写入 `config.yaml` 的 `skills.config.` 下：
    ```yaml
    skills:
      config:
@@ -210,123 +210,123 @@ Each entry supports:
          path: ~/my-research
    ```
 
-2. **Discovery:** `hermes config migrate` scans all enabled skills, finds unconfigured settings, and prompts the user. Settings also appear in `hermes config show` under "Skill Settings."
+2. **发现：** `hermes config migrate` 会扫描所有已启用的 skill，找出未配置的设置，并提示用户输入。设置也会在 `hermes config show` 的"Skill 设置"下显示。
 
-3. **Runtime injection:** When a skill loads, its config values are resolved and appended to the skill message:
+3. **运行时注入：** skill 加载时，其配置值会被解析并附加到 skill 消息中：
    ```
    [Skill config (from ~/.hermes/config.yaml):
      wiki.path = /home/user/my-research
    ]
    ```
-   The agent sees the configured values without needing to read `config.yaml` itself.
+   agent 可以看到已配置的值，无需自行读取 `config.yaml`。
 
-4. **Manual setup:** Users can also set values directly:
+4. **手动设置：** 用户也可以直接设置值：
    ```bash
    hermes config set skills.config.wiki.path ~/my-wiki
    ```
 
 :::tip
-When to use which
-Use `required_environment_variables` for API keys, tokens, and other **secrets** (stored in `~/.hermes/.env`, never shown to the model). Use `config` for **paths, preferences, and non-sensitive settings** (stored in `config.yaml`, visible in config show).
+如何选择
+使用 `required_environment_variables` 存储 API 密钥、token 等**密钥**（存储在 `~/.hermes/.env`，不会暴露给模型）。使用 `config` 存储**路径、偏好设置及非敏感配置**（存储在 `config.yaml`，可在 config show 中查看）。
 :::
 
-### Credential File Requirements (OAuth tokens, etc.)
+### 凭证文件需求（OAuth token 等）
 
-Skills that use OAuth or file-based credentials can declare files that need to be mounted into remote sandboxes. This is for credentials stored as **files** (not env vars) — typically OAuth token files produced by a setup script.
+使用 OAuth 或基于文件的凭证的 skill，可以声明需要挂载到远程沙箱中的文件。适用于以**文件**形式存储的凭证（而非环境变量）——通常是设置脚本生成的 OAuth token 文件。
 
 ```yaml
 required_credential_files:
   - path: google_token.json
-    description: Google OAuth2 token (created by setup script)
+    description: Google OAuth2 token（由设置脚本创建）
   - path: google_client_secret.json
-    description: Google OAuth2 client credentials
+    description: Google OAuth2 客户端凭证
 ```
 
-Each entry supports:
-- `path` (required) — file path relative to `~/.hermes/`
-- `description` (optional) — explains what the file is and how it's created
+每个条目支持：
+- `path`（必填）— 相对于 `~/.hermes/` 的文件路径
+- `description`（可选）— 说明文件的用途及创建方式
 
-When loaded, Hermes checks if these files exist. Missing files trigger `setup_needed`. Existing files are automatically:
-- **Mounted into Docker** containers as read-only bind mounts
-- **Synced into Modal** sandboxes (at creation + before each command, so mid-session OAuth works)
-- Available on **local** backend without any special handling
+加载时，Hermes 会检查这些文件是否存在。缺少文件会触发 `setup_needed`。已存在的文件会自动：
+- **挂载到 Docker** 容器中（只读绑定挂载）
+- **同步到 Modal** 沙箱（创建时及每次命令执行前同步，因此 session 中途的 OAuth 也能正常工作）
+- 在**本地**后端无需任何特殊处理即可访问
 
 :::tip
-When to use which
-Use `required_environment_variables` for simple API keys and tokens (strings stored in `~/.hermes/.env`). Use `required_credential_files` for OAuth token files, client secrets, service account JSON, certificates, or any credential that's a file on disk.
+如何选择
+使用 `required_environment_variables` 存储简单的 API 密钥和 token（字符串，存储在 `~/.hermes/.env`）。使用 `required_credential_files` 存储 OAuth token 文件、客户端密钥、服务账号 JSON、证书，或任何以磁盘文件形式存在的凭证。
 :::
 
-See the `skills/productivity/google-workspace/SKILL.md` for a complete example using both.
+完整示例（同时使用两者）请参见 `skills/productivity/google-workspace/SKILL.md`。
 
-## Skill Guidelines
+## Skill 编写指南
 
-### No External Dependencies
+### 无外部依赖
 
-Prefer stdlib Python, curl, and existing Hermes tools (`web_extract`, `terminal`, `read_file`). If a dependency is needed, document installation steps in the skill.
+优先使用标准库 Python、curl 和现有 Hermes 工具（`web_extract`、`terminal`、`read_file`）。如确实需要依赖，请在 skill 中说明安装步骤。
 
-### Progressive Disclosure
+### 渐进式披露
 
-Put the most common workflow first. Edge cases and advanced usage go at the bottom. This keeps token usage low for common tasks.
+将最常见的工作流放在最前面。边缘情况和高级用法放在末尾。这样可以在处理常见任务时降低 token 消耗。
 
-### Include Helper Scripts
+### 包含辅助脚本
 
-For XML/JSON parsing or complex logic, include helper scripts in `scripts/` — don't expect the LLM to write parsers inline every time.
+对于 XML/JSON 解析或复杂逻辑，请在 `scripts/` 中包含辅助脚本——不要每次都期望 LLM 内联编写解析器。
 
-### Test It
+### 测试
 
-Run the skill and verify the agent follows the instructions correctly:
+运行 skill 并验证 agent 是否正确遵循指令：
 
 ```bash
 hermes chat --toolsets skills -q "Use the X skill to do Y"
 ```
 
-## Where Should the Skill Live?
+## Skill 应该放在哪里？
 
-Bundled skills (in `skills/`) ship with every Hermes install. They should be **broadly useful to most users**:
+内置 skill（位于 `skills/`）随每次 Hermes 安装一起发布，应该对**大多数用户普遍有用**：
 
-- Document handling, web research, common dev workflows, system administration
-- Used regularly by a wide range of people
+- 文档处理、网页研究、常见开发工作流、系统管理
+- 被广泛人群定期使用
 
-If your skill is official and useful but not universally needed (e.g., a paid service integration, a heavyweight dependency), put it in **`optional-skills/`** — it ships with the repo, is discoverable via `hermes skills browse` (labeled "official"), and installs with builtin trust.
+如果你的 skill 是官方的、有用的，但并非所有人都需要（例如付费服务集成、重量级依赖），请放入 **`optional-skills/`**——它随仓库一起发布，可通过 `hermes skills browse` 发现（标注为"official"），并以内置信任级别安装。
 
-If your skill is specialized, community-contributed, or niche, it's better suited for a **Skills Hub** — upload it to a registry and share it via `hermes skills install`.
+如果你的 skill 比较专业、由社区贡献或面向特定场景，更适合放到 **Skills Hub**——将其上传到注册表，并通过 `hermes skills install` 分享。
 
-## Publishing Skills
+## 发布 Skill
 
-### To the Skills Hub
+### 发布到 Skills Hub
 
 ```bash
 hermes skills publish skills/my-skill --to github --repo owner/repo
 ```
 
-### To a Custom Repository
+### 发布到自定义仓库
 
-Add your repo as a tap:
+将你的仓库添加为 tap：
 
 ```bash
 hermes skills tap add owner/repo
 ```
 
-Users can then search and install from your repository.
+用户可以从你的仓库中搜索和安装 skill。
 
-## Security Scanning
+## 安全扫描
 
-All hub-installed skills go through a security scanner that checks for:
+所有从 hub 安装的 skill 都会经过安全扫描，检查以下内容：
 
-- Data exfiltration patterns
-- Prompt injection attempts
-- Destructive commands
-- Shell injection
+- 数据泄露模式
+- 提示注入尝试
+- 破坏性命令
+- Shell 注入
 
-Trust levels:
-- `builtin` — ships with Hermes (always trusted)
-- `official` — from `optional-skills/` in the repo (builtin trust, no third-party warning)
-- `trusted` — from openai/skills, anthropics/skills
-- `community` — non-dangerous findings can be overridden with `--force`; `dangerous` verdicts remain blocked
+信任级别：
+- `builtin` — 随 Hermes 一起发布（始终受信任）
+- `official` — 来自仓库中的 `optional-skills/`（内置信任，无第三方警告）
+- `trusted` — 来自 openai/skills、anthropics/skills
+- `community` — 非危险发现可通过 `--force` 覆盖；`dangerous` 判定仍会被阻止
 
-Hermes can now consume third-party skills from multiple external discovery models:
-- direct GitHub identifiers (for example `openai/skills/k8s`)
-- `skills.sh` identifiers (for example `skills-sh/vercel-labs/json-render/json-render-react`)
-- well-known endpoints served from `/.well-known/skills/index.json`
+Hermes 现在可以从多种外部发现模型中使用第三方 skill：
+- 直接 GitHub 标识符（例如 `openai/skills/k8s`）
+- `skills.sh` 标识符（例如 `skills-sh/vercel-labs/json-render/json-render-react`）
+- 从 `/.well-known/skills/index.json` 提供的知名端点
 
-If you want your skills to be discoverable without a GitHub-specific installer, consider serving them from a well-known endpoint in addition to publishing them in a repo or marketplace.
+如果你希望 skill 在不依赖 GitHub 特定安装程序的情况下也能被发现，可以考虑通过知名端点提供服务，同时在仓库或市场中发布。

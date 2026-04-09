@@ -1,55 +1,55 @@
 ---
-title: "Prompt Assembly"
+title: "提示词组装"
 ---
-# Prompt Assembly
+# 提示词组装
 
-Hermes deliberately separates:
+Hermes 刻意将以下内容分离：
 
-- **cached system prompt state**
-- **ephemeral API-call-time additions**
+- **缓存的系统提示词状态**
+- **API 调用时临时添加的内容**
 
-This is one of the most important design choices in the project because it affects:
+这是项目中最重要的设计决策之一，因为它影响到：
 
-- token usage
-- prompt caching effectiveness
-- session continuity
-- memory correctness
+- token 用量
+- 提示词缓存效果
+- 会话连贯性
+- 记忆正确性
 
-Primary files:
+主要文件：
 
 - `run_agent.py`
 - `agent/prompt_builder.py`
 - `tools/memory_tool.py`
 
-## Cached system prompt layers
+## 缓存的系统提示词层次
 
-The cached system prompt is assembled in roughly this order:
+缓存的系统提示词大致按以下顺序组装：
 
-1. agent identity — `SOUL.md` from `HERMES_HOME` when available, otherwise falls back to `DEFAULT_AGENT_IDENTITY` in `prompt_builder.py`
-2. tool-aware behavior guidance
-3. Honcho static block (when active)
-4. optional system message
-5. frozen MEMORY snapshot
-6. frozen USER profile snapshot
-7. skills index
-8. context files (`AGENTS.md`, `.cursorrules`, `.cursor/rules/*.mdc`) — SOUL.md is **not** included here when it was already loaded as the identity in step 1
-9. timestamp / optional session ID
-10. platform hint
+1. 智能体身份 —— 优先使用 `HERMES_HOME` 中的 `SOUL.md`，不存在时回退到 `prompt_builder.py` 中的 `DEFAULT_AGENT_IDENTITY`
+2. 工具感知行为指导
+3. Honcho 静态块（激活时）
+4. 可选系统消息
+5. 冻结的记忆（MEMORY）快照
+6. 冻结的用户（USER）档案快照
+7. 技能索引
+8. 上下文文件（`AGENTS.md`、`.cursorrules`、`.cursor/rules/*.mdc`）—— 若 SOUL.md 已在步骤 1 中作为身份加载，则此处**不再**包含 SOUL.md
+9. 时间戳 / 可选会话 ID
+10. 平台提示
 
-When `skip_context_files` is set (e.g., subagent delegation), SOUL.md is not loaded and the hardcoded `DEFAULT_AGENT_IDENTITY` is used instead.
+当 `skip_context_files` 被设置时（例如子智能体委托场景），不会加载 SOUL.md，而是使用硬编码的 `DEFAULT_AGENT_IDENTITY`。
 
-### Concrete example: assembled system prompt
+### 具体示例：组装后的系统提示词
 
-Here is a simplified view of what the final system prompt looks like when all layers are present (comments show the source of each section):
+以下是所有层次均存在时，最终系统提示词的简化示意（注释说明了每部分的来源）：
 
 ```
-# Layer 1: Agent Identity (from ~/.hermes/SOUL.md)
+# 第 1 层：智能体身份（来自 ~/.hermes/SOUL.md）
 You are Hermes, an AI assistant created by Nous Research.
 You are an expert software engineer and researcher.
 You value correctness, clarity, and efficiency.
 ...
 
-# Layer 2: Tool-aware behavior guidance
+# 第 2 层：工具感知行为指导
 You have persistent memory across sessions. Save durable facts using
 the memory tool: user preferences, environment details, tool quirks,
 and stable conventions. Memory is injected into every turn, so keep
@@ -59,30 +59,30 @@ When the user references something from a past conversation or you
 suspect relevant cross-session context exists, use session_search
 to recall it before asking them to repeat themselves.
 
-# Tool-use enforcement (for GPT/Codex models only)
+# 工具使用约束（仅适用于 GPT/Codex 模型）
 You MUST use your tools to take action — do not describe what you
 would do or plan to do without actually doing it.
 ...
 
-# Layer 3: Honcho static block (when active)
+# 第 3 层：Honcho 静态块（激活时）
 [Honcho personality/context data]
 
-# Layer 4: Optional system message (from config or API)
+# 第 4 层：可选系统消息（来自配置或 API）
 [User-configured system message override]
 
-# Layer 5: Frozen MEMORY snapshot
+# 第 5 层：冻结的记忆（MEMORY）快照
 ## Persistent Memory
 - User prefers Python 3.12, uses pyproject.toml
 - Default editor is nvim
 - Working on project "atlas" in ~/code/atlas
 - Timezone: US/Pacific
 
-# Layer 6: Frozen USER profile snapshot
+# 第 6 层：冻结的用户（USER）档案快照
 ## User Profile
 - Name: Alice
 - GitHub: alice-dev
 
-# Layer 7: Skills index
+# 第 7 层：技能索引
 ## Skills (mandatory)
 Before replying, scan the skills below. If one clearly matches
 your task, load it with skill_view(name) and follow its instructions.
@@ -95,7 +95,7 @@ your task, load it with skill_view(name) and follow its instructions.
     - arxiv: Search and summarize arXiv papers
 </available_skills>
 
-# Layer 8: Context files (from project directory)
+# 第 8 层：上下文文件（来自项目目录）
 # Project Context
 The following project context files have been loaded and should be followed:
 
@@ -104,34 +104,34 @@ This is the atlas project. Use pytest for testing. The main
 entry point is src/atlas/main.py. Always run `make lint` before
 committing.
 
-# Layer 9: Timestamp + session
+# 第 9 层：时间戳 + 会话
 Current time: 2026-03-30T14:30:00-07:00
 Session: abc123
 
-# Layer 10: Platform hint
+# 第 10 层：平台提示
 You are a CLI AI Agent. Try not to use markdown but simple text
 renderable inside a terminal.
 ```
 
-## How SOUL.md appears in the prompt
+## SOUL.md 在提示词中的呈现方式
 
-`SOUL.md` lives at `~/.hermes/SOUL.md` and serves as the agent's identity — the very first section of the system prompt. The loading logic in `prompt_builder.py` works as follows:
+`SOUL.md` 位于 `~/.hermes/SOUL.md`，作为智能体的身份标识，是系统提示词的最前一部分。`prompt_builder.py` 中的加载逻辑如下：
 
 ```python
-# From agent/prompt_builder.py (simplified)
+# 来自 agent/prompt_builder.py（简化版）
 def load_soul_md() -> Optional[str]:
     soul_path = get_hermes_home() / "SOUL.md"
     if not soul_path.exists():
         return None
     content = soul_path.read_text(encoding="utf-8").strip()
-    content = _scan_context_content(content, "SOUL.md")  # Security scan
-    content = _truncate_content(content, "SOUL.md")       # Cap at 20k chars
+    content = _scan_context_content(content, "SOUL.md")  # 安全扫描
+    content = _truncate_content(content, "SOUL.md")       # 截断至 2 万字符
     return content
 ```
 
-When `load_soul_md()` returns content, it replaces the hardcoded `DEFAULT_AGENT_IDENTITY`. The `build_context_files_prompt()` function is then called with `skip_soul=True` to prevent SOUL.md from appearing twice (once as identity, once as a context file).
+当 `load_soul_md()` 返回内容时，它会替换硬编码的 `DEFAULT_AGENT_IDENTITY`。随后调用 `build_context_files_prompt(skip_soul=True)` 以防止 SOUL.md 被重复注入（一次作为身份标识，一次作为上下文文件）。
 
-If `SOUL.md` doesn't exist, the system falls back to:
+如果 `SOUL.md` 不存在，系统将回退到以下内容：
 
 ```
 You are Hermes Agent, an intelligent AI assistant created by Nous Research.
@@ -143,20 +143,20 @@ being genuinely useful over being verbose unless otherwise directed below.
 Be targeted and efficient in your exploration and investigations.
 ```
 
-## How context files are injected
+## 上下文文件的注入方式
 
-`build_context_files_prompt()` uses a **priority system** — only one project context type is loaded (first match wins):
+`build_context_files_prompt()` 使用**优先级系统**——只加载一种项目上下文类型（先匹配者优先）：
 
 ```python
-# From agent/prompt_builder.py (simplified)
+# 来自 agent/prompt_builder.py（简化版）
 def build_context_files_prompt(cwd=None, skip_soul=False):
     cwd_path = Path(cwd).resolve()
 
-    # Priority: first match wins — only ONE project context loaded
+    # 优先级：先匹配者优先——只加载一种项目上下文
     project_context = (
-        _load_hermes_md(cwd_path)       # 1. .hermes.md / HERMES.md (walks to git root)
-        or _load_agents_md(cwd_path)    # 2. AGENTS.md (cwd only)
-        or _load_claude_md(cwd_path)    # 3. CLAUDE.md (cwd only)
+        _load_hermes_md(cwd_path)       # 1. .hermes.md / HERMES.md（向上查找至 git 根目录）
+        or _load_agents_md(cwd_path)    # 2. AGENTS.md（仅当前目录）
+        or _load_claude_md(cwd_path)    # 3. CLAUDE.md（仅当前目录）
         or _load_cursorrules(cwd_path)  # 4. .cursorrules / .cursor/rules/*.mdc
     )
 
@@ -164,7 +164,7 @@ def build_context_files_prompt(cwd=None, skip_soul=False):
     if project_context:
         sections.append(project_context)
 
-    # SOUL.md from HERMES_HOME (independent of project context)
+    # 来自 HERMES_HOME 的 SOUL.md（独立于项目上下文）
     if not skip_soul:
         soul_content = load_soul_md()
         if soul_content:
@@ -181,63 +181,64 @@ def build_context_files_prompt(cwd=None, skip_soul=False):
     )
 ```
 
-### Context file discovery details
+### 上下文文件发现细节
 
-| Priority | Files | Search scope | Notes |
-|----------|-------|-------------|-------|
-| 1 | `.hermes.md`, `HERMES.md` | CWD up to git root | Hermes-native project config |
-| 2 | `AGENTS.md` | CWD only | Common agent instruction file |
-| 3 | `CLAUDE.md` | CWD only | Claude Code compatibility |
-| 4 | `.cursorrules`, `.cursor/rules/*.mdc` | CWD only | Cursor compatibility |
+| 优先级 | 文件 | 搜索范围 | 备注 |
+|--------|------|----------|------|
+| 1 | `.hermes.md`、`HERMES.md` | 从当前目录向上查找至 git 根目录 | Hermes 原生项目配置 |
+| 2 | `AGENTS.md` | 仅当前目录 | 通用智能体指令文件 |
+| 3 | `CLAUDE.md` | 仅当前目录 | 兼容 Claude Code |
+| 4 | `.cursorrules`、`.cursor/rules/*.mdc` | 仅当前目录 | 兼容 Cursor |
 
-All context files are:
-- **Security scanned** — checked for prompt injection patterns (invisible unicode, "ignore previous instructions", credential exfiltration attempts)
-- **Truncated** — capped at 20,000 characters using 70/20 head/tail ratio with a truncation marker
-- **YAML frontmatter stripped** — `.hermes.md` frontmatter is removed (reserved for future config overrides)
+所有上下文文件均会：
 
-## API-call-time-only layers
+- **安全扫描** —— 检查提示词注入模式（不可见 Unicode 字符、"忽略之前的指令"、凭证外泄尝试）
+- **截断处理** —— 以 70/20 的头尾比例截断至 20,000 字符，并附带截断标记
+- **去除 YAML frontmatter** —— `.hermes.md` 的 frontmatter 会被移除（为未来的配置覆盖功能预留）
 
-These are intentionally *not* persisted as part of the cached system prompt:
+## 仅 API 调用时注入的层次
 
-- `ephemeral_system_prompt`
-- prefill messages
-- gateway-derived session context overlays
-- later-turn Honcho recall injected into the current-turn user message
+以下内容刻意**不**作为缓存系统提示词的一部分持久化：
 
-This separation keeps the stable prefix stable for caching.
+- `ephemeral_system_prompt`（临时系统提示词）
+- 预填充消息
+- 网关派生的会话上下文覆盖
+- 后续轮次中注入到当前轮次用户消息的 Honcho 召回内容
 
-## Memory snapshots
+这种分离确保稳定前缀不被修改，从而有效利用缓存。
 
-Local memory and user profile data are injected as frozen snapshots at session start. Mid-session writes update disk state but do not mutate the already-built system prompt until a new session or forced rebuild occurs.
+## 记忆快照
 
-## Context files
+本地记忆和用户档案数据在会话开始时作为冻结快照注入。会话中途的写入操作只更新磁盘状态，不会修改当前已构建的系统提示词。需等到新会话启动或强制重建，改动才会生效。
 
-`agent/prompt_builder.py` scans and sanitizes project context files using a **priority system** — only one type is loaded (first match wins):
+## 上下文文件
 
-1. `.hermes.md` / `HERMES.md` (walks to git root)
-2. `AGENTS.md` (CWD at startup; subdirectories discovered progressively during the session via `agent/subdirectory_hints.py`)
-3. `CLAUDE.md` (CWD only)
-4. `.cursorrules` / `.cursor/rules/*.mdc` (CWD only)
+`agent/prompt_builder.py` 使用**优先级系统**扫描并清理项目上下文文件——只加载一种类型（先匹配者优先）：
 
-`SOUL.md` is loaded separately via `load_soul_md()` for the identity slot. When it loads successfully, `build_context_files_prompt(skip_soul=True)` prevents it from appearing twice.
+1. `.hermes.md` / `HERMES.md`（向上查找至 git 根目录）
+2. `AGENTS.md`（启动时的当前目录；会话期间通过 `agent/subdirectory_hints.py` 逐步发现子目录）
+3. `CLAUDE.md`（仅当前目录）
+4. `.cursorrules` / `.cursor/rules/*.mdc`（仅当前目录）
 
-Long files are truncated before injection.
+`SOUL.md` 通过 `load_soul_md()` 单独加载，用于身份标识槽位。成功加载后，`build_context_files_prompt(skip_soul=True)` 可防止其被重复注入。
 
-## Skills index
+长文件在注入前会被截断。
 
-The skills system contributes a compact skills index to the prompt when skills tooling is available.
+## 技能索引
 
-## Why prompt assembly is split this way
+当技能工具可用时，技能系统会向提示词贡献一个紧凑的技能索引。
 
-The architecture is intentionally optimized to:
+## 为何提示词组装要如此拆分
 
-- preserve provider-side prompt caching
-- avoid mutating history unnecessarily
-- keep memory semantics understandable
-- let gateway/ACP/CLI add context without poisoning persistent prompt state
+该架构经过刻意优化，旨在：
 
-## Related docs
+- 保留提供商侧的提示词缓存
+- 避免不必要地修改历史记录
+- 保持记忆语义的可理解性
+- 允许网关 / ACP（Agent Control Protocol，智能体控制协议）/ CLI 添加上下文，而不污染持久化的提示词状态
 
-- [Context Compression & Prompt Caching](/developer-guide/context-compression-and-caching)
-- [Session Storage](/developer-guide/session-storage)
-- [Gateway Internals](/developer-guide/gateway-internals)
+## 相关文档
+
+- [上下文压缩与提示词缓存](/developer-guide/context-compression-and-caching)
+- [会话存储](/developer-guide/session-storage)
+- [网关内部机制](/developer-guide/gateway-internals)

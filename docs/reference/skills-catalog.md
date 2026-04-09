@@ -1,302 +1,302 @@
 ---
-title: "Bundled Skills Catalog"
+title: "内置技能目录"
 ---
-# Bundled Skills Catalog
+# 内置技能目录
 
-Hermes ships with a large built-in skill library copied into `~/.hermes/skills/` on install. This page catalogs the bundled skills that live in the repository under `skills/`.
+Hermes 安装时会将大量内置技能库复制到 `~/.hermes/skills/` 目录。本页面列出了仓库 `skills/` 目录下的所有内置技能。
 
 ## apple
 
-Apple/macOS-specific skills — iMessage, Reminders, Notes, FindMy, and macOS automation. These skills only load on macOS systems.
+Apple/macOS 专属技能——iMessage、提醒事项、备忘录、查找我的以及 macOS 自动化。这些技能仅在 macOS 系统上加载。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `apple-notes` | Manage Apple Notes via the memo CLI on macOS (create, view, search, edit). | `apple/apple-notes` |
-| `apple-reminders` | Manage Apple Reminders via remindctl CLI (list, add, complete, delete). | `apple/apple-reminders` |
-| `findmy` | Track Apple devices and AirTags via FindMy.app on macOS using AppleScript and screen capture. | `apple/findmy` |
-| `imessage` | Send and receive iMessages/SMS via the imsg CLI on macOS. | `apple/imessage` |
+| `apple-notes` | 通过 macOS 上的 memo CLI 管理 Apple 备忘录（创建、查看、搜索、编辑）。 | `apple/apple-notes` |
+| `apple-reminders` | 通过 remindctl CLI 管理 Apple 提醒事项（列出、添加、完成、删除）。 | `apple/apple-reminders` |
+| `findmy` | 通过 AppleScript 和屏幕截图使用 macOS FindMy.app 追踪 Apple 设备和 AirTag。 | `apple/findmy` |
+| `imessage` | 通过 macOS 上的 imsg CLI 发送和接收 iMessage/SMS。 | `apple/imessage` |
 
 ## autonomous-ai-agents
 
-Skills for spawning and orchestrating autonomous AI coding agents and multi-agent workflows — running independent agent processes, delegating tasks, and coordinating parallel workstreams.
+用于生成和编排自主 AI 编程智能体及多智能体工作流的技能——运行独立智能体进程、委派任务、协调并行工作流。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `claude-code` | Delegate coding tasks to Claude Code (Anthropic's CLI agent). Use for building features, refactoring, PR reviews, and iterative coding. Requires the claude CLI installed. | `autonomous-ai-agents/claude-code` |
-| `codex` | Delegate coding tasks to OpenAI Codex CLI agent. Use for building features, refactoring, PR reviews, and batch issue fixing. Requires the codex CLI and a git repository. | `autonomous-ai-agents/codex` |
-| `hermes-agent-spawning` | Spawn additional Hermes Agent instances as autonomous subprocesses for independent long-running tasks. Supports non-interactive one-shot mode (-q) and interactive PTY mode for multi-turn collaboration. Different from delegate_task — this runs a full separate hermes process. | `autonomous-ai-agents/hermes-agent` |
-| `opencode` | Delegate coding tasks to OpenCode CLI agent for feature implementation, refactoring, PR review, and long-running autonomous sessions. Requires the opencode CLI installed and authenticated. | `autonomous-ai-agents/opencode` |
+| `claude-code` | 将编程任务委派给 Claude Code（Anthropic 的 CLI 智能体）。适用于开发功能、重构、PR 审查和迭代编程。需要安装 claude CLI。 | `autonomous-ai-agents/claude-code` |
+| `codex` | 将编程任务委派给 OpenAI Codex CLI 智能体。适用于开发功能、重构、PR 审查和批量 issue 修复。需要安装 codex CLI 和 git 仓库。 | `autonomous-ai-agents/codex` |
+| `hermes-agent-spawning` | 将额外的 Hermes Agent 实例作为自主子进程启动，用于独立的长时间运行任务。支持非交互式一次性模式（-q）和交互式 PTY 模式以实现多轮协作。与 delegate_task 不同——此模式运行完整独立的 hermes 进程。 | `autonomous-ai-agents/hermes-agent` |
+| `opencode` | 将编程任务委派给 OpenCode CLI 智能体，用于功能实现、重构、PR 审查和长时间自主会话。需要安装并认证 opencode CLI。 | `autonomous-ai-agents/opencode` |
 
 ## data-science
 
-Skills for data science workflows — interactive exploration, Jupyter notebooks, data analysis, and visualization.
+用于数据科学工作流的技能——交互式探索、Jupyter 笔记本、数据分析与可视化。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `jupyter-live-kernel` | Use a live Jupyter kernel for stateful, iterative Python execution via hamelnb. Load this skill when the task involves exploration, iteration, or inspecting intermediate results. | `data-science/jupyter-live-kernel` |
+| `jupyter-live-kernel` | 通过 hamelnb 使用实时 Jupyter 内核进行有状态、迭代式 Python 执行。当任务涉及探索、迭代或检查中间结果时加载此技能。 | `data-science/jupyter-live-kernel` |
 
 ## creative
 
-Creative content generation — ASCII art, hand-drawn style diagrams, and visual design tools.
+创意内容生成——ASCII 艺术、手绘风格图表和视觉设计工具。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `ascii-art` | Generate ASCII art using pyfiglet (571 fonts), cowsay, boxes, toilet, image-to-ascii, remote APIs (asciified, ascii.co.uk), and LLM fallback. No API keys required. | `creative/ascii-art` |
-| `ascii-video` | "Production pipeline for ASCII art video — any format. Converts video/audio/images/generative input into colored ASCII character video output (MP4, GIF, image sequence). Covers: video-to-ASCII conversion, audio-reactive music visualizers, generative ASCII art animations, hybrid… | `creative/ascii-video` |
-| `excalidraw` | Create hand-drawn style diagrams using Excalidraw JSON format. Generate .excalidraw files for architecture diagrams, flowcharts, sequence diagrams, concept maps, and more. Files can be opened at excalidraw.com or uploaded for shareable links. | `creative/excalidraw` |
-| `p5js` | Production pipeline for interactive and generative visual art using p5.js. Create sketches, render them to images/video via headless browser, and serve live previews. Supports canvas animations, data visualizations, and creative coding experiments. | `creative/p5js` |
+| `ascii-art` | 使用 pyfiglet（571 种字体）、cowsay、boxes、toilet、image-to-ascii、远程 API（asciified、ascii.co.uk）以及 LLM 兜底方案生成 ASCII 艺术。无需 API 密钥。 | `creative/ascii-art` |
+| `ascii-video` | ASCII 艺术视频生产流水线——支持任意格式。将视频/音频/图像/生成式输入转换为彩色 ASCII 字符视频输出（MP4、GIF、图像序列）。涵盖：视频转 ASCII、音频响应式音乐可视化、生成式 ASCII 艺术动画、混合… | `creative/ascii-video` |
+| `excalidraw` | 使用 Excalidraw JSON 格式创建手绘风格图表。生成 .excalidraw 文件，用于架构图、流程图、序列图、概念图等。文件可在 excalidraw.com 打开或上传以获取分享链接。 | `creative/excalidraw` |
+| `p5js` | 使用 p5.js 创建交互式和生成式视觉艺术的生产流水线。通过无头浏览器将草图渲染为图像/视频，并提供实时预览。支持 Canvas 动画、数据可视化和创意编程实验。 | `creative/p5js` |
 
 ## devops
 
-DevOps and infrastructure automation skills.
+DevOps 和基础设施自动化技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `webhook-subscriptions` | Create and manage webhook subscriptions for event-driven agent activation. External services (GitHub, Stripe, CI/CD, IoT) POST events to trigger agent runs. Requires webhook platform to be enabled. | `devops/webhook-subscriptions` |
+| `webhook-subscriptions` | 为事件驱动的智能体激活创建和管理 Webhook 订阅。外部服务（GitHub、Stripe、CI/CD、IoT）通过 POST 事件触发智能体运行。需要启用 Webhook 平台。 | `devops/webhook-subscriptions` |
 
 ## dogfood
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `dogfood` | Systematic exploratory QA testing of web applications — find bugs, capture evidence, and generate structured reports. | `dogfood/dogfood` |
-| `hermes-agent-setup` | Help users configure Hermes Agent — CLI usage, setup wizard, model/provider selection, tools, skills, voice/STT/TTS, gateway, and troubleshooting. | `dogfood/hermes-agent-setup` |
+| `dogfood` | 对 Web 应用进行系统化探索性 QA 测试——发现缺陷、收集证据并生成结构化报告。 | `dogfood/dogfood` |
+| `hermes-agent-setup` | 帮助用户配置 Hermes Agent——CLI 用法、设置向导、模型/提供商选择、工具、技能、语音/STT/TTS、网关以及故障排查。 | `dogfood/hermes-agent-setup` |
 
 ## email
 
-Skills for sending, receiving, searching, and managing email from the terminal.
+用于在终端发送、接收、搜索和管理电子邮件的技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `himalaya` | CLI to manage emails via IMAP/SMTP. Use himalaya to list, read, write, reply, forward, search, and organize emails from the terminal. Supports multiple accounts and message composition with MML (MIME Meta Language). | `email/himalaya` |
+| `himalaya` | 通过 IMAP/SMTP 管理电子邮件的 CLI。使用 himalaya 在终端中列出、阅读、撰写、回复、转发、搜索和整理邮件。支持多账户和使用 MML（MIME Meta Language）撰写邮件。 | `email/himalaya` |
 
 ## gaming
 
-Skills for setting up, configuring, and managing game servers, modpacks, and gaming-related infrastructure.
+用于搭建、配置和管理游戏服务器、模组包及游戏相关基础设施的技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `minecraft-modpack-server` | Set up a modded Minecraft server from a CurseForge/Modrinth server pack zip. Covers NeoForge/Forge install, Java version, JVM tuning, firewall, LAN config, backups, and launch scripts. | `gaming/minecraft-modpack-server` |
-| `pokemon-player` | Play Pokemon games autonomously via headless emulation. Starts a game server, reads structured game state from RAM, makes strategic decisions, and sends button inputs — all from the terminal. | `gaming/pokemon-player` |
+| `minecraft-modpack-server` | 从 CurseForge/Modrinth 服务器包 zip 文件搭建模组 Minecraft 服务器。涵盖 NeoForge/Forge 安装、Java 版本、JVM 调优、防火墙、局域网配置、备份和启动脚本。 | `gaming/minecraft-modpack-server` |
+| `pokemon-player` | 通过无头模拟器自主运行宝可梦游戏。启动游戏服务器、从内存读取结构化游戏状态、做出策略决策并发送按键输入——全部在终端完成。 | `gaming/pokemon-player` |
 
 ## github
 
-GitHub workflow skills for managing repositories, pull requests, code reviews, issues, and CI/CD pipelines using the gh CLI and git via terminal.
+用于管理仓库、拉取请求、代码审查、issues 和 CI/CD 流水线的 GitHub 工作流技能，通过终端使用 gh CLI 和 git。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `codebase-inspection` | Inspect and analyze codebases using pygount for LOC counting, language breakdown, and code-vs-comment ratios. Use when asked to check lines of code, repo size, language composition, or codebase stats. | `github/codebase-inspection` |
-| `github-auth` | Set up GitHub authentication for the agent using git (universally available) or the gh CLI. Covers HTTPS tokens, SSH keys, credential helpers, and gh auth — with a detection flow to pick the right method automatically. | `github/github-auth` |
-| `github-code-review` | Review code changes by analyzing git diffs, leaving inline comments on PRs, and performing thorough pre-push review. Works with gh CLI or falls back to git + GitHub REST API via curl. | `github/github-code-review` |
-| `github-issues` | Create, manage, triage, and close GitHub issues. Search existing issues, add labels, assign people, and link to PRs. Works with gh CLI or falls back to git + GitHub REST API via curl. | `github/github-issues` |
-| `github-pr-workflow` | Full pull request lifecycle — create branches, commit changes, open PRs, monitor CI status, auto-fix failures, and merge. Works with gh CLI or falls back to git + GitHub REST API via curl. | `github/github-pr-workflow` |
-| `github-repo-management` | Clone, create, fork, configure, and manage GitHub repositories. Manage remotes, secrets, releases, and workflows. Works with gh CLI or falls back to git + GitHub REST API via curl. | `github/github-repo-management` |
+| `codebase-inspection` | 使用 pygount 进行代码行数统计、语言分布和代码与注释比率分析，检查和分析代码库。当需要统计代码行数、仓库大小、语言构成或代码库数据时使用。 | `github/codebase-inspection` |
+| `github-auth` | 使用 git（通用可用）或 gh CLI 为智能体配置 GitHub 身份验证。涵盖 HTTPS token、SSH 密钥、凭据助手和 gh auth——含自动检测流程以选择合适方法。 | `github/github-auth` |
+| `github-code-review` | 通过分析 git diff、在 PR 上留下行内评论以及在推送前进行全面审查来审查代码变更。使用 gh CLI 或回退到 git + GitHub REST API via curl。 | `github/github-code-review` |
+| `github-issues` | 创建、管理、分类和关闭 GitHub issues。搜索现有 issues、添加标签、分配人员并关联 PR。使用 gh CLI 或回退到 git + GitHub REST API via curl。 | `github/github-issues` |
+| `github-pr-workflow` | 完整的拉取请求生命周期——创建分支、提交变更、开启 PR、监控 CI 状态、自动修复失败并合并。使用 gh CLI 或回退到 git + GitHub REST API via curl。 | `github/github-pr-workflow` |
+| `github-repo-management` | 克隆、创建、fork、配置和管理 GitHub 仓库。管理远程仓库、密钥、发布版本和工作流。使用 gh CLI 或回退到 git + GitHub REST API via curl。 | `github/github-repo-management` |
 
 ## inference-sh
 
-Skills for AI app execution via inference.sh cloud platform.
+通过 inference.sh 云平台执行 AI 应用的技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `inference-sh-cli` | Run 150+ AI apps via inference.sh CLI (infsh) — image generation, video creation, LLMs, search, 3D, social automation. | `inference-sh/cli` |
+| `inference-sh-cli` | 通过 inference.sh CLI（infsh）运行 150+ AI 应用——图像生成、视频创作、LLM、搜索、3D、社交自动化。 | `inference-sh/cli` |
 
 ## leisure
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `find-nearby` | Find nearby places (restaurants, cafes, bars, pharmacies, etc.) using OpenStreetMap. Works with coordinates, addresses, cities, zip codes, or Telegram location pins. No API keys needed. | `leisure/find-nearby` |
+| `find-nearby` | 使用 OpenStreetMap 查找附近地点（餐厅、咖啡馆、酒吧、药店等）。支持坐标、地址、城市、邮政编码或 Telegram 位置图钉。无需 API 密钥。 | `leisure/find-nearby` |
 
 ## mcp
 
-Skills for working with MCP (Model Context Protocol) servers, tools, and integrations. Includes the built-in native MCP client (configure servers in config.yaml for automatic tool discovery) and the mcporter CLI bridge for ad-hoc server interaction.
+用于 MCP（Model Context Protocol，模型上下文协议）服务器、工具和集成的技能。包括内置原生 MCP 客户端（在 config.yaml 中配置服务器以自动发现工具）和用于临时服务器交互的 mcporter CLI 桥接工具。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `mcporter` | Use the mcporter CLI to list, configure, auth, and call MCP servers/tools directly (HTTP or stdio), including ad-hoc servers, config edits, and CLI/type generation. | `mcp/mcporter` |
-| `native-mcp` | Built-in MCP (Model Context Protocol) client that connects to external MCP servers, discovers their tools, and registers them as native Hermes Agent tools. Supports stdio and HTTP transports with automatic reconnection, security filtering, and zero-config tool injection. | `mcp/native-mcp` |
+| `mcporter` | 使用 mcporter CLI 直接列出、配置、认证和调用 MCP 服务器/工具（HTTP 或 stdio），包括临时服务器、配置编辑和 CLI/类型生成。 | `mcp/mcporter` |
+| `native-mcp` | 内置 MCP 客户端，连接外部 MCP 服务器、发现其工具并将其注册为 Hermes Agent 原生工具。支持 stdio 和 HTTP 传输，具备自动重连、安全过滤和零配置工具注入功能。 | `mcp/native-mcp` |
 
 ## media
 
-Skills for working with media content — YouTube transcripts, GIF search, music generation, and audio visualization.
+用于处理媒体内容的技能——YouTube 字幕、GIF 搜索、音乐生成和音频可视化。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `gif-search` | Search and download GIFs from Tenor using curl. No dependencies beyond curl and jq. Useful for finding reaction GIFs, creating visual content, and sending GIFs in chat. | `media/gif-search` |
-| `heartmula` | Set up and run HeartMuLa, the open-source music generation model family (Suno-like). Generates full songs from lyrics + tags with multilingual support. | `media/heartmula` |
-| `songsee` | Generate spectrograms and audio feature visualizations (mel, chroma, MFCC, tempogram, etc.) from audio files via CLI. Useful for audio analysis, music production debugging, and visual documentation. | `media/songsee` |
-| `youtube-content` | Fetch YouTube video transcripts and transform them into structured content (chapters, summaries, threads, blog posts). | `media/youtube-content` |
+| `gif-search` | 通过 curl 从 Tenor 搜索和下载 GIF。除 curl 和 jq 外无其他依赖。适用于查找表情 GIF、创建视觉内容和在聊天中发送 GIF。 | `media/gif-search` |
+| `heartmula` | 设置并运行 HeartMuLa，这是一个开源音乐生成模型系列（类 Suno）。可从歌词和标签生成完整歌曲，支持多语言。 | `media/heartmula` |
+| `songsee` | 通过 CLI 从音频文件生成频谱图和音频特征可视化（mel、chroma、MFCC、tempogram 等）。适用于音频分析、音乐制作调试和视觉文档。 | `media/songsee` |
+| `youtube-content` | 获取 YouTube 视频字幕并将其转换为结构化内容（章节、摘要、帖子、博客文章）。 | `media/youtube-content` |
 
 ## mlops
 
-General-purpose ML operations tools — model hub management, dataset operations, and workflow orchestration.
+通用 ML 运维工具——模型中心管理、数据集操作和工作流编排。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `huggingface-hub` | Hugging Face Hub CLI (hf) — search, download, and upload models and datasets, manage repos, deploy inference endpoints. | `mlops/huggingface-hub` |
+| `huggingface-hub` | Hugging Face Hub CLI（hf）——搜索、下载和上传模型与数据集，管理仓库，部署推理端点。 | `mlops/huggingface-hub` |
 
 ## mlops/cloud
 
-GPU cloud providers and serverless compute platforms for ML workloads.
+用于 ML 工作负载的 GPU 云提供商和无服务器计算平台。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `lambda-labs-gpu-cloud` | Reserved and on-demand GPU cloud instances for ML training and inference. Use when you need dedicated GPU instances with simple SSH access, persistent filesystems, or high-performance multi-node clusters for large-scale training. | `mlops/cloud/lambda-labs` |
-| `modal-serverless-gpu` | Serverless GPU cloud platform for running ML workloads. Use when you need on-demand GPU access without infrastructure management, deploying ML models as APIs, or running batch jobs with automatic scaling. | `mlops/cloud/modal` |
+| `lambda-labs-gpu-cloud` | 用于 ML 训练和推理的按需和预留 GPU 云实例。当需要通过简单 SSH 访问的专用 GPU 实例、持久文件系统或用于大规模训练的高性能多节点集群时使用。 | `mlops/cloud/lambda-labs` |
+| `modal-serverless-gpu` | 用于运行 ML 工作负载的无服务器 GPU 云平台。当需要按需 GPU 访问而无需管理基础设施、将 ML 模型部署为 API 或运行自动扩缩容的批处理任务时使用。 | `mlops/cloud/modal` |
 
 ## mlops/evaluation
 
-Model evaluation benchmarks, experiment tracking, data curation, tokenizers, and interpretability tools.
+模型评估基准、实验追踪、数据整理、分词器和可解释性工具。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `evaluating-llms-harness` | Evaluates LLMs across 60+ academic benchmarks (MMLU, HumanEval, GSM8K, TruthfulQA, HellaSwag). Use when benchmarking model quality, comparing models, reporting academic results, or tracking training progress. Industry standard used by EleutherAI, HuggingFace, and major labs. Sup… | `mlops/evaluation/lm-evaluation-harness` |
-| `huggingface-tokenizers` | Fast tokenizers optimized for research and production. Rust-based implementation tokenizes 1GB in &lt;20 seconds. Supports BPE, WordPiece, and Unigram algorithms. Train custom vocabularies, track alignments, handle padding/truncation. Integrates seamlessly with transformers. Use… | `mlops/evaluation/huggingface-tokenizers` |
-| `nemo-curator` | GPU-accelerated data curation for LLM training. Supports text/image/video/audio. Features fuzzy deduplication (16× faster), quality filtering (30+ heuristics), semantic deduplication, PII redaction, NSFW detection. Scales across GPUs with RAPIDS. Use for preparing high-quality t… | `mlops/evaluation/nemo-curator` |
-| `sparse-autoencoder-training` | Provides guidance for training and analyzing Sparse Autoencoders (SAEs) using SAELens to decompose neural network activations into interpretable features. Use when discovering interpretable features, analyzing superposition, or studying monosemantic representations in language m… | `mlops/evaluation/saelens` |
-| `weights-and-biases` | Track ML experiments with automatic logging, visualize training in real-time, optimize hyperparameters with sweeps, and manage model registry with W&B - collaborative MLOps platform | `mlops/evaluation/weights-and-biases` |
+| `evaluating-llms-harness` | 在 60+ 学术基准（MMLU、HumanEval、GSM8K、TruthfulQA、HellaSwag）上评估 LLM。适用于对模型质量进行基准测试、比较模型、汇报学术结果或追踪训练进度。业界标准工具，被 EleutherAI、HuggingFace 和主要实验室广泛使用。支持… | `mlops/evaluation/lm-evaluation-harness` |
+| `huggingface-tokenizers` | 针对研究和生产优化的高速分词器。基于 Rust 实现，可在 20 秒内分词 1GB 数据。支持 BPE、WordPiece 和 Unigram 算法。可训练自定义词表、追踪对齐信息、处理填充/截断。与 transformers 无缝集成。使用… | `mlops/evaluation/huggingface-tokenizers` |
+| `nemo-curator` | 用于 LLM 训练的 GPU 加速数据整理工具。支持文本/图像/视频/音频。具备模糊去重（速度提升 16×）、质量过滤（30+ 启发式规则）、语义去重、PII 脱敏和 NSFW 检测功能。通过 RAPIDS 实现多 GPU 扩展。用于准备高质量训练… | `mlops/evaluation/nemo-curator` |
+| `sparse-autoencoder-training` | 提供使用 SAELens 训练和分析稀疏自编码器（SAE）的指导，将神经网络激活分解为可解释特征。适用于发现可解释特征、分析叠加性或研究语言模型中的单语义表示… | `mlops/evaluation/saelens` |
+| `weights-and-biases` | 通过自动日志记录追踪 ML 实验，实时可视化训练过程，通过超参数扫描进行优化，并使用 W&B 协作 MLOps 平台管理模型注册表。 | `mlops/evaluation/weights-and-biases` |
 
 ## mlops/inference
 
-Model serving, quantization (GGUF/GPTQ), structured output, inference optimization, and model surgery tools for deploying and running LLMs.
+模型服务、量化（GGUF/GPTQ）、结构化输出、推理优化以及用于部署和运行 LLM 的模型手术工具。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `gguf-quantization` | GGUF format and llama.cpp quantization for efficient CPU/GPU inference. Use when deploying models on consumer hardware, Apple Silicon, or when needing flexible quantization from 2-8 bit without GPU requirements. | `mlops/inference/gguf` |
-| `guidance` | Control LLM output with regex and grammars, guarantee valid JSON/XML/code generation, enforce structured formats, and build multi-step workflows with Guidance - Microsoft Research's constrained generation framework | `mlops/inference/guidance` |
-| `instructor` | Extract structured data from LLM responses with Pydantic validation, retry failed extractions automatically, parse complex JSON with type safety, and stream partial results with Instructor - battle-tested structured output library | `mlops/inference/instructor` |
-| `llama-cpp` | Runs LLM inference on CPU, Apple Silicon, and consumer GPUs without NVIDIA hardware. Use for edge deployment, M1/M2/M3 Macs, AMD/Intel GPUs, or when CUDA is unavailable. Supports GGUF quantization (1.5-8 bit) for reduced memory and 4-10× speedup vs PyTorch on CPU. | `mlops/inference/llama-cpp` |
-| `obliteratus` | Remove refusal behaviors from open-weight LLMs using OBLITERATUS — mechanistic interpretability techniques (diff-in-means, SVD, whitened SVD, LEACE, SAE decomposition, etc.) to excise guardrails while preserving reasoning. 9 CLI methods, 28 analysis modules, 116 model presets ac… | `mlops/inference/obliteratus` |
-| `outlines` | Guarantee valid JSON/XML/code structure during generation, use Pydantic models for type-safe outputs, support local models (Transformers, vLLM), and maximize inference speed with Outlines - dottxt.ai's structured generation library | `mlops/inference/outlines` |
-| `serving-llms-vllm` | Serves LLMs with high throughput using vLLM's PagedAttention and continuous batching. Use when deploying production LLM APIs, optimizing inference latency/throughput, or serving models with limited GPU memory. Supports OpenAI-compatible endpoints, quantization (GPTQ/AWQ/FP8), an… | `mlops/inference/vllm` |
-| `tensorrt-llm` | Optimizes LLM inference with NVIDIA TensorRT for maximum throughput and lowest latency. Use for production deployment on NVIDIA GPUs (A100/H100), when you need 10-100x faster inference than PyTorch, or for serving models with quantization (FP8/INT4), in-flight batching, and mult… | `mlops/inference/tensorrt-llm` |
+| `gguf-quantization` | 用于高效 CPU/GPU 推理的 GGUF 格式和 llama.cpp 量化。适用于在消费级硬件、Apple Silicon 上部署模型，或在无 GPU 要求的情况下进行 2-8 位灵活量化。 | `mlops/inference/gguf` |
+| `guidance` | 使用正则表达式和语法控制 LLM 输出，保证生成有效的 JSON/XML/代码，强制执行结构化格式，并使用 Guidance（微软研究院的约束生成框架）构建多步骤工作流。 | `mlops/inference/guidance` |
+| `instructor` | 使用 Pydantic 验证从 LLM 响应中提取结构化数据，自动重试失败的提取，安全解析复杂 JSON，并使用 Instructor（经过验证的结构化输出库）流式传输部分结果。 | `mlops/inference/instructor` |
+| `llama-cpp` | 在 CPU、Apple Silicon 和消费级 GPU 上运行 LLM 推理，无需 NVIDIA 硬件。适用于边缘部署、M1/M2/M3 Mac、AMD/Intel GPU，或 CUDA 不可用时。支持 GGUF 量化（1.5-8 位），相比 CPU 上的 PyTorch 可减少内存占用并实现 4-10× 加速。 | `mlops/inference/llama-cpp` |
+| `obliteratus` | 使用 OBLITERATUS 从开源权重 LLM 中移除拒绝行为——均值差异、SVD、白化 SVD、LEACE、SAE 分解等机理可解释性技术，在保留推理能力的同时去除护栏。9 种 CLI 方法、28 个分析模块、116 种模型预设覆盖… | `mlops/inference/obliteratus` |
+| `outlines` | 在生成过程中保证有效的 JSON/XML/代码结构，使用 Pydantic 模型实现类型安全输出，支持本地模型（Transformers、vLLM），并使用 Outlines（dottxt.ai 的结构化生成库）最大化推理速度。 | `mlops/inference/outlines` |
+| `serving-llms-vllm` | 使用 vLLM 的 PagedAttention 和连续批处理以高吞吐量服务 LLM。适用于部署生产级 LLM API、优化推理延迟/吞吐量，或在有限 GPU 内存下服务模型。支持兼容 OpenAI 的端点、量化（GPTQ/AWQ/FP8）以及… | `mlops/inference/vllm` |
+| `tensorrt-llm` | 使用 NVIDIA TensorRT 优化 LLM 推理，实现最大吞吐量和最低延迟。适用于在 NVIDIA GPU（A100/H100）上进行生产部署、需要比 PyTorch 快 10-100 倍的推理速度，或使用量化（FP8/INT4）、动态批处理和多 GPU 服务模型时… | `mlops/inference/tensorrt-llm` |
 
 ## mlops/models
 
-Specific model architectures and tools — computer vision (CLIP, SAM, Stable Diffusion), speech (Whisper), audio generation (AudioCraft), and multimodal models (LLaVA).
+特定模型架构和工具——计算机视觉（CLIP、SAM、Stable Diffusion）、语音（Whisper）、音频生成（AudioCraft）和多模态模型（LLaVA）。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `audiocraft-audio-generation` | PyTorch library for audio generation including text-to-music (MusicGen) and text-to-sound (AudioGen). Use when you need to generate music from text descriptions, create sound effects, or perform melody-conditioned music generation. | `mlops/models/audiocraft` |
-| `clip` | OpenAI's model connecting vision and language. Enables zero-shot image classification, image-text matching, and cross-modal retrieval. Trained on 400M image-text pairs. Use for image search, content moderation, or vision-language tasks without fine-tuning. Best for general-purpo… | `mlops/models/clip` |
-| `llava` | Large Language and Vision Assistant. Enables visual instruction tuning and image-based conversations. Combines CLIP vision encoder with Vicuna/LLaMA language models. Supports multi-turn image chat, visual question answering, and instruction following. Use for vision-language cha… | `mlops/models/llava` |
-| `segment-anything-model` | Foundation model for image segmentation with zero-shot transfer. Use when you need to segment any object in images using points, boxes, or masks as prompts, or automatically generate all object masks in an image. | `mlops/models/segment-anything` |
-| `stable-diffusion-image-generation` | State-of-the-art text-to-image generation with Stable Diffusion models via HuggingFace Diffusers. Use when generating images from text prompts, performing image-to-image translation, inpainting, or building custom diffusion pipelines. | `mlops/models/stable-diffusion` |
-| `whisper` | OpenAI's general-purpose speech recognition model. Supports 99 languages, transcription, translation to English, and language identification. Six model sizes from tiny (39M params) to large (1550M params). Use for speech-to-text, podcast transcription, or multilingual audio proc… | `mlops/models/whisper` |
+| `audiocraft-audio-generation` | 用于音频生成的 PyTorch 库，包括文本转音乐（MusicGen）和文本转音效（AudioGen）。适用于从文本描述生成音乐、创建音效或进行旋律条件化音乐生成。 | `mlops/models/audiocraft` |
+| `clip` | OpenAI 的视觉与语言连接模型。支持零样本图像分类、图像-文本匹配和跨模态检索。在 4 亿图像-文本对上训练。适用于图像搜索、内容审核或无需微调的视觉-语言任务。最适合通用… | `mlops/models/clip` |
+| `llava` | 大型语言和视觉助手。支持视觉指令微调和基于图像的对话。将 CLIP 视觉编码器与 Vicuna/LLaMA 语言模型结合。支持多轮图像对话、视觉问答和指令跟随。适用于视觉-语言对话… | `mlops/models/llava` |
+| `segment-anything-model` | 用于图像分割的基础模型，支持零样本迁移。适用于使用点、框或掩码作为提示词分割图像中的任意对象，或自动生成图像中所有对象的掩码。 | `mlops/models/segment-anything` |
+| `stable-diffusion-image-generation` | 通过 HuggingFace Diffusers 使用 Stable Diffusion 模型进行最先进的文本生成图像。适用于从文本提示词生成图像、图像到图像转换、图像修复或构建自定义扩散流水线。 | `mlops/models/stable-diffusion` |
+| `whisper` | OpenAI 的通用语音识别模型。支持 99 种语言、转录、翻译成英语和语言识别。六种模型大小，从 tiny（3900 万参数）到 large（15.5 亿参数）。适用于语音转文本、播客转录或多语言音频处理… | `mlops/models/whisper` |
 
 ## mlops/research
 
-ML research frameworks for building and optimizing AI systems with declarative programming.
+用于构建和优化 AI 系统的 ML 研究框架，采用声明式编程方式。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `dspy` | Build complex AI systems with declarative programming, optimize prompts automatically, create modular RAG systems and agents with DSPy - Stanford NLP's framework for systematic LM programming | `mlops/research/dspy` |
+| `dspy` | 使用声明式编程构建复杂 AI 系统，自动优化提示词，使用 DSPy（斯坦福 NLP 用于系统化语言模型编程的框架）创建模块化 RAG 系统和智能体。 | `mlops/research/dspy` |
 
 ## mlops/training
 
-Fine-tuning, RLHF/DPO/GRPO training, distributed training frameworks, and optimization tools for training LLMs and other models.
+用于 LLM 及其他模型训练的微调、RLHF/DPO/GRPO 训练、分布式训练框架和优化工具。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `axolotl` | Expert guidance for fine-tuning LLMs with Axolotl - YAML configs, 100+ models, LoRA/QLoRA, DPO/KTO/ORPO/GRPO, multimodal support | `mlops/training/axolotl` |
-| `distributed-llm-pretraining-torchtitan` | Provides PyTorch-native distributed LLM pretraining using torchtitan with 4D parallelism (FSDP2, TP, PP, CP). Use when pretraining Llama 3.1, DeepSeek V3, or custom models at scale from 8 to 512+ GPUs with Float8, torch.compile, and distributed checkpointing. | `mlops/training/torchtitan` |
-| `fine-tuning-with-trl` | Fine-tune LLMs using reinforcement learning with TRL - SFT for instruction tuning, DPO for preference alignment, PPO/GRPO for reward optimization, and reward model training. Use when need RLHF, align model with preferences, or train from human feedback. Works with HuggingFace Tr… | `mlops/training/trl-fine-tuning` |
-| `grpo-rl-training` | Expert guidance for GRPO/RL fine-tuning with TRL for reasoning and task-specific model training | `mlops/training/grpo-rl-training` |
-| `hermes-atropos-environments` | Build, test, and debug Hermes Agent RL environments for Atropos training. Covers the HermesAgentBaseEnv interface, reward functions, agent loop integration, evaluation with tools, wandb logging, and the three CLI modes (serve/process/evaluate). Use when creating, reviewing, or f… | `mlops/training/hermes-atropos-environments` |
-| `huggingface-accelerate` | Simplest distributed training API. 4 lines to add distributed support to any PyTorch script. Unified API for DeepSpeed/FSDP/Megatron/DDP. Automatic device placement, mixed precision (FP16/BF16/FP8). Interactive config, single launch command. HuggingFace ecosystem standard. | `mlops/training/accelerate` |
-| `optimizing-attention-flash` | Optimizes transformer attention with Flash Attention for 2-4x speedup and 10-20x memory reduction. Use when training/running transformers with long sequences (&gt;512 tokens), encountering GPU memory issues with attention, or need faster inference. Supports PyTorch native SDPA,… | `mlops/training/flash-attention` |
-| `peft-fine-tuning` | Parameter-efficient fine-tuning for LLMs using LoRA, QLoRA, and 25+ methods. Use when fine-tuning large models (7B-70B) with limited GPU memory, when you need to train &lt;1% of parameters with minimal accuracy loss, or for multi-adapter serving. HuggingFace's official library i… | `mlops/training/peft` |
-| `pytorch-fsdp` | Expert guidance for Fully Sharded Data Parallel training with PyTorch FSDP - parameter sharding, mixed precision, CPU offloading, FSDP2 | `mlops/training/pytorch-fsdp` |
-| `pytorch-lightning` | High-level PyTorch framework with Trainer class, automatic distributed training (DDP/FSDP/DeepSpeed), callbacks system, and minimal boilerplate. Scales from laptop to supercomputer with same code. Use when you want clean training loops with built-in best practices. | `mlops/training/pytorch-lightning` |
-| `simpo-training` | Simple Preference Optimization for LLM alignment. Reference-free alternative to DPO with better performance (+6.4 points on AlpacaEval 2.0). No reference model needed, more efficient than DPO. Use for preference alignment when want simpler, faster training than DPO/PPO. | `mlops/training/simpo` |
-| `slime-rl-training` | Provides guidance for LLM post-training with RL using slime, a Megatron+SGLang framework. Use when training GLM models, implementing custom data generation workflows, or needing tight Megatron-LM integration for RL scaling. | `mlops/training/slime` |
-| `unsloth` | Expert guidance for fast fine-tuning with Unsloth - 2-5x faster training, 50-80% less memory, LoRA/QLoRA optimization | `mlops/training/unsloth` |
+| `axolotl` | 使用 Axolotl 微调 LLM 的专家指导——YAML 配置、100+ 模型、LoRA/QLoRA、DPO/KTO/ORPO/GRPO、多模态支持。 | `mlops/training/axolotl` |
+| `distributed-llm-pretraining-torchtitan` | 使用 torchtitan 进行 PyTorch 原生分布式 LLM 预训练，支持 4D 并行（FSDP2、TP、PP、CP）。适用于在 8 到 512+ GPU 上使用 Float8、torch.compile 和分布式检查点预训练 Llama 3.1、DeepSeek V3 或自定义模型。 | `mlops/training/torchtitan` |
+| `fine-tuning-with-trl` | 使用 TRL 通过强化学习微调 LLM——SFT 用于指令微调，DPO 用于偏好对齐，PPO/GRPO 用于奖励优化，以及奖励模型训练。适用于需要 RLHF、使模型与偏好对齐或从人类反馈中训练的场景。与 HuggingFace Transformers 无缝配合… | `mlops/training/trl-fine-tuning` |
+| `grpo-rl-training` | 针对推理和特定任务模型训练，使用 TRL 进行 GRPO/RL 微调的专家指导。 | `mlops/training/grpo-rl-training` |
+| `hermes-atropos-environments` | 构建、测试和调试用于 Atropos 训练的 Hermes Agent RL 环境。涵盖 HermesAgentBaseEnv 接口、奖励函数、智能体循环集成、工具评估、wandb 日志记录以及三种 CLI 模式（serve/process/evaluate）。适用于创建、审查或调试… | `mlops/training/hermes-atropos-environments` |
+| `huggingface-accelerate` | 最简单的分布式训练 API。仅需 4 行代码即可为任意 PyTorch 脚本添加分布式支持。提供 DeepSpeed/FSDP/Megatron/DDP 的统一 API。自动设备放置、混合精度（FP16/BF16/FP8）。交互式配置、单一启动命令。HuggingFace 生态系统标准。 | `mlops/training/accelerate` |
+| `optimizing-attention-flash` | 使用 Flash Attention 优化 Transformer 注意力机制，实现 2-4× 加速和 10-20× 内存减少。适用于训练/运行具有长序列（>512 token）的 Transformer、遇到注意力 GPU 内存问题或需要更快推理时。支持 PyTorch 原生 SDPA… | `mlops/training/flash-attention` |
+| `peft-fine-tuning` | 使用 LoRA、QLoRA 和 25+ 方法进行 LLM 参数高效微调。适用于在有限 GPU 内存下微调大型模型（7B-70B）、需要以最小精度损失训练不到 1% 参数，或进行多适配器服务时。HuggingFace 官方库… | `mlops/training/peft` |
+| `pytorch-fsdp` | PyTorch FSDP 全分片数据并行训练的专家指导——参数分片、混合精度、CPU 卸载、FSDP2。 | `mlops/training/pytorch-fsdp` |
+| `pytorch-lightning` | 带有 Trainer 类的高级 PyTorch 框架，具备自动分布式训练（DDP/FSDP/DeepSpeed）、回调系统和极少样板代码。使用相同代码从笔记本电脑扩展到超级计算机。适用于需要内置最佳实践的简洁训练循环时使用。 | `mlops/training/pytorch-lightning` |
+| `simpo-training` | 用于 LLM 对齐的简单偏好优化。DPO 的无参考替代方案，性能更优（在 AlpacaEval 2.0 上提升 +6.4 分）。无需参考模型，比 DPO 更高效。适用于需要比 DPO/PPO 更简单、更快速训练的偏好对齐场景。 | `mlops/training/simpo` |
+| `slime-rl-training` | 使用 slime（Megatron+SGLang 框架）进行 LLM 强化学习后训练的指导。适用于训练 GLM 模型、实现自定义数据生成工作流或需要紧密 Megatron-LM 集成以进行 RL 扩展时。 | `mlops/training/slime` |
+| `unsloth` | 使用 Unsloth 进行快速微调的专家指导——训练速度提升 2-5×，内存减少 50-80%，LoRA/QLoRA 优化。 | `mlops/training/unsloth` |
 
 ## mlops/vector-databases
 
-Vector similarity search and embedding databases for RAG, semantic search, and AI application backends.
+用于 RAG、语义搜索和 AI 应用后端的向量相似度搜索和嵌入数据库。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `chroma` | Open-source embedding database for AI applications. Store embeddings and metadata, perform vector and full-text search, filter by metadata. Simple 4-function API. Scales from notebooks to production clusters. Use for semantic search, RAG applications, or document retrieval. Best… | `mlops/vector-databases/chroma` |
-| `faiss` | Facebook's library for efficient similarity search and clustering of dense vectors. Supports billions of vectors, GPU acceleration, and various index types (Flat, IVF, HNSW). Use for fast k-NN search, large-scale vector retrieval, or when you need pure similarity search without… | `mlops/vector-databases/faiss` |
-| `pinecone` | Managed vector database for production AI applications. Fully managed, auto-scaling, with hybrid search (dense + sparse), metadata filtering, and namespaces. Low latency (&lt;100ms p95). Use for production RAG, recommendation systems, or semantic search at scale. Best for server… | `mlops/vector-databases/pinecone` |
-| `qdrant-vector-search` | High-performance vector similarity search engine for RAG and semantic search. Use when building production RAG systems requiring fast nearest neighbor search, hybrid search with filtering, or scalable vector storage with Rust-powered performance. | `mlops/vector-databases/qdrant` |
+| `chroma` | 用于 AI 应用的开源嵌入数据库。存储嵌入和元数据，执行向量和全文搜索，按元数据过滤。简单的 4 函数 API。可从笔记本扩展到生产集群。适用于语义搜索、RAG 应用或文档检索。最适合… | `mlops/vector-databases/chroma` |
+| `faiss` | Facebook 用于密集向量高效相似度搜索和聚类的库。支持数十亿向量、GPU 加速和多种索引类型（Flat、IVF、HNSW）。适用于快速 k-NN 搜索、大规模向量检索，或仅需纯相似度搜索时… | `mlops/vector-databases/faiss` |
+| `pinecone` | 用于生产级 AI 应用的托管向量数据库。全托管、自动扩缩容，具备混合搜索（密集 + 稀疏）、元数据过滤和命名空间功能。低延迟（p95 < 100ms）。适用于生产 RAG、推荐系统或大规模语义搜索。最适合服务器… | `mlops/vector-databases/pinecone` |
+| `qdrant-vector-search` | 高性能向量相似度搜索引擎，用于 RAG 和语义搜索。适用于构建需要快速近邻搜索、带过滤的混合搜索，或使用 Rust 驱动性能的可扩展向量存储的生产级 RAG 系统。 | `mlops/vector-databases/qdrant` |
 
 ## note-taking
 
-Note taking skills, to save information, assist with research, and collab on multi-session planning and information sharing.
+用于保存信息、辅助研究，以及在多会话中协作规划和共享信息的笔记技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `obsidian` | Read, search, and create notes in the Obsidian vault. | `note-taking/obsidian` |
+| `obsidian` | 在 Obsidian 库中读取、搜索和创建笔记。 | `note-taking/obsidian` |
 
 ## productivity
 
-Skills for document creation, presentations, spreadsheets, and other productivity workflows.
+用于文档创建、演示文稿、电子表格和其他生产力工作流的技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `google-workspace` | Gmail, Calendar, Drive, Contacts, Sheets, and Docs integration via Python. Uses OAuth2 with automatic token refresh. No external binaries needed — runs entirely with Google's Python client libraries in the Hermes venv. | `productivity/google-workspace` |
-| `linear` | Manage Linear issues, projects, and teams via the GraphQL API. Create, update, search, and organize issues. | `productivity/linear` |
-| `nano-pdf` | Edit PDFs with natural-language instructions using the nano-pdf CLI. Modify text, fix typos, update titles, and make content changes to specific pages without manual editing. | `productivity/nano-pdf` |
-| `notion` | Notion API for creating and managing pages, databases, and blocks via curl. Search, create, update, and query Notion workspaces directly from the terminal. | `productivity/notion` |
-| `ocr-and-documents` | Extract text from PDFs and scanned documents. Use web_extract for remote URLs, pymupdf for local text-based PDFs, marker-pdf for OCR/scanned docs. For DOCX use python-docx, for PPTX see the powerpoint skill. | `productivity/ocr-and-documents` |
-| `powerpoint` | "Use this skill any time a .pptx file is involved in any way — as input, output, or both. This includes: creating slide decks, pitch decks, or presentations; reading, parsing, or extracting text from any .pptx file (even if the extracted content will be used elsewhere, like in a… | `productivity/powerpoint` |
+| `google-workspace` | 通过 Python 集成 Gmail、日历、云端硬盘、联系人、表格和文档。使用 OAuth2 并自动刷新 token。无需外部二进制文件——完全在 Hermes venv 中使用 Google Python 客户端库运行。 | `productivity/google-workspace` |
+| `linear` | 通过 GraphQL API 管理 Linear issues、项目和团队。创建、更新、搜索和整理 issues。 | `productivity/linear` |
+| `nano-pdf` | 使用 nano-pdf CLI 通过自然语言指令编辑 PDF。修改文本、修正错别字、更新标题，以及在无需手动编辑的情况下对特定页面进行内容修改。 | `productivity/nano-pdf` |
+| `notion` | 通过 curl 使用 Notion API 创建和管理页面、数据库和块。直接从终端搜索、创建、更新和查询 Notion 工作区。 | `productivity/notion` |
+| `ocr-and-documents` | 从 PDF 和扫描文档中提取文本。对远程 URL 使用 web_extract，对本地文本型 PDF 使用 pymupdf，对 OCR/扫描文档使用 marker-pdf。对于 DOCX 使用 python-docx，对于 PPTX 参见 powerpoint 技能。 | `productivity/ocr-and-documents` |
+| `powerpoint` | 任何涉及 .pptx 文件的场景都使用此技能——无论作为输入、输出还是两者兼有。包括：创建幻灯片组、演示文稿或演讲稿；读取、解析或从任意 .pptx 文件中提取文本（即使提取的内容将在别处使用，例如在… | `productivity/powerpoint` |
 
 ## research
 
-Skills for academic research, paper discovery, literature review, domain reconnaissance, market data, content monitoring, and scientific knowledge retrieval.
+用于学术研究、论文发现、文献综述、领域侦察、市场数据、内容监控和科学知识检索的技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `arxiv` | Search and retrieve academic papers from arXiv using their free REST API. No API key needed. Search by keyword, author, category, or ID. Combine with web_extract or the ocr-and-documents skill to read full paper content. | `research/arxiv` |
-| `blogwatcher` | Monitor blogs and RSS/Atom feeds for updates using the blogwatcher CLI. Add blogs, scan for new articles, and track what you've read. | `research/blogwatcher` |
-| `llm-wiki` | Karpathy's LLM Wiki — build and maintain a persistent, interlinked markdown knowledge base. Ingest sources, query compiled knowledge, and lint for consistency. Unlike RAG, the wiki compiles knowledge once and keeps it current. Works as an Obsidian vault. Configurable via `skills.config.wiki.path`. | `research/llm-wiki` |
-| `domain-intel` | Passive domain reconnaissance using Python stdlib. Subdomain discovery, SSL certificate inspection, WHOIS lookups, DNS records, domain availability checks, and bulk multi-domain analysis. No API keys required. | `research/domain-intel` |
-| `duckduckgo-search` | Free web search via DuckDuckGo — text, news, images, videos. No API key needed. Prefer the `ddgs` CLI when installed; use the Python DDGS library only after verifying that `ddgs` is available in the current runtime. | `research/duckduckgo-search` |
-| `ml-paper-writing` | Write publication-ready ML/AI papers for NeurIPS, ICML, ICLR, ACL, AAAI, COLM. Use when drafting papers from research repos, structuring arguments, verifying citations, or preparing camera-ready submissions. Includes LaTeX templates, reviewer guidelines, and citation verificatio… | `research/ml-paper-writing` |
-| `polymarket` | Query Polymarket prediction market data — search markets, get prices, orderbooks, and price history. Read-only via public REST APIs, no API key needed. | `research/polymarket` |
+| `arxiv` | 使用 arXiv 免费 REST API 搜索和检索学术论文。无需 API 密钥。可按关键词、作者、类别或 ID 搜索。与 web_extract 或 ocr-and-documents 技能结合使用可阅读论文全文。 | `research/arxiv` |
+| `blogwatcher` | 使用 blogwatcher CLI 监控博客和 RSS/Atom feed 的更新。添加博客、扫描新文章并追踪阅读记录。 | `research/blogwatcher` |
+| `llm-wiki` | Karpathy 的 LLM Wiki——构建和维护持久化的互联 Markdown 知识库。摄取来源、查询汇编知识并检查一致性。与 RAG 不同，该 Wiki 一次性汇编知识并保持更新。可作为 Obsidian vault 使用。通过 `skills.config.wiki.path` 配置。 | `research/llm-wiki` |
+| `domain-intel` | 使用 Python 标准库进行被动域名侦察。子域名发现、SSL 证书检查、WHOIS 查询、DNS 记录、域名可用性检查和批量多域名分析。无需 API 密钥。 | `research/domain-intel` |
+| `duckduckgo-search` | 通过 DuckDuckGo 进行免费网络搜索——文字、新闻、图片、视频。无需 API 密钥。优先使用已安装的 `ddgs` CLI；仅在确认当前运行时中 `ddgs` 可用后，才使用 Python DDGS 库。 | `research/duckduckgo-search` |
+| `ml-paper-writing` | 为 NeurIPS、ICML、ICLR、ACL、AAAI、COLM 撰写可发表的 ML/AI 论文。适用于从研究代码库起草论文、构建论点、验证引用或准备最终提交版本。包含 LaTeX 模板、审稿人指南和引用验证… | `research/ml-paper-writing` |
+| `polymarket` | 查询 Polymarket 预测市场数据——搜索市场、获取价格、订单簿和历史价格。通过公开 REST API 只读访问，无需 API 密钥。 | `research/polymarket` |
 
 ## red-teaming
 
-Skills for LLM red-teaming, jailbreaking, and safety filter bypass research.
+用于 LLM 红队测试、越狱和安全过滤器绕过研究的技能。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `godmode` | Jailbreak API-served LLMs using G0DM0D3 techniques — Parseltongue input obfuscation (33 techniques), GODMODE CLASSIC system prompt templates, ULTRAPLINIAN multi-model racing, encoding escalation, and Hermes-native prefill/system prompt integration. Works on any model accessible via API including closed-source models. | `red-teaming/godmode` |
+| `godmode` | 使用 G0DM0D3 技术越狱通过 API 提供的 LLM——Parseltongue 输入混淆（33 种技术）、GODMODE CLASSIC 系统提示词模板、ULTRAPLINIAN 多模型竞速、编码升级以及 Hermes 原生预填充/系统提示词集成。适用于任何可通过 API 访问的模型，包括闭源模型。 | `red-teaming/godmode` |
 
 ## smart-home
 
-Skills for controlling smart home devices — lights, switches, sensors, and home automation systems.
+用于控制智能家居设备的技能——灯光、开关、传感器和家庭自动化系统。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `openhue` | Control Philips Hue lights, rooms, and scenes via the OpenHue CLI. Turn lights on/off, adjust brightness, color, color temperature, and activate scenes. | `smart-home/openhue` |
+| `openhue` | 通过 OpenHue CLI 控制飞利浦 Hue 灯光、房间和场景。开关灯光、调节亮度、颜色、色温，以及激活场景。 | `smart-home/openhue` |
 
 ## social-media
 
-Skills for interacting with social platforms — posting, reading, monitoring, and account operations.
+用于与社交平台交互的技能——发帖、阅读、监控和账户操作。
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `xitter` | Interact with X/Twitter via the x-cli terminal client using official X API credentials. | `social-media/xitter` |
+| `xitter` | 通过 x-cli 终端客户端使用官方 X API 凭据与 X/Twitter 交互。 | `social-media/xitter` |
 
 ## software-development
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `code-review` | Guidelines for performing thorough code reviews with security and quality focus | `software-development/code-review` |
-| `plan` | Plan mode for Hermes — inspect context, write a markdown plan into `.hermes/plans/` in the active workspace/backend working directory, and do not execute the work. | `software-development/plan` |
-| `requesting-code-review` | Use when completing tasks, implementing major features, or before merging. Validates work meets requirements through systematic review process. | `software-development/requesting-code-review` |
-| `subagent-driven-development` | Use when executing implementation plans with independent tasks. Dispatches fresh delegate_task per task with two-stage review (spec compliance then code quality). | `software-development/subagent-driven-development` |
-| `systematic-debugging` | Use when encountering any bug, test failure, or unexpected behavior. 4-phase root cause investigation — NO fixes without understanding the problem first. | `software-development/systematic-debugging` |
-| `test-driven-development` | Use when implementing any feature or bugfix, before writing implementation code. Enforces RED-GREEN-REFACTOR cycle with test-first approach. | `software-development/test-driven-development` |
-| `writing-plans` | Use when you have a spec or requirements for a multi-step task. Creates comprehensive implementation plans with bite-sized tasks, exact file paths, and complete code examples. | `software-development/writing-plans` |
+| `code-review` | 以安全和质量为重点进行彻底代码审查的指导原则。 | `software-development/code-review` |
+| `plan` | Hermes 计划模式——检查上下文，将 Markdown 计划写入活动工作区/后端工作目录的 `.hermes/plans/` 中，不执行实际工作。 | `software-development/plan` |
+| `requesting-code-review` | 在完成任务、实现主要功能或合并前使用。通过系统化审查流程验证工作是否满足需求。 | `software-development/requesting-code-review` |
+| `subagent-driven-development` | 在执行包含独立任务的实现计划时使用。为每个任务分派全新的 delegate_task，并进行两阶段审查（规范合规性检查和代码质量检查）。 | `software-development/subagent-driven-development` |
+| `systematic-debugging` | 遇到任何 bug、测试失败或意外行为时使用。4 阶段根本原因调查——在理解问题之前不要修复。 | `software-development/systematic-debugging` |
+| `test-driven-development` | 在实现任何功能或修复 bug 之前，编写实现代码前使用。强制执行测试优先的红-绿-重构循环。 | `software-development/test-driven-development` |
+| `writing-plans` | 当有规范或多步骤任务需求时使用。创建包含小粒度任务、精确文件路径和完整代码示例的综合实现计划。 | `software-development/writing-plans` |
 
 ---
 
-# Optional Skills
+# 可选技能
 
-Optional skills ship with the repository under `optional-skills/` but are **not active by default**. They cover heavier or niche use cases. Install them with:
+可选技能随仓库一起在 `optional-skills/` 目录下提供，但**默认未激活**。它们涵盖更重量级或小众的使用场景。通过以下命令安装：
 
 ```bash
 hermes skills install official/<category>/<skill>
@@ -304,71 +304,71 @@ hermes skills install official/<category>/<skill>
 
 ## autonomous-ai-agents
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `blackbox` | Delegate coding tasks to Blackbox AI CLI agent. Multi-model agent with built-in judge that runs tasks through multiple LLMs and picks the best result. Requires the blackbox CLI and a Blackbox AI API key. | `autonomous-ai-agents/blackbox` |
+| `blackbox` | 将编程任务委派给 Blackbox AI CLI 智能体。内置裁判的多模型智能体，通过多个 LLM 运行任务并选出最佳结果。需要安装 blackbox CLI 和 Blackbox AI API 密钥。 | `autonomous-ai-agents/blackbox` |
 
 ## blockchain
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `base` | Query Base (Ethereum L2) blockchain data with USD pricing — wallet balances, token info, transaction details, gas analysis, contract inspection, whale detection, and live network stats. Uses Base RPC + CoinGecko. No API key required. | `blockchain/base` |
-| `solana` | Query Solana blockchain data with USD pricing — wallet balances, token portfolios with values, transaction details, NFTs, whale detection, and live network stats. Uses Solana RPC + CoinGecko. No API key required. | `blockchain/solana` |
+| `base` | 查询 Base（以太坊 L2）区块链数据并附带 USD 定价——钱包余额、代币信息、交易详情、Gas 分析、合约检查、巨鲸检测和实时网络统计。使用 Base RPC + CoinGecko。无需 API 密钥。 | `blockchain/base` |
+| `solana` | 查询 Solana 区块链数据并附带 USD 定价——钱包余额、带估值的代币组合、交易详情、NFT、巨鲸检测和实时网络统计。使用 Solana RPC + CoinGecko。无需 API 密钥。 | `blockchain/solana` |
 
 ## creative
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `blender-mcp` | Control Blender directly from Hermes via socket connection to the blender-mcp addon. Create 3D objects, materials, animations, and run arbitrary Blender Python (bpy) code. | `creative/blender-mcp` |
-| `meme-generation` | Generate real meme images by picking a template and overlaying text with Pillow. Produces actual .png meme files. | `creative/meme-generation` |
+| `blender-mcp` | 通过 blender-mcp 插件的 Socket 连接直接从 Hermes 控制 Blender。创建 3D 对象、材质、动画，并运行任意 Blender Python（bpy）代码。 | `creative/blender-mcp` |
+| `meme-generation` | 通过选择模板并使用 Pillow 叠加文字生成真实的表情包图像。生成实际的 .png 表情包文件。 | `creative/meme-generation` |
 
 ## devops
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `docker-management` | Manage Docker containers, images, volumes, networks, and Compose stacks — lifecycle ops, debugging, cleanup, and Dockerfile optimization. | `devops/docker-management` |
+| `docker-management` | 管理 Docker 容器、镜像、卷、网络和 Compose 堆栈——生命周期操作、调试、清理和 Dockerfile 优化。 | `devops/docker-management` |
 
 ## email
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `agentmail` | Give the agent its own dedicated email inbox via AgentMail. Send, receive, and manage email autonomously using agent-owned email addresses (e.g. hermes-agent@agentmail.to). | `email/agentmail` |
+| `agentmail` | 通过 AgentMail 为智能体提供专属电子邮件收件箱。使用智能体拥有的邮箱地址（例如 hermes-agent@agentmail.to）自主发送、接收和管理电子邮件。 | `email/agentmail` |
 
 ## health
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `neuroskill-bci` | Connect to a running NeuroSkill instance and incorporate the user's real-time cognitive and emotional state (focus, relaxation, mood, cognitive load, drowsiness, heart rate, HRV, sleep staging, and 40+ derived EXG scores) into responses. Requires a BCI wearable (Muse 2/S or OpenBCI) and the NeuroSkill desktop app. | `health/neuroskill-bci` |
+| `neuroskill-bci` | 连接到正在运行的 NeuroSkill 实例，将用户的实时认知和情感状态（专注度、放松度、情绪、认知负荷、困倦度、心率、HRV、睡眠分期以及 40+ 衍生 EXG 评分）融入响应。需要 BCI 可穿戴设备（Muse 2/S 或 OpenBCI）和 NeuroSkill 桌面应用。 | `health/neuroskill-bci` |
 
 ## mcp
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `fastmcp` | Build, test, inspect, install, and deploy MCP servers with FastMCP in Python. Use when creating a new MCP server, wrapping an API or database as MCP tools, exposing resources or prompts, or preparing a FastMCP server for HTTP deployment. | `mcp/fastmcp` |
+| `fastmcp` | 使用 Python 中的 FastMCP 构建、测试、检查、安装和部署 MCP 服务器。适用于创建新 MCP 服务器、将 API 或数据库封装为 MCP 工具、暴露资源或提示词，或准备用于 HTTP 部署的 FastMCP 服务器。 | `mcp/fastmcp` |
 
 ## migration
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `openclaw-migration` | Migrate a user's OpenClaw customization footprint into Hermes Agent. Imports Hermes-compatible memories, SOUL.md, command allowlists, user skills, and selected workspace assets from ~/.openclaw, then reports what could not be migrated and why. | `migration/openclaw-migration` |
+| `openclaw-migration` | 将用户的 OpenClaw 自定义配置迁移到 Hermes Agent。从 ~/.openclaw 导入与 Hermes 兼容的记忆、SOUL.md、命令允许列表、用户技能和选定的工作区资产，然后报告无法迁移的内容及原因。 | `migration/openclaw-migration` |
 
 ## productivity
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `telephony` | Give Hermes phone capabilities — provision and persist a Twilio number, send and receive SMS/MMS, make direct calls, and place AI-driven outbound calls through Bland.ai or Vapi. | `productivity/telephony` |
+| `telephony` | 为 Hermes 提供电话能力——配置并持久化 Twilio 号码，发送和接收 SMS/MMS，拨打直接电话，以及通过 Bland.ai 或 Vapi 进行 AI 驱动的外呼。 | `productivity/telephony` |
 
 ## research
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `bioinformatics` | Gateway to 400+ bioinformatics skills from bioSkills and ClawBio. Covers genomics, transcriptomics, single-cell, variant calling, pharmacogenomics, metagenomics, structural biology, and more. | `research/bioinformatics` |
-| `qmd` | Search personal knowledge bases, notes, docs, and meeting transcripts locally using qmd — a hybrid retrieval engine with BM25, vector search, and LLM reranking. Supports CLI and MCP integration. | `research/qmd` |
+| `bioinformatics` | 来自 bioSkills 和 ClawBio 的 400+ 生物信息学技能门户。涵盖基因组学、转录组学、单细胞分析、变异检测、药物基因组学、宏基因组学、结构生物学等更多领域。 | `research/bioinformatics` |
+| `qmd` | 使用 qmd（支持 BM25、向量搜索和 LLM 重排序的混合检索引擎）在本地搜索个人知识库、笔记、文档和会议记录。支持 CLI 和 MCP 集成。 | `research/qmd` |
 
 ## security
 
-| Skill | Description | Path |
+| 技能 | 描述 | 路径 |
 |-------|-------------|------|
-| `1password` | Set up and use 1Password CLI (op). Use when installing the CLI, enabling desktop app integration, signing in, and reading/injecting secrets for commands. | `security/1password` |
-| `oss-forensics` | Supply chain investigation, evidence recovery, and forensic analysis for GitHub repositories. Covers deleted commit recovery, force-push detection, IOC extraction, multi-source evidence collection, and structured forensic reporting. | `security/oss-forensics` |
-| `sherlock` | OSINT username search across 400+ social networks. Hunt down social media accounts by username. | `security/sherlock` |
+| `1password` | 设置并使用 1Password CLI（op）。适用于安装 CLI、启用桌面应用集成、登录以及为命令读取/注入密钥。 | `security/1password` |
+| `oss-forensics` | GitHub 仓库的供应链调查、证据恢复和取证分析。涵盖已删除提交恢复、强制推送检测、IOC 提取、多源证据收集和结构化取证报告。 | `security/oss-forensics` |
+| `sherlock` | 跨 400+ 社交网络的 OSINT 用户名搜索。通过用户名追踪社交媒体账户。 | `security/sherlock` |

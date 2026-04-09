@@ -1,53 +1,53 @@
 ---
-title: "Credential Pools"
+title: "凭证池"
 ---
-# Credential Pools
+# 凭证池
 
-Credential pools let you register multiple API keys or OAuth tokens for the same provider. When one key hits a rate limit or billing quota, Hermes automatically rotates to the next healthy key — keeping your session alive without switching providers.
+凭证池允许你为同一个 provider 注册多个 API key 或 OAuth token。当某个 key 触发速率限制或计费配额时，Hermes 会自动轮换到下一个可用 key，在不切换 provider 的情况下保持 session 持续运行。
 
-This is different from [fallback providers](/user-guide/features/fallback-providers), which switch to a *different* provider entirely. Credential pools are same-provider rotation; fallback providers are cross-provider failover. Pools are tried first — if all pool keys are exhausted, *then* the fallback provider activates.
+这与[备用 provider](/user-guide/features/fallback-providers)不同——备用 provider 会切换到*另一个* provider。凭证池是同一 provider 内的 key 轮换；备用 provider 是跨 provider 的故障转移。系统优先尝试池中的 key——只有当池中所有 key 都耗尽后，才会激活备用 provider。
 
-## How It Works
+## 工作原理
 
 ```
-Your request
-  → Pick key from pool (round_robin / least_used / fill_first / random)
-  → Send to provider
-  → 429 rate limit?
-      → Retry same key once (transient blip)
-      → Second 429 → rotate to next pool key
-      → All keys exhausted → fallback_model (different provider)
-  → 402 billing error?
-      → Immediately rotate to next pool key (24h cooldown)
-  → 401 auth expired?
-      → Try refreshing the token (OAuth)
-      → Refresh failed → rotate to next pool key
-  → Success → continue normally
+你的请求
+  → 从池中选取 key（round_robin / least_used / fill_first / random）
+  → 发送到 provider
+  → 遇到 429 速率限制？
+      → 对同一 key 重试一次（短暂波动）
+      → 第二次 429 → 轮换到下一个池中的 key
+      → 所有 key 已耗尽 → 切换到 fallback_model（其他 provider）
+  → 遇到 402 计费错误？
+      → 立即轮换到下一个池中的 key（冷却 24 小时）
+  → 遇到 401 认证过期？
+      → 尝试刷新 token（OAuth）
+      → 刷新失败 → 轮换到下一个池中的 key
+  → 成功 → 正常继续
 ```
 
-## Quick Start
+## 快速开始
 
-If you already have an API key set in `.env`, Hermes auto-discovers it as a 1-key pool. To benefit from pooling, add more keys:
+如果你已在 `.env` 中设置了 API key，Hermes 会自动将其识别为单 key 池。若要充分利用池化功能，可添加更多 key：
 
 ```bash
-# Add a second OpenRouter key
+# 添加第二个 OpenRouter key
 hermes auth add openrouter --api-key sk-or-v1-your-second-key
 
-# Add a second Anthropic key
+# 添加第二个 Anthropic key
 hermes auth add anthropic --type api-key --api-key sk-ant-api03-your-second-key
 
-# Add an Anthropic OAuth credential (Claude Code subscription)
+# 添加 Anthropic OAuth 凭证（Claude Code 订阅）
 hermes auth add anthropic --type oauth
-# Opens browser for OAuth login
+# 将在浏览器中打开 OAuth 登录页面
 ```
 
-Check your pools:
+查看你的凭证池：
 
 ```bash
 hermes auth list
 ```
 
-Output:
+输出示例：
 ```
 openrouter (2 credentials):
   #1  OPENROUTER_API_KEY   api_key env:OPENROUTER_API_KEY ←
@@ -59,17 +59,17 @@ anthropic (3 credentials):
   #3  ANTHROPIC_API_KEY    api_key env:ANTHROPIC_API_KEY
 ```
 
-The `←` marks the currently selected credential.
+`←` 标记当前正在使用的凭证。
 
-## Interactive Management
+## 交互式管理
 
-Run `hermes auth` with no subcommand for an interactive wizard:
+不带子命令运行 `hermes auth`，进入交互式向导：
 
 ```bash
 hermes auth
 ```
 
-This shows your full pool status and offers a menu:
+该向导会显示完整的池状态，并提供操作菜单：
 
 ```
 What would you like to do?
@@ -80,7 +80,7 @@ What would you like to do?
   5. Exit
 ```
 
-For providers that support both API keys and OAuth (Anthropic, Nous, Codex), the add flow asks which type:
+对于同时支持 API key 和 OAuth 的 provider（Anthropic、Nous、Codex），添加流程会询问凭证类型：
 
 ```
 anthropic supports both API keys and OAuth login.
@@ -89,22 +89,22 @@ anthropic supports both API keys and OAuth login.
 Type [1/2]:
 ```
 
-## CLI Commands
+## CLI 命令
 
-| Command | Description |
-|---------|-------------|
-| `hermes auth` | Interactive pool management wizard |
-| `hermes auth list` | Show all pools and credentials |
-| `hermes auth list ` | Show a specific provider's pool |
-| `hermes auth add ` | Add a credential (prompts for type and key) |
-| `hermes auth add  --type api-key --api-key ` | Add an API key non-interactively |
-| `hermes auth add  --type oauth` | Add an OAuth credential via browser login |
-| `hermes auth remove  ` | Remove credential by 1-based index |
-| `hermes auth reset ` | Clear all cooldowns/exhaustion status |
+| 命令 | 说明 |
+|------|------|
+| `hermes auth` | 交互式凭证池管理向导 |
+| `hermes auth list` | 显示所有池和凭证 |
+| `hermes auth list <provider>` | 显示指定 provider 的凭证池 |
+| `hermes auth add <provider>` | 添加凭证（交互式选择类型和 key） |
+| `hermes auth add <provider> --type api-key --api-key <key>` | 非交互式添加 API key |
+| `hermes auth add <provider> --type oauth` | 通过浏览器登录添加 OAuth 凭证 |
+| `hermes auth remove <provider> <index>` | 按 1-based 序号删除凭证 |
+| `hermes auth reset <provider>` | 清除所有冷却/耗尽状态 |
 
-## Rotation Strategies
+## 轮换策略
 
-Configure via `hermes auth` → "Set rotation strategy" or in `config.yaml`:
+可通过 `hermes auth` → "Set rotation strategy" 配置，或直接在 `config.yaml` 中设置：
 
 ```yaml
 credential_pool_strategies:
@@ -112,44 +112,44 @@ credential_pool_strategies:
   anthropic: least_used
 ```
 
-| Strategy | Behavior |
-|----------|----------|
-| `fill_first` (default) | Use the first healthy key until it's exhausted, then move to the next |
-| `round_robin` | Cycle through keys evenly, rotating after each selection |
-| `least_used` | Always pick the key with the lowest request count |
-| `random` | Random selection among healthy keys |
+| 策略 | 行为 |
+|------|------|
+| `fill_first`（默认） | 持续使用第一个可用 key，直到耗尽，再切换到下一个 |
+| `round_robin` | 均匀循环所有 key，每次选取后轮换 |
+| `least_used` | 始终选取请求次数最少的 key |
+| `random` | 从可用 key 中随机选取 |
 
-## Error Recovery
+## 错误恢复
 
-The pool handles different errors differently:
+凭证池针对不同错误采用不同的处理方式：
 
-| Error | Behavior | Cooldown |
-|-------|----------|----------|
-| **429 Rate Limit** | Retry same key once (transient). Second consecutive 429 rotates to next key | 1 hour |
-| **402 Billing/Quota** | Immediately rotate to next key | 24 hours |
-| **401 Auth Expired** | Try refreshing the OAuth token first. Rotate only if refresh fails | — |
-| **All keys exhausted** | Fall through to `fallback_model` if configured | — |
+| 错误 | 行为 | 冷却时间 |
+|------|------|----------|
+| **429 速率限制** | 对同一 key 重试一次（短暂波动）。连续第二次 429 则轮换到下一个 key | 1 小时 |
+| **402 计费/配额不足** | 立即轮换到下一个 key | 24 小时 |
+| **401 认证过期** | 优先尝试刷新 OAuth token，仅在刷新失败时才轮换 | — |
+| **所有 key 已耗尽** | 若已配置 `fallback_model`，则切换至备用 provider | — |
 
-The `has_retried_429` flag resets on every successful API call, so a single transient 429 doesn't trigger rotation.
+`has_retried_429` 标志在每次 API 调用成功后重置，因此单次短暂的 429 不会触发轮换。
 
-## Custom Endpoint Pools
+## 自定义端点池
 
-Custom OpenAI-compatible endpoints (Together.ai, RunPod, local servers) get their own pools, keyed by the endpoint name from `custom_providers` in config.yaml.
+兼容 OpenAI 接口的自定义端点（Together.ai、RunPod、本地服务器等）拥有独立的凭证池，以 `config.yaml` 中 `custom_providers` 里的端点名称作为池的标识符。
 
-When you set up a custom endpoint via `hermes model`, it auto-generates a name like "Together.ai" or "Local (localhost:8080)". This name becomes the pool key.
+通过 `hermes model` 设置自定义端点时，系统会自动生成名称，如"Together.ai"或"Local (localhost:8080)"，该名称即为池的 key。
 
 ```bash
-# After setting up a custom endpoint via hermes model:
+# 通过 hermes model 设置自定义端点后：
 hermes auth list
-# Shows:
+# 输出：
 #   Together.ai (1 credential):
 #     #1  config key    api_key config:Together.ai ←
 
-# Add a second key for the same endpoint:
+# 为同一端点添加第二个 key：
 hermes auth add Together.ai --api-key sk-together-second-key
 ```
 
-Custom endpoint pools are stored in `auth.json` under `credential_pool` with a `custom:` prefix:
+自定义端点的凭证池存储在 `auth.json` 的 `credential_pool` 下，使用 `custom:` 前缀：
 
 ```json
 {
@@ -160,49 +160,49 @@ Custom endpoint pools are stored in `auth.json` under `credential_pool` with a `
 }
 ```
 
-## Auto-Discovery
+## 自动发现
 
-Hermes automatically discovers credentials from multiple sources and seeds the pool on startup:
+Hermes 在启动时会自动从多个来源发现凭证并初始化凭证池：
 
-| Source | Example | Auto-seeded? |
-|--------|---------|-------------|
-| Environment variables | `OPENROUTER_API_KEY`, `ANTHROPIC_API_KEY` | Yes |
-| OAuth tokens (auth.json) | Codex device code, Nous device code | Yes |
-| Claude Code credentials | `~/.claude/.credentials.json` | Yes (Anthropic) |
-| Hermes PKCE OAuth | `~/.hermes/auth.json` | Yes (Anthropic) |
-| Custom endpoint config | `model.api_key` in config.yaml | Yes (custom endpoints) |
-| Manual entries | Added via `hermes auth add` | Persisted in auth.json |
+| 来源 | 示例 | 自动载入？ |
+|------|------|-----------|
+| 环境变量 | `OPENROUTER_API_KEY`、`ANTHROPIC_API_KEY` | 是 |
+| OAuth token（auth.json） | Codex device code、Nous device code | 是 |
+| Claude Code 凭证 | `~/.claude/.credentials.json` | 是（Anthropic） |
+| Hermes PKCE OAuth | `~/.hermes/auth.json` | 是（Anthropic） |
+| 自定义端点配置 | `config.yaml` 中的 `model.api_key` | 是（自定义端点） |
+| 手动条目 | 通过 `hermes auth add` 添加 | 持久化至 auth.json |
 
-Auto-seeded entries are updated on each pool load — if you remove an env var, its pool entry is automatically pruned. Manual entries (added via `hermes auth add`) are never auto-pruned.
+自动载入的条目在每次加载凭证池时更新——若删除某个环境变量，对应的池条目会自动清除。通过 `hermes auth add` 手动添加的条目永远不会被自动清除。
 
-## Delegation & Subagent Sharing
+## 委托与子 Agent 共享
 
-When the agent spawns subagents via `delegate_task`, the parent's credential pool is automatically shared with children:
+当 agent 通过 `delegate_task` 创建子 agent 时，父 agent 的凭证池会自动共享给子 agent：
 
-- **Same provider** — the child receives the parent's full pool, enabling key rotation on rate limits
-- **Different provider** — the child loads that provider's own pool (if configured)
-- **No pool configured** — the child falls back to the inherited single API key
+- **相同 provider** — 子 agent 继承父 agent 的完整凭证池，在触发速率限制时可进行 key 轮换
+- **不同 provider** — 子 agent 加载该 provider 自身的凭证池（如已配置）
+- **未配置凭证池** — 子 agent 回退到继承的单个 API key
 
-This means subagents benefit from the same rate-limit resilience as the parent, with no extra configuration needed. Per-task credential leasing ensures children don't conflict with each other when rotating keys concurrently.
+这意味着子 agent 无需额外配置，即可享有与父 agent 相同的速率限制容错能力。按任务分配凭证租约，确保多个子 agent 并发轮换 key 时不会相互冲突。
 
-## Thread Safety
+## 线程安全
 
-The credential pool uses a threading lock for all state mutations (`select()`, `mark_exhausted_and_rotate()`, `try_refresh_current()`, `mark_used()`). This ensures safe concurrent access when the gateway handles multiple chat sessions simultaneously.
+凭证池对所有状态变更操作（`select()`、`mark_exhausted_and_rotate()`、`try_refresh_current()`、`mark_used()`）均使用线程锁，确保 gateway 同时处理多个 chat session 时的并发安全性。
 
-## Architecture
+## 架构
 
-For the full data flow diagram, see [`docs/credential-pool-flow.excalidraw`](https://excalidraw.com/#json=2Ycqhqpi6f12E_3ITyiwh,c7u9jSt5BwrmiVzHGbm87g) in the repository.
+完整数据流程图请参见仓库中的 [`docs/credential-pool-flow.excalidraw`](https://excalidraw.com/#json=2Ycqhqpi6f12E_3ITyiwh,c7u9jSt5BwrmiVzHGbm87g)。
 
-The credential pool integrates at the provider resolution layer:
+凭证池集成在 provider 解析层：
 
-1. **`agent/credential_pool.py`** — Pool manager: storage, selection, rotation, cooldowns
-2. **`hermes_cli/auth_commands.py`** — CLI commands and interactive wizard
-3. **`hermes_cli/runtime_provider.py`** — Pool-aware credential resolution
-4. **`run_agent.py`** — Error recovery: 429/402/401 → pool rotation → fallback
+1. **`agent/credential_pool.py`** — 池管理器：存储、选取、轮换、冷却时间
+2. **`hermes_cli/auth_commands.py`** — CLI 命令与交互式向导
+3. **`hermes_cli/runtime_provider.py`** — 感知凭证池的凭证解析逻辑
+4. **`run_agent.py`** — 错误恢复：429/402/401 → 池轮换 → 备用 provider
 
-## Storage
+## 存储
 
-Pool state is stored in `~/.hermes/auth.json` under the `credential_pool` key:
+池状态存储在 `~/.hermes/auth.json` 的 `credential_pool` 键下：
 
 ```json
 {
@@ -224,7 +224,7 @@ Pool state is stored in `~/.hermes/auth.json` under the `credential_pool` key:
 }
 ```
 
-Strategies are stored in `config.yaml` (not `auth.json`):
+轮换策略存储在 `config.yaml`（而非 `auth.json`）中：
 
 ```yaml
 credential_pool_strategies:
