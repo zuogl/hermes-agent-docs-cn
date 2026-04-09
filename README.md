@@ -44,13 +44,14 @@ npm run build
 
 本项目涉及三个层次的版权：
 
-| 内容 | 版权归属 | 协议 |
-|------|---------|------|
-| 英文原版文档 | [Nous Research](https://nousresearch.com) | [MIT License](https://github.com/NousResearch/hermes-agent/blob/main/LICENSE) |
-| 中文翻译内容 | zuoguolei | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh) |
-| 网站代码（Docusaurus 配置、同步脚本等） | zuoguolei | MIT License |
+| 内容                                    | 版权归属                                  | 协议                                                                          |
+| --------------------------------------- | ----------------------------------------- | ----------------------------------------------------------------------------- |
+| 英文原版文档                            | [Nous Research](https://nousresearch.com) | [MIT License](https://github.com/NousResearch/hermes-agent/blob/main/LICENSE) |
+| 中文翻译内容                            | zuoguolei                                 | [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh)        |
+| 网站代码（Docusaurus 配置、同步脚本等） | zuoguolei                                 | MIT License                                                                   |
 
 中文翻译内容采用 **[CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.zh)** 协议：
+
 - ✅ 允许分享和引用（须署名）
 - ✅ 允许修改和二次创作（须署名）
 - ❌ **禁止商业使用**
